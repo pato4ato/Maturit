@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maturità English Exam Preparation Suite - Editorial Tech Edition</title>
+    <style>
+        /* --- DESIGN SYSTEM & SYSTEM VARIABLES --- */
+        :root {
+            --bg-main: #fcfbf9;
+            --bg-sidebar: #0f172a;
+            --bg-card: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #64748b;
+            --text-sidebar: #f8fafc;
+            --accent-primary: #1e3a8a;
+            --accent-secondary: #0284c7;
+            --accent-gold: #b89047;
+            --border-color: #e2e8f0;
+            
+            /* Visual Anchor Box Colors */
+            --vocab-bg: #f0f7ff;
+            --vocab-border: #1e3a8a;
+            --grammar-bg: #fefce8;
+            --grammar-border: #ca8a04;
+            --analysis-bg: #fbf7f5;
+            --analysis-border: #b89047;
+            --link-bg: #f0fdf4;
+            --link-border: #16a34a;
+
+            --transition-speed: 0.25s;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-sidebar: #020617;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            
+            --vocab-bg: #1e3a8a30;
+            --vocab-border: #38bdf8;
+            --grammar-bg: #42200630;
+            --grammar-border: #facc15;
+            --analysis-bg: #2d1a0e30;
+            --analysis-border: #fbbf24;
+            --link-bg: #064e3b30;
+            --link-border: #4ade80;
+        }
+
+        /* --- BASIC RESET & ARCHITECTURE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* --- SIDEBAR WORKSPACE --- */
+        .sidebar {
+            width: 300px;
+            background-color: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            z-index: 100;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-family: 'Georgia', serif;
+            font-size: 1.35rem;
+            color: var(--text-sidebar);
+            margin-bottom: 8px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 12px;
+        }
+
+        /* Progress Tracker */
+        .progress-panel {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: var(--accent-secondary);
+            width: 0%;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-grow: 1;
+        }
+        .nav-item button {
+            width: 100%;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            text-align: left;
+            padding: 12px 14px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+        .nav-item button:hover, .nav-item.active button {
+            background-color: var(--accent-primary);
+            color: white;
+            font-weight: 500;
+        }
+
+        /* Controls */
+        .sidebar-controls {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .control-btn {
+            background: none;
+            border: 1px solid #334155;
+            color: #cbd5e1;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .control-btn:hover {
+            background: #334155;
+            color: white;
+        }
+
+        /* --- MAIN WORKSPACE --- */
+        .main-container {
+            margin-left: 300px;
+            flex-grow: 1;
+            padding: 48px;
+            max-width: 1200px;
+            width: calc(100% - 300px);
+        }
+
+        .mobile-nav-bar {
+            display: none;
+            background-color: var(--bg-sidebar);
+            color: white;
+            padding: 16px 24px;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 110;
+        }
+        .burger-menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- CONTENT TYPOGRAPHY & BLOCKS --- */
+        .uda-section {
+            display: none;
+        }
+        .uda-section.active-section {
+            display: block;
+            animation: renderFade 0.35s ease;
+        }
+
+        @keyframes renderFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 16px;
+            margin-bottom: 32px;
+        }
+        .section-header h1 {
+            font-family: 'Georgia', serif;
+            font-size: 2.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 6px;
+        }
+        [data-theme="dark"] .section-header h1 {
+            color: var(--accent-secondary);
+        }
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        h2 {
+            font-family: 'Georgia', serif;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-top: 36px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 12px;
+        }
+        h3 {
+            font-size: 1.15rem;
+            color: var(--accent-primary);
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+        [data-theme="dark"] h3 {
+            color: var(--accent-secondary);
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        strong {
+            color: var(--accent-primary);
+        }
+        [data-theme="dark"] strong {
+            color: #e2e8f0;
+        }
+
+        /* Literary Subsections Font Override */
+        .literary-node {
+            font-family: 'Georgia', serif;
+        }
+        .literary-node p {
+            line-height: 1.85;
+        }
+
+        /* --- ACTIVE RECALL FLASHCARDS --- */
+        .flashcard-panel {
+            background: var(--bg-card);
+            border: 2px dashed var(--accent-gold);
+            border-radius: 10px;
+            padding: 24px;
+            margin: 24px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .flashcard-question {
+            font-family: 'Georgia', serif;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+        .flashcard-answer {
+            display: none;
+            padding: 16px;
+            background: var(--bg-main);
+            border-radius: 6px;
+            margin: 16px 0;
+            text-align: left;
+            border-left: 4px solid var(--accent-gold);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .flashcard-controls-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .action-btn {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+        .action-btn:hover { opacity: 0.9; }
+        .secondary-action-btn {
+            background-color: var(--accent-gold);
+        }
+
+        /* --- STUDIED CHECKBOX WRAPPER --- */
+        .completion-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(184, 144, 71, 0.06);
+            padding: 14px 20px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(184, 144, 71, 0.2);
+        }
+        .completion-banner input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent-gold);
+        }
+        .completion-banner label {
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        /* --- ACCORDION CORE ARCHITECTURE --- */
+        .accordion-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+        }
+        .accordion-trigger {
+            padding: 20px 24px;
+            background: var(--bg-card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            font-weight: bold;
+            font-size: 1.15rem;
+            color: var(--accent-primary);
+            transition: background 0.2s;
+        }
+        [data-theme="dark"] .accordion-trigger { color: var(--accent-secondary); }
+        .accordion-trigger:hover {
+            background: rgba(30, 58, 138, 0.03);
+        }
+        .accordion-trigger::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            transition: transform 0.25s;
+        }
+        .accordion-block.is-expanded .accordion-trigger::after {
+            transform: rotate(180deg);
+        }
+        .accordion-body {
+            display: none;
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+        .accordion-block.is-expanded .accordion-body {
+            display: block;
+        }
+
+        /* --- VISUAL ANCHORS (ALERT BOXES) --- */
+        .visual-anchor {
+            padding: 18px 22px;
+            border-radius: 8px;
+            margin: 24px 0;
+            font-size: 0.98rem;
+            line-height: 1.65;
+        }
+        .anchor-tag {
+            font-weight: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: bold;
+        }
+        
+        .box-vocab { background-color: var(--vocab-bg); border-left: 5px solid var(--vocab-border); }
+        .box-vocab .anchor-tag { color: var(--vocab-border); }
+        
+        .box-grammar { background-color: var(--grammar-bg); border-left: 5px solid var(--grammar-border); }
+        .box-grammar .anchor-tag { color: var(--grammar-border); }
+        
+        .box-analysis { background-color: var(--analysis-bg); border-left: 5px solid var(--analysis-border); font-family: 'Georgia', serif; }
+        .box-analysis .anchor-tag { color: var(--analysis-border); }
+        
+        .box-link { background-color: var(--link-bg); border-left: 5px solid var(--link-border); }
+        .box-link .anchor-tag { color: var(--link-border); }
+
+        /* --- TABLES & TEXTUAL EXCERPTS --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--bg-card);
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        th {
+            background-color: rgba(30, 58, 138, 0.05);
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+        [data-theme="dark"] th {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--accent-secondary);
+        }
+
+        .literary-excerpt {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            background: rgba(0, 0, 0, 0.01);
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-gold);
+            margin: 20px 0;
+            white-space: pre-line;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        /* --- PRINT OPTIMIZATION LAYER --- */
+        @media print {
+            @page {
+                size: A4;
+                margin: 20mm 15mm;
+            }
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                display: block;
+            }
+            .sidebar, .mobile-nav-bar, .flashcard-panel, .completion-banner, .action-btn, .sidebar-controls {
+                display: none !important;
+            }
+            .main-container {
+                margin-left: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .uda-section {
+                display: block !important;
+                page-break-before: always !important;
+            }
+            .uda-section:first-of-type {
+                page-break-before: avoid !important;
+            }
+            .accordion-body {
+                display: block !important;
+                border-top: 1px solid #cbd5e1 !important;
+                padding: 15px 0 !important;
+            }
+            .accordion-block {
+                border: none !important;
+                box-shadow: none !important;
+                margin-bottom: 28px !important;
+                page-break-inside: avoid !important;
+            }
+            .accordion-trigger {
+                padding: 10px 0 !important;
+                font-size: 1.3rem !important;
+                border-bottom: 1px solid #1e3a8a !important;
+            }
+            .accordion-trigger::after {
+                display: none !important;
+            }
+            .visual-anchor {
+                page-break-inside: avoid !important;
+                background: #f8fafc !important;
+                border: 1px solid #cbd5e1 !important;
+                border-left: 5px solid #475569 !important;
+            }
+            table {
+                page-break-inside: avoid !important;
+            }
+            tr {
+                page-break-inside: avoid !important;
+            }
+        }
+
+        /* --- RESPONSIVE WEB DISPLAY --- */
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+            .sidebar {
+                transform: translateX(-100%);
+                top: 56px;
+                width: 100%;
+                height: calc(100vh - 56px);
+                transition: transform var(--transition-speed) ease;
+            }
+            .sidebar.is-mobile-visible { transform: translateX(0); }
+            .main-container {
+                margin-left: 0;
+                width: 100%;
+                padding: 24px;
+            }
+            .mobile-nav-bar { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN MODE ONLY: MOBILE BAR -->
+    <div class="mobile-nav-bar">
+        <div style="font-family: 'Georgia', serif; font-weight: bold; color: var(--accent-secondary);">Maturità English Suite</div>
+        <button class="burger-menu-btn" id="burgerBtn">☰</button>
+    </div>
+
+    <!-- MAIN CONTROL SIDEBAR (HIDDEN IN PRINT) -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-title">English Study Guide</div>
+        <div class="sidebar-subtitle">State Exam Revision Suite</div>
+        
+        <!-- Live Learning Progress -->
+        <div class="progress-panel">
+            <div class="progress-meta">
+                <span>Modules Mastered</span>
+                <strong id="progressLabel">0%</strong>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu System -->
+        <ul class="nav-menu">
+            <li class="nav-item active" data-target="uda1"><button>UdA 1: Career & Work Experience</button></li>
+            <li class="nav-item" data-target="uda2"><button>UdA 2: Web, SEO & E-Commerce</button></li>
+            <li class="nav-item" data-target="uda3"><button>UdA 3: Industry 4.0 & AI Ethics</button></li>
+            <li class="nav-item" data-target="uda4"><button>UdA 4: Databases & CLIL Framework</button></li>
+            <li class="nav-item" data-target="uda5"><button>UdA 5: Modernism & James Joyce</button></li>
+            <li class="nav-item" data-target="uda6"><button>UdA 6: Exam Lab & Media Critique</button></li>
+        </ul>
+
+        <!-- Layout Controls -->
+        <div class="sidebar-controls">
+            <button class="control-btn" id="themeBtn">🌙 Dark Mode</button>
+            <button class="control-btn" onclick="window.print()">🖨️ Export / Print PDF</button>
+        </div>
+    </div>
+
+    <!-- DOCUMENT CORE CONTAINER -->
+    <div class="main-container">
+        
+        <!-- ================= UNIT OF LEARNING 1 ================= -->
+        <div id="uda1" class="uda-section active-section">
+            <div class="section-header">
+                <h1>Unit 1: Application for a Job & PCTO Experience</h1>
+                <p>Strategic modules covering professional deployment, documentation structures, and interview psychology.</p>
+            </div>
+
+            <div class="flashcard-panel" data-uda="uda1">
+                <div class="flashcard-question">Loading interactive active recall prompt...</div>
+                <div class="flashcard-answer">Loading answer parameter...</div>
+                <div class="flashcard-controls-row">
+                    <button class="action-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+                    <button class="action-btn secondary-action-btn" onclick="spinFlashcard('uda1')">Next Prompt</button>
+                </div>
+            </div>
+
+            <div class="completion-banner">
+                <input type="checkbox" id="chk-uda1" class="progress-checkbox">
+                <label for="chk-uda1">Mark Unit 1 as fully mastered and reviewed</label>
+            </div>
+
+            <!-- Content Nodes -->
+            <div class="accordion-block">
+                <div class="accordion-trigger">1.1 The PCTO Work-Based Learning Framework</div>
+                <div class="accordion-body">
+                    <p>The <strong>PCTO experience</strong> (Percorsi per le Competenze Trasversali e per l'Orientamento) represents a critical bridge connecting secondary education with professional technological ecosystems. Documenting this pathway requires a meticulous compilation of an <em>everyday diary</em> and the eventual layout of an official technical report.</p>
+                    
+                    <div class="visual-anchor box-vocab">
+                        <span class="anchor-tag">Technical Vocabulary</span>
+                        <ul>
+                            <li><strong>Workplace Mentorship:</strong> Guidance provided by an experienced internal industry expert to help the intern navigate technical practices.</li>
+                            <li><strong>Cross-curricular Skills:</strong> Transversal competencies (soft skills) including problem-solving, time management, and adaptive resource configuration.</li>
+                            <li><strong>To acquire proficiency:</strong> To gain an advanced degree of competence or skill in a specific operational domain.</li>
+                        </ul>
+                    </div>
+
+                    <h3>Drafting the Technical Report</h3>
+                    <p>A rigorous corporate report documenting corporate work experience must structurally incorporate the following components:</p>
+                    <ol>
+                        <li><strong>Executive Summary:</strong> A concise outline detailing the hosting corporate body's sector, corporate structure, and core business functions.</li>
+                        <li><strong>Operational Timeline:</strong> A systematic distribution of assignments and projects executed across the internship duration.</li>
+                        <li><strong>Technical Evaluation:</strong> A profound analysis of hardware, software, or methodologies deployed (e.g., system deployments, networking layouts, database querying).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">1.2 The Curriculum Vitae & Gardner's Multiple Intelligences</div>
+                <div class="accordion-content accordion-body">
+                    <p>A modern professional <strong>Curriculum Vitae (CV)</strong> must bypass generic metrics to emphasize measurable achievements and well-defined <strong>soft skills</strong>. In the tech sector, isolating interpersonal and cognitive traits is as critical as showcasing technical stack knowledge.</p>
+                    
+                    <h3>Gardner's Intelligence Matrix in IT Teams</h3>
+                    <p>Howard Gardner’s <em>Multiple Intelligences Theory</em> reveals that technical teams require varied cognitive orientations rather than just logical proficiency:</p>
+                    <ul>
+                        <li><strong>Logical-Mathematical Intelligence:</strong> Deployed in backend algorithmic engineering, system optimization, and cryptography.</li>
+                        <li><strong>Linguistic Intelligence:</strong> Mandatory for compiling clear APIs, user documentation, and technical project specs.</li>
+                        <li><strong>Spatial/Visual Intelligence:</strong> Vital for UI/UX designers, front-end architecture layout, and vector graphic structuring.</li>
+                        <li><strong>Interpersonal & Intrapersonal Intelligences:</strong> Crucial for Agile scrum masters, client relationship management, and personal code auditing/metacognition.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">1.3 Cover Letters & The Job Interview Process</div>
+                <div class="accordion-content accordion-body">
+                    <p>The <strong>Letter of Application</strong> (or Cover Letter) introduces a candidate’s profile to a recruiter. It requires strict adherence to corporate layout conventions and functional, non-cliché expressions.</p>
+                    
+                    <div class="visual-anchor box-grammar">
+                        <span class="anchor-tag">Grammar Focus: Formal Letter Openings & Closings</span>
+                        <ul>
+                            <li>If the recipient's name is *unknown*: Start with <strong>Dear Sir/Madam</strong> &rarr; End with <strong>Yours faithfully</strong>.</li>
+                            <li>If the recipient's name is *known*: Start with <strong>Dear Mr./Ms. Smith</strong> &rarr; End with <strong>Yours sincerely</strong>.</li>
+                            <li><em>Prohibited Phrasal Tone:</em> Avoid casual closings like "Best wishes" or "Cheers" in high-level job applications.</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Job Interview: Strategic Deployment</h3>
+                    <p>Navigating a professional tech interview requires mastery of both technical vocabulary and corporate communication methods, such as the <strong>STAR Method</strong> (Situation, Task, Action, Result):</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Strategic Imperatives (What to do)</th>
+                                <th>Critical Pitfalls (What to avoid)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Conduct comprehensive research on the target enterprise’s architectural stack, infrastructure, and values.</td>
+                                <td>Providing overly vague or generic answers regarding technical failures or past experiences.</td>
+                            </tr>
+                            <tr>
+                                <td>Elaborate clearly on previous software or system deployments using metrics and data to validate results.</td>
+                                <td>Displaying an arrogant or entirely non-cooperative attitude toward collaborative peer-review tests.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">1.4 Language Review: Present Perfect Continuous, Used to, Comparatives</div>
+                <div class="accordion-content accordion-body">
+                    <p>Mastering professional English requires precision in selecting verbal aspects and structural modifiers to describe career trajectories and tech metrics accurately.</p>
+                    
+                    <div class="visual-anchor box-grammar">
+                        <span class="anchor-tag">Grammar Focus: Advanced Morphosyntax</span>
+                        <p><strong>1. Present Perfect Continuous:</strong> Formed using <em>Subject + have/has been + Verb-ing</em>. It emphasizes the continuous duration of an action starting in the past and lingering directly into the present.</p>
+                        <ul>
+                            <li><em>Example:</em> "I <strong>have been engineering</strong> this cloud architecture <strong>since</strong> last November." (Use <strong>since</strong> for specific points in time; use <strong>for</strong> for calculated durations, e.g., *for six months*).</li>
+                        </ul>
+                        <p><strong>2. Expression of Past Habits:</strong> <em>Used to + Infinitive</em> identifies past systemic actions or states that no longer occur.</p>
+                        <ul>
+                            <li><em>Example:</em> "Our team <strong>used to maintain</strong> local monolithic servers before migrating to serverless microservices."</li>
+                            <li><em>Contrast:</em> <strong>To be used to / To get used to + Verb-ing</strong> denotes becoming familiar with a novel concept. *e.g., "I am getting used to programming in Rust."*</li>
+                        </ul>
+                        <p><strong>3. Irregular Comparatives & Modifiers:</strong> When comparing system benchmarks or data throughput, observe critical exceptions:</p>
+                        <ul>
+                            <li><em>Far &rarr; Farther</em> (spatial distance) vs <em>Further</em> (additional metaphorical extent: *"further investigation is required"*).</li>
+                        </tbody>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= UNIT OF LEARNING 2 ================= -->
+        <div id="uda2" class="uda-section">
+            <div class="section-header">
+                <h1>Unit 2: Online Dangers, Web Creation & E-Commerce</h1>
+                <p>Analyzing network vulnerability, developmental evolutionary pathways, and transactional digital infrastructures.</p>
+            </div>
+
+            <div class="flashcard-panel" data-uda="uda2">
+                <div class="flashcard-question">Loading interactive active recall prompt...</div>
+                <div class="flashcard-answer">Loading answer parameter...</div>
+                <div class="flashcard-controls-row">
+                    <button class="action-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+                    <button class="action-btn secondary-action-btn" onclick="spinFlashcard('uda2')">Next Prompt</button>
+                </div>
+            </div>
+
+            <div class="completion-banner">
+                <input type="checkbox" id="chk-uda2" class="progress-checkbox">
+                <label for="chk-uda2">Mark Unit 2 as fully mastered and reviewed</label>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">2.1 Cyber-Vulnerabilities & Threat Mitigation</div>
+                <div class="accordion-content accordion-body">
+                    <p>Modern network security models assume that any vector can be compromised. Understanding malicious operations is vital for implementing robust security protocols.</p>
+                    <ul>
+                        <li><strong>Phishing:</strong> The deceptive configuration of communications (primarily emails) masking as trusted institutions to extract user credentials, encryption keys, or financial assets.</li>
+                        <li><strong>Scamming:</strong> Complex engineering of digital fraud to trap individuals into transferring capital under false pretenses.</li>
+                        <li><strong>Cyberbullying:</strong> The systemic, hostile deployment of digital mediums to harass, intimidate, or degrade an individual within digital spaces.</li>
+                    </ul>
+
+                    <div class="visual-anchor box-vocab">
+                        <span class="anchor-tag">Technical Vocabulary: Defense Mechanisms</span>
+                        <p>To establish comprehensive network defense, systems administrators must enforce <strong>Multi-Factor Authentication (MFA)</strong>, deploy end-to-end encryption algorithms, and ensure password generation meets structural entropy requirements (minimum 12 characters combining uppercase, lowercase, numeric digits, and special characters, excluding common personal details).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">2.2 The Language & Evolution of the Web</div>
+                <div class="accordion-content accordion-body">
+                    <p>The architecture of the World Wide Web has progressed through distinct technological stages, changing from simple text display platforms into intelligent semantic models:</p>
+                    <ol>
+                        <li><strong>Web 1.0 (The Read-Only Web):</strong> Characterized by flat, static HTML pages, centralized content generation, and minimal user interaction. Information was retrieved passively.</li>
+                        <li><strong>Web 2.0 (The Social/Read-Write Web):</strong> Marked by the rise of dynamic content engines, social media networking, cloud-based apps, and user-generated content. Powered by JavaScript frameworks, asynchronous XML (AJAX), and databases.</li>
+                        <li><strong>Web 3.0 (The Semantic/Read-Write-Own Web):</strong> Driven by decentralized ledgers (Blockchain), AI processing, and structured metadata. Computers interpret data conceptually rather than contextually, enabling automated system integrations.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">2.3 Web Development Frameworks & SEO Mechanics</div>
+                <div class="accordion-content accordion-body">
+                    <p>Building an online presence requires separating structural content layout from presentation layers and optimizing discoverability via search engine crawlers.</p>
+                    <p>The standard web development stack relies on three core technologies: <strong>HTML5</strong> establishes semantic structure, <strong>CSS3</strong> governs layout styling via Flexbox and Grid engines, and <strong>JavaScript</strong> injects dynamic behavior by modifying the Document Object Model (DOM).</p>
+                    
+                    <div class="visual-anchor box-vocab">
+                        <span class="anchor-tag">Technical Vocabulary: SEO</span>
+                        <strong>Search Engine Optimization (SEO)</strong> is the systematic methodology of fine-tuning web configurations to secure high organic rankings on search engines. Key activities include:
+                        <ul>
+                            <li>Optimizing *Meta Tags* and alternative text configurations for media assets.</li>
+                            <li>Enforcing fast load times and ensuring cross-device *mobile responsiveness*.</li>
+                            <li>Curating clear, structured markup to help automated spiders efficiently crawl the domain.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">2.4 E-Commerce Structures & The Cashless Society Transition</div>
+                <div class="accordion-content accordion-body">
+                    <p>Digitalization has transformed commercial trade, shifting transactions away from physical cash toward purely digital ledger accounts.</p>
+                    
+                    <h3>Comparative Matrix: E-Commerce & Cashless Systems</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Stakeholder Vector</th>
+                                <th>Strategic Advantages (Pros)</th>
+                                <th>Systemic Structural Liabilities (Cons)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>The Enterprise</strong></td>
+                                <td>Global market penetration, elimination of physical storefront overhead, automated inventory optimization.</td>
+                                <td>Susceptibility to severe distributed denial-of-service (DDoS) attacks, algorithmic ad dependency.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>The Consumer</strong></td>
+                                <td>Instantaneous payment settlement, 24/7 product access, hyper-personalized purchasing pathways.</td>
+                                <td>Susceptibility to financial identity theft, tracking of purchase histories, digital exclusion of unbanked populations.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="visual-anchor box-grammar">
+                        <span class="anchor-tag">Grammar Focus: The Passive Voice in Technical Documentation</span>
+                        <p>In technical and scientific prose, the <strong>Passive Form</strong> is preferred to maintain objective neutrality, focusing attention on the action or object rather than the agent performing it.</p>
+                        <ul>
+                            <li><em>Structure:</em> Subject + appropriate form of 'To Be' + Past Participle.</li>
+                            <li><em>Active:</em> "The system administrator encrypts all user records."</li>
+                            <li><em>Passive:</em> "All user records <strong>are encrypted</strong> by the system administrator."</li>
+                            <li><em>No-agent Passive:</em> "The database <strong>was updated</strong> at midnight." (Perfect for system error logs where the agent is irrelevant).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= UNIT OF LEARNING 3 ================= -->
+        <div id="uda3" class="uda-section">
+            <div class="section-header">
+                <h1>Unit 3: Industry 4.0, Technology and the Future</h1>
+                <p>Investigating the convergence of cyber-physical systems, autonomous computation, and behavioral cognitive distortions.</p>
+            </div>
+
+            <div class="flashcard-panel" data-uda="uda3">
+                <div class="flashcard-question">Loading interactive active recall prompt...</div>
+                <div class="flashcard-answer">Loading answer parameter...</div>
+                <div class="flashcard-controls-row">
+                    <button class="action-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+                    <button class="action-btn secondary-action-btn" onclick="spinFlashcard('uda3')">Next Prompt</button>
+                </div>
+            </div>
+
+            <div class="completion-banner">
+                <input type="checkbox" id="chk-uda3" class="progress-checkbox">
+                <label for="chk-uda3">Mark Unit 3 as fully mastered and reviewed</label>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">3.1 The Pillars of the Fourth Industrial Revolution</div>
+                <div class="accordion-content accordion-body">
+                    <p><strong>Industry 4.0</strong> describes the systematic integration of intelligent digital technologies directly into physical manufacturing pipelines. Unlike prior shifts, this revolution is defined by real-time interconnectedness.</p>
+                    <p>This paradigm rests on several core operational pillars:</p>
+                    <ul>
+                        <li><strong>The Internet of Things (IoT):</strong> Networks of physical devices embedded with sensors and software that continuously collect and exchange operational data.</li>
+                        <li><strong>Big Data Analytics:</strong> Processing massive, unstructured datasets using machine learning algorithms to uncover hidden operational patterns.</li>
+                        <li><strong>Cloud Infrastructure:</strong> Providing scalable, on-demand compute power and data storage across decentralized networks.</li>
+                        <li><strong>Cyber-Physical Systems (CPS):</strong> Algorithms paired with physical mechanisms, allowing software systems to monitor and alter physical processes dynamically.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">3.2 Artificial Intelligence, Robotics, and Labor Redundancy</div>
+                <div class="accordion-content accordion-body">
+                    <p>The progression of <strong>Artificial Intelligence (AI)</strong> from simple, rules-based automation to deep neural networks has sparked intense ethical debates regarding human labor displacement.</p>
+                    
+                    <div class="visual-anchor box-vocab">
+                        <span class="anchor-tag">Technical Vocabulary</span>
+                        <ul>
+                            <li><strong>Machine Learning:</strong> Developing computational models that allow systems to learn and adapt from data without following explicit, hard-coded instructions.</li>
+                            <li><strong>Labor Redundancy:</strong> A structural condition where technological solutions eliminate the need for human personnel in specific operational roles.</li>
+                            <li><strong>Cognitive Automation:</strong> Using AI to automate non-repetitive, intellectual tasks like diagnostic assessments, code generation, and financial analysis.</li>
+                        </ul>
+                    </div>
+
+                    <h3>The Redundancy Debate: Will Technology Make Humans Obsolete?</h3>
+                    <p>Technological theorists generally split into two primary camps regarding future employment trends:</p>
+                    <ul>
+                        <li><strong>The Techno-Pessimist Perspective:</strong> Argues that cognitive automation moves faster than human retraining capacity, creating permanent unemployment across both blue-collar manufacturing and white-collar professional fields.</li>
+                        <li><strong>The Techno-Optimist Perspective:</strong> Contends that while automation removes repetitive work, it shifts human labor up the value chain toward supervisory, creative, and ethical oversight roles, generating new engineering opportunities.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">3.3 Augmented Reality & Behavioral Technopathies</div>
+                <div class="accordion-content accordion-body">
+                    <p>While <strong>Augmented Reality (AR)</strong> enhances physical environments by overlaying computer-generated contextual graphics, the rapid spread of these immersive systems raises psychological and physical concerns.</p>
+                    <p>In industrial settings, AR guides technicians through intricate maintenance tasks via heads-up displays, reducing errors and optimizing assembly speed. However, the continuous use of these platforms can trigger <em>technological device addiction</em>.</p>
+                    
+                    <div class="visual-anchor box-link">
+                        <span class="anchor-tag">Interdisciplinary Links: IT & Social Psychology</span>
+                        The widespread adoption of smart devices and immersive tech exploits neurochemical reward pathways, leading to compulsive screen-checking and diminished attention spans. In computer science, engineering software must prioritize ethical <strong>Digital Wellbeing</strong> frameworks, mitigating algorithmic traps that promote addiction and user isolation.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= UNIT OF LEARNING 4 ================= -->
+        <div id="uda4" class="uda-section">
+            <div class="section-header">
+                <h1>Unit 4: The Database</h1>
+                <p>Advanced data architectures, information structural integrity patterns, and system management protocols.</p>
+            </div>
+
+            <div class="flashcard-panel" data-uda="uda4">
+                <div class="flashcard-question">Loading interactive active recall prompt...</div>
+                <div class="flashcard-answer">Loading answer parameter...</div>
+                <div class="flashcard-controls-row">
+                    <button class="action-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+                    <button class="action-btn secondary-action-btn" onclick="spinFlashcard('uda4')">Next Prompt</button>
+                </div>
+            </div>
+
+            <div class="completion-banner">
+                <input type="checkbox" id="chk-uda4" class="progress-checkbox">
+                <label for="chk-uda4">Mark Unit 4 as fully mastered and reviewed</label>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">4.1 DBMS Architecture & The Role of the DBA</div>
+                <div class="accordion-content accordion-body">
+                    <p>A <strong>Database Management System (DBMS)</strong> is a critical software application designed to handle the creation, maintenance, querying, and security of digital records. Rather than saving unstructured flat files, a DBMS organizes information systematically to allow fast retrieval and concurrent access.</p>
+                    <p>Modern enterprise storage relies on a standard three-schema architecture to decouple the underlying physical hardware from end-user applications:</p>
+                    <ol>
+                        <li><strong>Internal/Physical Level:</strong> Defines how data is physically stored on physical hard disks, including memory allocations, indexes, and block storage configurations.</li>
+                        <li><strong>Conceptual/Logical Level:</strong> Describes the logical structure of the entire database—including entities, attributes, relationships, and constraints—without detailing physical storage mechanics.</li>
+                        <li><strong>External/View Level:</strong> Displays tailored user views, showing only the specific subsets of data relevant to particular application users while hiding remaining database fields.</li>
+                    </ol>
+
+                    <div class="visual-anchor box-vocab">
+                        <span class="anchor-tag">Technical Vocabulary: The DBA Portfolio</span>
+                        The <strong>Database Administrator (DBA)</strong> is the specialized systems engineer tasked with managing enterprise databases. Their core responsibilities include:
+                        <ul>
+                            <li>*Performance Tuning:* Optimizing complex SQL queries and index strategies to decrease server response times.</li>
+                            <li>*Backup & Disaster Recovery:* Implementing automated backup schedules to safeguard against physical disk failures or security compromises.</li>
+                            <li>*Access Provisioning:* Enforcing granular access control matrices to prevent unauthorized data reads or writes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">4.2 Fundamental Structural Properties of Enterprise Data</div>
+                <div class="accordion-content accordion-body">
+                    <p>Maintaining a reliable system requires enforcing strict mathematical constraints on any incoming data stream, avoiding common structural failures:</p>
+                    
+                    <ul>
+                        <li><strong>Data Integrity:</strong> Ensures information remains completely accurate, consistent, and unaltered throughout its entire lifecycle. This is enforced via key constraints, such as *Primary Keys* ensuring record uniqueness and *Foreign Keys* maintaining referential links.</li>
+                        <li><strong>Security Restrictions:</strong> Security rules that verify a user's identity and permissions before granting access to database schemas, protecting confidential data.</li>
+                        <li><strong>Data Redundancy:</strong> The unnecessary duplication of identical data fields across multiple tables, leading to wasted storage capacity.</li>
+                        <li><strong>Data Inconsistency:</strong> A direct consequence of unmanaged redundancy, occurring when duplicated fields are updated in one location but left unchanged in another, leaving the database in an invalid state.</li>
+                    </ul>
+
+                    <div class="visual-anchor box-link">
+                        <span class="anchor-tag">CLIL Integration Framework: Computer Science & English</span>
+                        In enterprise application design, developers must normalize relational tables (e.g., Third Normal Form) to eliminate data redundancy. This structural process prevents <strong>Anomaly Configurations</strong> during INSERT, UPDATE, and DELETE operations, ensuring the logical rules of the application remain valid across the entire enterprise cluster.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= UNIT OF LEARNING 5 ================= -->
+        <div id="uda5" class="uda-section literary-node">
+            <div class="section-header">
+                <h1>Unit 5: Literary & Cultural Paradigm Shifts (The XX Century)</h1>
+                <p>Exploring the fragmentation of realism, existential crises, and James Joyce’s experimental narrative styles.</p>
+            </div>
+
+            <div class="flashcard-panel" data-uda="uda5">
+                <div class="flashcard-question">Loading interactive active recall prompt...</div>
+                <div class="flashcard-answer">Loading answer parameter...</div>
+                <div class="flashcard-controls-row">
+                    <button class="action-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+                    <button class="action-btn secondary-action-btn" onclick="spinFlashcard('uda5')">Next Prompt</button>
+                </div>
+            </div>
+
+            <div class="completion-banner">
+                <input type="checkbox" id="chk-uda5" class="progress-checkbox">
+                <label for="chk-uda5">Mark Unit 5 as fully mastered and reviewed</label>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">5.1 The Dawn of the 20th Century & The Crisis of Certainties</div>
+                <div class="accordion-content accordion-body">
+                    <p>The early decades of the twentieth century brought a profound disintegration of Victorian stability, shattering the belief that human reason and scientific progress could explain the entire universe. This period was shaped by political tension leading to World War I, alongside destabilizing scientific and psychological discoveries.</p>
+                    <p><strong>Sigmund Freud’s</strong> discovery of the unconscious revealed that human behavior is driven by irrational internal forces rather than conscious choices. <strong>Albert Einstein’s</strong> Special Theory of Relativity disrupted long-held assumptions about absolute space and time.</p>
+                    
+                    <div class="visual-anchor box-analysis">
+                        <span class="anchor-tag">Philosophical Foundation: Henri Bergson's Concept of Time</span>
+                        French philosopher Henri Bergson distinguished between two distinct interpretations of time:
+                        <br>&bull; <strong>Mathematical/Scientific Time:</strong> Measured linearly by clocks, represented as a succession of identical, separate points on a timeline, like beads on a string.
+                        <br>&bull; <strong>Psychological Time (La Durée):</strong> Inner duration experienced by human consciousness, where past, present, and future merge into a continuous, indivisible internal flow. Memories and immediate perceptions melt together fluidly.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">5.2 Literary Modernism & The Joyce-Svevo Intellectual Alliance</div>
+                <div class="accordion-content accordion-body">
+                    <p><strong>Modernism</strong> emerged as a global artistic response to this fragmented reality, prompting writers to reject traditional, linear plots and omniscient narrators in favor of complex, subjective perspectives.</p>
+                    <p>Born in Dublin, <strong>James Joyce</strong> spent years in self-imposed exile across continental Europe, including a formative period in Trieste. There, he developed a deep intellectual friendship with the Italian writer <strong>Italo Svevo</strong>.</p>
+                    
+                    <div class="visual-anchor box-link">
+                        <span class="anchor-tag">Interdisciplinary Links: English Literature & Letteratura Italiana</span>
+                        The relationship between Joyce and Svevo represents a brilliant moment of cross-cultural European literary development. Joyce, serving as Svevo’s English tutor, recognized the brilliance of Svevo's writing and helped champion his work internationally. Both authors shared a deep fascination with psychoanalysis and rejected traditional, linear timelines, focusing instead on internal character analysis—exemplified by Joyce’s *Leopold Bloom* and Svevo’s *Zeno Cosini*.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">5.3 Narrative Theory: Stream of Consciousness vs Interior Monologue</div>
+                <div class="accordion-content accordion-body">
+                    <p>Students must maintain a clear distinction between the underlying psychological concept and the specific literary techniques used to represent it on the printed page:</p>
+                    <ul>
+                        <li><strong>Stream of Consciousness:</strong> The raw psychological phenomenon itself—the continuous, chaotic, and unedited flow of thoughts, memories, and sensory associations passing through a person's mind.</li>
+                        <li><strong>Interior Monologue:</strong> The structural literary tool used by authors to translate that internal mental flow into text. It removes conventional narrative transitions, breaking standard rules of grammar and punctuation to mirror associative thinking.</li>
+                    </ul>
+                    
+                    <h3>Direct versus Indirect Monologue</h3>
+                    <p>In *Indirect Interior Monologue*, the author guides the reader, using introductory phrases like "he thought," and maintaining basic syntactic structures. In contrast, <strong>Direct Interior Monologue</strong> drops the narrator entirely, placing the reader directly inside the character's unedited thoughts.</p>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">5.4 Textual Analysis: Ulysses – Episode 8 (Lestrygonians)</div>
+                <div class="accordion-content accordion-body">
+                    <p>In Episode 8 of <em>Ulysses</em>, Leopold Bloom walks through the streets of Dublin at lunchtime, with his internal thoughts continuously triggered by the sights, sounds, and smells of food around him. The chapter uses hunger and digestion as central metaphors for human existence.</p>
+                    
+                    <div class="literary-excerpt">
+                        «Pineapple rock, lemon platt, butter scotch. A sugarsticky girl shovelling scoopfuls of creams for a christian brother. Something green. Regular race of visitors. Heaven light your guide. Gurney’sly. ... Post 110 card. Webs of bigness. Performance. Stale warm air of bakery. Give us this day our daily jam. ... Mildew, warm juice. ... Feast of Our Lady of Mount Carmel. Sweet tooth Laura. Izsche!»
+                    </div>
+
+                    <div class="visual-anchor box-analysis">
+                        <span class="anchor-tag">Textual Analysis & Stylistic Deconstruction</span>
+                        This excerpt illustrates Joyce's use of <strong>Direct Interior Monologue</strong>. The narrative strips away standard syntax to capture Bloom's associative thinking:
+                        <br>&bull; *Sensory Triggers:* Sights and smells of sweets and baked goods immediately call up fragments of memories, biblical phrases, and passing observations.
+                        <br>&bull; *Syntactic Deconstruction:* Joyce removes transitional elements, relying on nominal phrasing and abrupt transitions to show how the mind processes internal desires and external stimuli simultaneously.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= UNIT OF LEARNING 6 ================= -->
+        <div id="uda6" class="uda-section">
+            <div class="section-header">
+                <h1>Unit 6: Writing Laboratory, State Exam Strategy & Media Analysis</h1>
+                <p>Mastering structural argumentation, state assessment methods, and multi-layered media analysis.</p>
+            </div>
+
+            <div class="flashcard-panel" data-uda="uda6">
+                <div class="flashcard-question">Loading interactive active recall prompt...</div>
+                <div class="flashcard-answer">Loading answer parameter...</div>
+                <div class="flashcard-controls-row">
+                    <button class="action-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+                    <button class="action-btn secondary-action-btn" onclick="spinFlashcard('uda6')">Next Prompt</button>
+                </div>
+            </div>
+
+            <div class="completion-banner">
+                <input type="checkbox" id="chk-uda6" class="progress-checkbox">
+                <label for="chk-uda6">Mark Unit 6 as fully mastered and reviewed</label>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">6.1 State Exam Composition Protocols: Tipologia A, B, and C</div>
+                <div class="accordion-content accordion-body">
+                    <p>Succeeding in the written components of the State Exam requires understanding the structural requirements of each composition option:</p>
+                    
+                    <h3>Tipologia A: Literary Analysis and Interpretation</h3>
+                    <p>Requires an initial literal summary or paraphrase of an excerpt, followed by detailed stylistic analysis (examining lexical choice, metaphor, and tone) and a final essay contextually connecting the passage to the author's broader work and historical era.</p>
+
+                    <h3>Tipologia B: Argumentative Essay Compilation</h3>
+                    <p>Students must analyze a provided text to isolate its core thesis and supporting claims. They must then write a logical response presenting an original argument, supporting it with historical and contemporary evidence while anticipating and disproving counterarguments.</p>
+
+                    <h3>Tipologia C: Topical Contemporary Reflection</h3>
+                    <p>An essay on a current issue. Writing must avoid empty rhetoric, structured instead around clear socio-economic data, cause-and-effect reasoning, and objective critical analysis.</p>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">6.2 Civic Awareness Integration & Field Study Documentation</div>
+                <div class="accordion-content accordion-body">
+                    <p>Developing strong civic awareness involves analyzing historical crises and documenting complex structures from field studies.</p>
+                    <p><strong>Primo Levi's <em>Se questo è un uomo</em> (If This Is a Man):</strong> A profound study of institutional dehumanization within the Nazi concentration camps. Written with the clear, objective style of a research chemist, Levi avoids emotional bias to focus on how the camps methodically stripped away human dignity and identity.</p>
+                    <p><strong>The Bunker Soratte Field Assignment:</strong> A technical documentation exercise on the underground military facility at Sant'Oreste. Built during World War II as an air-raid shelter for the Italian High Command, it later served as Field Marshal Kesselring’s headquarters and was eventually repurposed as an atomic bunker during the Cold War. It stands as a physical symbol of 20th-century geopolitical conflict.</p>
+                </div>
+            </div>
+
+            <div class="accordion-block">
+                <div class="accordion-trigger">6.3 Media & Cinematographic Analysis Laboratory</div>
+                <div class="accordion-content accordion-body">
+                    <p>Critical text analysis extends to analyzing visual media, deconstructing thematic intent and cinematic techniques:</p>
+                    <ul>
+                        <li><strong>Tim Burton's *The Nightmare Before Christmas*:</strong> Explores identity alienation and cultural appropriation. Jack Skellington's well-meaning but misguided attempt to take over Christmas reveals the consequences of pulling cultural traditions out of their proper context.</li>
+                        <li><strong>Marvel’s *The Avengers*:</strong> Examines accountability within advanced technological societies. The film highlights the ethical conflicts surrounding automated defense systems, global security surveillance, and individual freedom.</li>
+                        <li><strong>Charles Dickens' *Hard Times* (Cinematic Adaptations):</strong> A critique of 19th-century Utilitarianism, a philosophy that reduced human value to economic output and factual knowledge. This remains relevant today in ongoing debates about the over-mechanization of modern education.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- --- COMPREHENSIVE JAVASCRIPT LOGIC ENGINE --- -->
+    <script>
+        /* --- COMPREHENSIVE FLASHCARD DATA POOL --- */
+        const flashcardRepository = {
+            uda1: [
+                { q: "What is the primary function of the Present Perfect Continuous tense?", a: "It expresses an action that began in the past and continues directly into the present, emphasizing its ongoing duration or immediate relevance to the current moment." },
+                { q: "Explain the difference between 'used to' and 'be used to' in corporate writing.", a: "'Used to + infinitive' refers to a discontinued past habit, while 'be used to + gerund/noun' indicates current familiarity with a novel or complex practice." },
+                { q: "Name four of Gardner's Multiple Intelligences applicable to an IT engineering team.", a: "Logical-Mathematical (algorithms), Linguistic (documentation), Spatial-Visual (UI/UX layout), and Interpersonal (Agile/Scrum collaboration)." }
+            ],
+            uda2: [
+                { q: "Deconstruct the security mechanism of 'Phishing'.", a: "Phishing is a deceptive social engineering attack where malicious actors send fraudulent communications designed to trick users into revealing sensitive credentials or data." },
+                { q: "Define the core structural shift from Web 1.0 to Web 2.0 and Web 3.0.", a: "Web 1.0 was static and read-only; Web 2.0 introduced dynamic, interactive, user-generated platforms; Web 3.0 brings decentralized architecture, semantic data parsing, and AI integration." },
+                { q: "Why is the Passive Voice preferred in technical documentation?", a: "It establishes objective neutrality, focusing attention on the operational process or object being analyzed rather than the individual performing the action." }
+            ],
+            uda3: [
+                { q: "What are the core technological pillars of Industry 4.0?", a: "The Internet of Things (IoT), Big Data Analytics, Cloud Computing, and Cyber-Physical Systems (CPS)." },
+                { q: "Outline the ethical dilemma regarding AI and potential human labor redundancy.", a: "The debate centers on whether cognitive automation will permanently displace human workers across white- and blue-collar sectors, or shift human roles up the value chain into strategic oversight positions." }
+            ],
+            uda4: [
+                { q: "Explain the three levels of standard DBMS architecture.", a: "The Physical level (how data is stored on hardware), the Conceptual level (the structural logical design), and the External level (custom, secure user views)." },
+                { q: "Contrast the terms 'Data Redundancy' and 'Data Inconsistency'.", a: "Data Redundancy is the unnecessary duplication of records across a database, while Data Inconsistency occurs when these duplicated records are unevenly updated, creating conflicting data." }
+            ],
+            uda5: [
+                { q: "Distinguish between 'Mathematical Time' and 'Psychological Time' (La Durée) according to Henri Bergson.", a: "Mathematical time is linear, split into measurable, clock-ticked intervals. Psychological time is an internal, continuous flow where past memories and immediate perceptions merge together." },
+                { q: "What is the structural difference between Stream of Consciousness and Interior Monologue?", a: "Stream of Consciousness is the raw psychological flow of thoughts and sensory inputs. Interior Monologue is the specific literary technique used to translate that flow onto the page by removing standard transitions and punctuation." }
+            ],
+            uda6: [
+                { q: "What are the structural requirements for a Tipologia B essay in the State Exam?", a: "It requires an objective analysis of a text to isolate its core thesis, followed by a logical argument supported by evidence, while anticipating and disproving potential counterarguments." },
+                { q: "What style does Primo Levi use to document the Holocaust in 'Se questo è un uomo'?", a: "He uses the objective, analytical style of a research chemist, avoiding emotional bias to provide a clear witness account of institutional dehumanization." }
+            ]
+        };
+
+        /* --- STATE MANAGEMENT CONFIGURATION --- */
+        let applicationState = JSON.parse(localStorage.getItem('maturita_english_state')) || {
+            completedUnits: {},
+            theme: 'light'
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initializeSPA();
+            initializeAccordions();
+            initializeTheming();
+            initializeProgressTracker();
+            
+            // Populate initial flashcard instances across all nodes
+            Object.keys(flashcardRepository).forEach(uda => spinFlashcard(uda));
+        });
+
+        /* --- ARCHITECTURAL SPA SYSTEM --- */
+        function initializeSPA() {
+            const navItems = document.querySelectorAll(".nav-menu .nav-item");
+            const sections = document.querySelectorAll(".uda-section");
+            const sidebar = document.getElementById("sidebar");
+            const burgerBtn = document.getElementById("burgerBtn");
+
+            navItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    navItems.forEach(i => i.classList.remove("active"));
+                    sections.forEach(s => s.classList.remove("active-section"));
+
+                    item.classList.add("active");
+                    const targetUda = item.getAttribute("data-target");
+                    document.getElementById(targetUda).classList.add("active-section");
+                    
+                    sidebar.classList.remove("is-mobile-visible");
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+
+            burgerBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("is-mobile-visible");
+            });
+        }
+
+        /* --- SYSTEM ACCORDIONS --- */
+        function initializeAccordions() {
+            const triggers = document.querySelectorAll(".accordion-trigger");
+            triggers.forEach(trigger => {
+                trigger.addEventListener("click", () => {
+                    const block = trigger.parentElement;
+                    block.classList.toggle("is-expanded");
+                });
+            });
+        }
+
+        /* --- ACTIVE RECALL SYSTEM ENGINE --- */
+        function spinFlashcard(udaId) {
+            const panel = document.querySelector(`.flashcard-panel[data-uda="${udaId}"]`);
+            const qBox = panel.querySelector(".flashcard-question");
+            const aBox = panel.querySelector(".flashcard-answer");
+            const toggleBtn = panel.querySelector(".action-btn");
+
+            const pool = flashcardRepository[udaId];
+            const selection = pool[Math.floor(Math.random() * pool.length)];
+
+            qBox.textContent = selection.q;
+            aBox.textContent = selection.a;
+            
+            aBox.style.display = "none";
+            toggleBtn.textContent = "Reveal Answer";
+        }
+
+        function revealAnswer(btn) {
+            const aBox = btn.parentElement.previousElementSibling;
+            if (aBox.style.display === "none" || aBox.style.display === "") {
+                aBox.style.display = "block";
+                btn.textContent = "Hide Answer";
+            } else {
+                aBox.style.display = "none";
+                btn.textContent = "Reveal Answer";
+            }
+        }
+
+        /* --- PERSISTENT PROGRESS TRACKER --- */
+        function initializeProgressTracker() {
+            const checkboxes = document.querySelectorAll(".progress-checkbox");
+            
+            checkboxes.forEach(chk => {
+                const unitId = chk.id;
+                if (applicationState.completedUnits[unitId]) {
+                    chk.checked = true;
+                }
+
+                chk.addEventListener("change", () => {
+                    applicationState.completedUnits[unitId] = chk.checked;
+                    localStorage.setItem('maturita_english_state', JSON.stringify(applicationState));
+                    calculateProgressMetrics();
+                });
+            });
+
+            calculateProgressMetrics();
+        }
+
+        function calculateProgressMetrics() {
+            const checkboxes = document.querySelectorAll(".progress-checkbox");
+            const total = checkboxes.length;
+            if(total === 0) return;
+            
+            let marked = 0;
+            checkboxes.forEach(chk => { if(chk.checked) marked++; });
+
+            const metric = Math.round((marked / total) * 100);
+            document.getElementById("progressBar").style.width = metric + "%";
+            document.getElementById("progressLabel").textContent = metric + "%";
+        }
+
+        /* --- LIGHT / DARK MODE ENGINE --- */
+        function initializeTheming() {
+            const themeBtn = document.getElementById("themeBtn");
+            
+            if (applicationState.theme === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+                themeBtn.textContent = "☀️ Light Mode";
+            }
+
+            themeBtn.addEventListener("click", () => {
+                let currentMode = document.documentElement.getAttribute("data-theme");
+                if (currentMode === "dark") {
+                    document.documentElement.removeAttribute("data-theme");
+                    applicationState.theme = "light";
+                    themeBtn.textContent = "🌙 Dark Mode";
+                } else {
+                    document.documentElement.setAttribute("data-theme", "dark");
+                    applicationState.theme = "dark";
+                    themeBtn.textContent = "☀️ Light Mode";
+                }
+                localStorage.setItem('maturita_english_state', JSON.stringify(applicationState));
+            });
+        }
+    </script>
+</body>
+</html>

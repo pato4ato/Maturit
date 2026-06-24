@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdTech Suite: Lingua e Letteratura Italiana - Maturità</title>
+    <style>
+        /* --- DESIGN SYSTEM & VARIABILI CSS (THEMING) --- */
+        :root {
+            --bg-main: #fcfbf9;
+            --bg-sidebar: #1a365d;
+            --bg-card: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #5a738e;
+            --text-sidebar: #ffffff;
+            --accent-gold: #b89047;
+            --accent-gold-hover: #9c7631;
+            --border-color: #e2e8f0;
+            
+            /* Box Anchor Colors */
+            --box-concetto-bg: #f0f4f8;
+            --box-concetto-border: #1a365d;
+            --box-tecnica-bg: #fefaf0;
+            --box-tecnica-border: #b89047;
+            --box-analisi-bg: #f4f9f4;
+            --box-analisi-border: #2e7d32;
+            
+            --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --font-serif: 'Georgia', Times, serif;
+            --sidebar-width: 280px;
+            --transition-speed: 0.3s;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-sidebar: #020617;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            
+            --box-concetto-bg: #1e293b;
+            --box-concetto-border: #38bdf8;
+            --box-tecnica-bg: #2d261b;
+            --box-tecnica-border: #fbbf24;
+            --box-analisi-bg: #14281a;
+            --box-analisi-border: #4ade80;
+        }
+
+        /* --- RESET & STRUTTURA BASE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vi;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* --- SIDEBAR NAVIGAZIONE --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            z-index: 100;
+            border-right: 1px solid var(--border-color);
+            transition: transform var(--transition-speed);
+        }
+
+        .sidebar-brand {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 10px;
+        }
+
+        /* Progress Tracker */
+        .progress-container {
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .progress-label {
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            color: var(--text-sidebar);
+        }
+        .progress-bar-bg {
+            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: var(--accent-gold);
+            width: 0%;
+            height: 100%;
+            transition: width 0.4s ease;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .nav-item button {
+            w_idth: 100%;
+            background: none;
+            border: none;
+            color: var(--text-sidebar);
+            text-align: left;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item button:hover, .nav-item.active button {
+            background-color: var(--accent-gold);
+            color: #white;
+            font-weight: bold;
+        }
+
+        .theme-toggle-btn {
+            background: none;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: all var(--transition-speed);
+        }
+        .theme-toggle-btn:hover {
+            background: var(--accent-gold);
+            color: white;
+        }
+
+        /* --- CONTENUTO PRINCIPALE --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 1100px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .mobile-header {
+            display: none;
+            background-color: var(--bg-sidebar);
+            color: white;
+            padding: 15px 20px;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 110;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- COPERTINA E SEZIONI --- */
+        .uda-section {
+            display: none;
+        }
+        .uda-section.active-section {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            color: var(--bg-sidebar);
+        }
+        [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3 {
+            color: var(--accent-gold);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 10px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;}
+        h2 { font-size: 1.6rem; margin-top: 30px; margin-bottom: 15px; }
+        h3 { font-size: 1.25rem; margin-top: 20px; margin-bottom: 10px; }
+
+        p { line-height: 1.7; margin-bottom: 15px; text-align: justify;}
+        ol, ul { margin-left: 25px; margin-bottom: 15px; line-height: 1.6; }
+        li { margin-bottom: 5px; }
+
+        /* --- INTERATTIVITÀ: FLASHCARD INTEGRATE --- */
+        .flashcard-widget {
+            background: var(--bg-card);
+            border: 2px dashed var(--accent-gold);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .flashcard-q {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .flashcard-a {
+            display: none;
+            padding: 15px;
+            background: var(--bg-main);
+            border-radius: 6px;
+            margin-top: 15px;
+            text-align: left;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .flashcard-btn {
+            background-color: var(--bg-sidebar);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background var(--transition-speed);
+        }
+        .flashcard-btn:hover { background-color: var(--accent-gold); }
+
+        /* --- ACCORDION SYSTEM --- */
+        .accordion-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .accordion-header {
+            padding: 18px 20px;
+            background: var(--bg-card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover {
+            background: rgba(184, 144, 71, 0.08);
+        }
+        .accordion-header::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            transition: transform 0.3s;
+        }
+        .accordion-item.open .accordion-header::after {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            display: none;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+        .accordion-item.open .accordion-content {
+            display: block;
+        }
+
+        /* --- VISUAL ANCHORS (BOX DIDATTICI) --- */
+        .box-anchor {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        .box-anchor-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .concetto-box { background-color: var(--box-concetto-bg); border-left: 5px solid var(--box-concetto-border); }
+        .tecnica-box { background-color: var(--box-tecnica-bg); border-left: 5px solid var(--box-tecnica-border); }
+        .analisi-box { background-color: var(--box-analisi-bg); border-left: 5px solid var(--box-analisi-border); }
+
+        /* --- PROGRESS CHECKBOX --- */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(184, 144, 71, 0.05);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent-gold);
+        }
+
+        /* --- TABELLE E BRANI LETTERARI --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-card);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        th { background-color: rgba(26, 54, 93, 0.06); font-weight: bold; }
+        [data-theme="dark"] th { background-color: rgba(255,255,255,0.05); }
+
+        .brano-testuale {
+            font-family: var(--font-serif);
+            font-style: italic;
+            background: rgba(0,0,0,0.02);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-gold);
+            margin: 15px 0;
+            white-space: pre-line;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            .sidebar {
+                transform: translateX(-100%);
+                top: 60px;
+                width: 100%;
+                height: calc(100vh - 60px);
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            .mobile-header { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <div style="font-family: var(--font-serif); font-weight: bold; color: var(--accent-gold);">Maturità EdTech Suite</div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-brand">Ripasso Italiano</div>
+        
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Progresso Totale</span>
+                <strong id="progressPercentage">0%</strong>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item active" data-target="uda1"><button>UdA 1: Il Romanticismo</button></li>
+            <li class="nav-item" data-target="uda2"><button>UdA 2: Il Realismo</button></li>
+            <li class="nav-item" data-target="uda3"><button>UdA 3: Il Decadentismo</button></li>
+            <li class="nav-item" data-target="uda4"><button>UdA 4: Primo Novecento</button></li>
+            <li class="nav-item" data-target="uda5"><button>UdA 5: La Poesia del '00</button></li>
+            <li class="nav-item" data-target="uda6"><button>UdA 6: Scrittura e Civica</button></li>
+        </ul>
+
+        <button class="theme-toggle-btn" id="themeToggle">🌙 Dark Mode</button>
+    </div>
+
+    <div class="main-content">
+        
+        <div id="uda1" class="uda-section active-section">
+            <h1>UdA n. 1: Il Romanticismo e Alessandro Manzoni</h1>
+            
+            <div class="flashcard-widget" data-uda="uda1">
+                <div class="flashcard-q">Caricamento domanda...</div>
+                <button class="flashcard-btn" onclick="toggleAnswer(this)">Mostra Risposta</button>
+                <div class="flashcard-a">Caricamento risposta...</div>
+                <button class="flashcard-btn" style="margin-top:10px; background:#b89047;" onclick="generateFlashcard('uda1')">Prossima</button>
+            </div>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="chk-uda1" class="progress-chk">
+                <label for="chk-uda1"><strong>Segna UdA 1 come Completata e Archiviata</strong></label>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">1.1 Quadro Teorico, Preromanticismo e Titanismo</div>
+                <div class="accordion-content">
+                    <p>Il passaggio tra Settecento e Ottocento è segnato dal crollo dell'ottimismo illuminista. Il <strong>Preromanticismo</strong> si sviluppa tramite lo <em>Sturm und Drang</em> in Germania e la poesia sepolcrale in Inghilterra. Dal punto di vista filosofico, l'antecedente fondamentale è <strong>Jean-Jacques Rousseau</strong>, che valorizza lo stato di natura puro e il sentimento spontaneo contro l'artificiosità della ragione sociale.</p>
+                    <div class="box anchor concetto-box">
+                        <span class="box-anchor-title">Concetto Chiave: Il Titanismo e la Sehnsucht</span>
+                        Il <strong>Titanismo</strong> rappresenta la ribellione eroica, solitaria e disperata dell'individuo contro forze onnipotenti (la natura, il destino, l'ordine sociale), pur nella consapevolezza dell'inevitabilità della sconfitta. Si sposa con la <strong>Sehnsucht</strong>, l'ansia nostalgica per l'assoluto e l'indefinito.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">1.2 Gli Autori Europei e l'Evoluzione del Romanzo</div>
+                <div class="accordion-content">
+                    <p><strong>Novalis:</strong> Nei suoi <em>Inni alla notte</em>, ribalta l'immaginario tradizionale. La Notte non è oscurità spaventosa, ma dimensione mistica e rivelatrice, spazio metafisico in cui avviene il ricongiungimento ideale con l'assoluto e l'amata defunta.</p>
+                    <p><strong>Samuel Taylor Coleridge:</strong> Autore de <em>La ballata del vecchio marinaio</em>, capolavoro del romanticismo inglese incentrato sulla colpa metafisica e sulla successiva espiazione. L'uccisione ingiustificata dell'albatro spezza il legame sacro tra l'uomo e il creato.</p>
+                    <p>Il <strong>Romanzo dell'Ottocento</strong> si evolve in tre direttrici essenziali: il romanzo storico (Walter Scott), il romanzo sociale o di costume (Balzac, Stendhal) e il romanzo di formazione (<em>Bildungsroman</em>).</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">1.3 Alessandro Manzoni e I Promessi Sposi</div>
+                <div class="accordion-content">
+                    <p>La poetica manzoniana si riassume nella celebre formula: <strong>"Il vero per oggetto, l'utile per iscopo, l'interessante per mezzo"</strong>. Il Cattolicesimo liberale dello scrittore permea l'intera struttura del romanzo storico.</p>
+                    <ul>
+                        <li><strong>La Storia:</strong> Vista come una tragica sequenza di soprusi umane perpetrate dai potenti ai danni dei deboli (i "vinti" della storia).</li>
+                        <li><strong>La Divina Provvidenza:</strong> Non è un meccanismo magico che risolve i problemi materiali, ma la certezza interiore che Dio orienta anche il dolore umano verso un fine salvifico superiore (<strong>provvida sventura</strong>).</li>
+                        <li><strong>Evoluzione della Lingua:</strong> Dalla miscela eclettica del <em>Fermo e Lucia</em> (1821) fino alla "risciacquatura dei panni in Arno" dell'edizione Quarantana (1840), in cui Manzoni adotta il fiorentino colto d'uso vivo.</li>
+                    </ul>
+                    <div class="box anchor analisi-box">
+                        <span class="box-anchor-title">Analisi Testuale: Il Sugo della Storia</span>
+                        Nel finale del Capitolo XXXVIII, Renzo e Lucia giungono alla sintesi etica del loro percorso di formazione: i guai colpiscono anche i più innocenti, ma la fede in Dio li addolcisce e li rende utili per una vita migliore. L'opera si qualifica così come un <strong>romanzo di formazione spirituale e civile</strong>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="uda2" class="uda-section">
+            <h1>UdA n. 2: L’Età del Realismo (Positivismo, Naturalismo e Verismo)</h1>
+            
+            <div class="flashcard-widget" data-uda="uda2">
+                <div class="flashcard-q">Caricamento domanda...</div>
+                <button class="flashcard-btn" onclick="toggleAnswer(this)">Mostra Risposta</button>
+                <div class="flashcard-a">Caricamento risposta...</div>
+                <button class="flashcard-btn" style="margin-top:10px; background:#b89047;" onclick="generateFlashcard('uda2')">Prossima</button>
+            </div>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="chk-uda2" class="progress-chk">
+                <label for="chk-uda2"><strong>Segna UdA 2 come Completata e Archiviata</strong></label>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">2.1 Il Positivismo e il Naturalismo Francese</div>
+                <div class="accordion-content">
+                    <p>Il <strong>Positivismo</strong> elegge il metodo delle scienze sperimentali a unico criterio di verità. <strong>Auguste Comte</strong> codifica la sociologia; <strong>Herbert Spencer</strong> introduce l'evoluzionismo sociale e <strong>Cesare Lombroso</strong> teorizza il determinismo biologico nell'antropologia criminale.</p>
+                    <p>In Francia, il critico <strong>Hippolyte Taine</strong> stabilisce che le opere d'arte sono determinate da tre fattori ciechi: <em>Race</em> (eredità biologica), <em>Milieu</em> (ambiente sociale) e <em>Moment</em> (momento storico).</p>
+                    <p><strong>Émile Zola</strong> codifica il <em>Romanzo Sperimentale</em>: lo scrittore è uno scienziato che studia le passioni umane per curare le piaghe della società. Nel brano <em>Gervaise e l'Assommoir</em>, la macchina dell'alambicco viene descritta con toni zoomorfi, simbolo del determinismo distruttivo dell'alcolismo operaio.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">2.2 Confronto Sistematico: Naturalismo vs Verismo</div>
+                <div class="accordion-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Caratteristica</th>
+                                <th>Naturalismo Francese (Zola)</th>
+                                <th>Verismo Italiano (Verga)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Contesto Geografico</strong></td>
+                                <td>Parigi industriale, proletariato urbano.</td>
+                                <td>Sud Italia arretrato, mondo rurale/pescatori.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fiducia nel Progresso</strong></td>
+                                <td>Ottimista: la letteratura può cambiare la società.</td>
+                                <td>Pessimista: la realtà è immodificabile (legge della natura).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Funzione dell'Arte</strong></td>
+                                <td>Studio scientifico, denuncia sociale e politica.</td>
+                                <td>Documentaria, artistica, analisi della sconfitta economica.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">2.3 Giovanni Verga: Poetica e Tecniche Narrative</div>
+                <div class="accordion-content">
+                    <p>Il pensiero di Verga è dominato dal pessimismo materiale. Al centro si collocano l'<strong>ideale dell'ostrica</strong> (la distruzione di chi si stacca dal proprio nucleo natio) e la <strong>fiumana del progresso</strong>, che vista da lontano appare grandiosa ma da vicino calpesta i più deboli.</p>
+                    <div class="box anchor tecnica-box">
+                        <span class="box-anchor-title">Tecniche Narrative Verghiane</span>
+                        <ul>
+                            <li><strong>Eclissi dell'autore:</strong> Lo scrittore scompare, non giudica, non interviene con commenti morali colti.</li>
+                            <li><strong>Regressione del narratore:</strong> Il punto di vista si abbassa al livello culturale dei personaggi rappresentati nel testo.</li>
+                            <li><strong>Discorso indiretto libero:</strong> Fusione di voce narrante e pensieri interiori dei personaggi senza verbi dichiarativi.</li>
+                        </ul>
+                    </div>
+                    <h3>Analisi delle Opere Antologiche:</h3>
+                    <ul>
+                        <li><strong>"La lupa":</strong> Rappresentazione della passione primitiva e felina, descritta con similitudini zoomorfe. Gna Pina spezza l'ordine economico della comunità contadina.</li>
+                        <li><strong>"La roba":</strong> Mazzarò compie un'ascesi materiale folle sacrificando la vita per accumulare terra. Il finale svela il fallimento metafisico dell'accumulo di fronte alla morte.</li>
+                        <li><strong>I Malavoglia:</strong> Storia della disgregazione della famiglia Toscano. Nel brano finale del <em>Ritorno di Antoni 'Ntoni</em>, il giovane comprende che l'esilio è la giusta sanzione per aver tradito la legge millenaria della famiglia.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="uda3" class="uda-section">
+            <h1>UdA n. 3: Il Decadentismo</h1>
+            
+            <div class="flashcard-widget" data-uda="uda3">
+                <div class="flashcard-q">Caricamento domanda...</div>
+                <button class="flashcard-btn" onclick="toggleAnswer(this)">Mostra Risposta</button>
+                <div class="flashcard-a">Caricamento risposta...</div>
+                <button class="flashcard-btn" style="margin-top:10px; background:#b89047;" onclick="generateFlashcard('uda3')">Prossima</button>
+            </div>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="chk-uda3" class="progress-chk">
+                <label for="chk-uda3"><strong>Segna UdA 3 come Completata e Archiviata</strong></label>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">3.1 Crisi delle Certezze e la Scapigliatura</div>
+                <div class="accordion-content">
+                    <p>La fine dell'Ottocento vede l'affermazione dell'Imperialismo e la nascita della società di massa. Crollano le certezze positivistiche grazie alle rivoluzioni di <strong>Bergson</strong> (tempo della coscienza come durata), <strong>Einstein</strong> (relatività), <strong>Freud</strong> (scoperta dell'Inconscio) e <strong>Nietzsche</strong> (crisi dei valori tradizionali).</p>
+                    <p>In Italia la <strong>Scapigliatura</strong> anticipa queste tensioni a Milano. <strong>Emilio Praga</strong> nel testo <em>Preludio</em> canta la condizione di una generazione rimasta orfana di certezze religiose e letterarie (Manzoni). <strong>Arrigo Boito</strong> in <em>Dualismo</em> formalizza la lacerazione dell'artista diviso tra Ideale etico e Fango biologico.</p>
+                    <p><strong>Giosuè Carducci:</strong> Pur ancorato al classicismo, nella lirica <em>Nevicata</em> mostra aperture decadenti, dove il calare della neve evoca il senso di morte e la nostalgia per gli amici scomparsi.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">3.2 Il Simbolismo Francese ed Estetismo</div>
+                <div class="accordion-content">
+                    <p><strong>Charles Baudelaire:</strong> Ne <em>I fiori del male</em>, la <em>Prefazione</em> elegge lo <strong>Spleen</strong> (la noia esistenziale claustrofobica) a mostro peggiore dell'umanità. In <em>Corrispondenze</em>, la natura è una foresta di simboli legati da <strong>sinestese</strong> profonde. In <em>Spleen</em> la disperazione si pianta come una bandiera nera sul cranio del poeta.</p>
+                    <p><strong>Arthur Rimbaud:</strong> Teorizza il <em>Poeta Veggente</em> attraverso il disordine di tutti i sensi. La lirica <em>Vocali</em> associa suoni, colori e visioni analogiche pure. <strong>Paul Verlaine</strong> privilegia la musicalità pura ed evocativa del verso.</p>
+                    <p><strong>L'Estetismo:</strong> Sostituzione dei criteri morali con quelli estetici ("Arte per l'arte"). Il romanzo <em>Controcorrente</em> di <strong>Huysmans</strong> descrive il dandy Des Esseintes, che si isola per vivere una vita puramente artificiale.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">3.3 Giovanni Pascoli: Il Nido e Myricae</div>
+                <div class="accordion-content">
+                    <p>Segnato dal trauma dell'assassinio del padre, Pascoli sviluppa l'ossessione per il <strong>Nido Familiare</strong> come protezione dal male del mondo esterno. Nel saggio <strong>Il fanciullino</strong>, teorizza che la poesia consiste nello scoprire le cose con lo stupore ingenuo della fanciullezza, usando uno stile fonosimbolico, paratattico e analogico.</p>
+                    <div class="box anchor analisi-box">
+                        <span class="box-anchor-title">Analisi Opere Pascoliane</span>
+                        <ul>
+                            <li><strong>"X agosto":</strong> Parallelismo speculare tra l'uccisione della rondine e quella del padre. Il Cielo assiste indifferente inondando la terra di un pianto di stelle.</li>
+                            <li><strong>"Lavandare":</strong> L'aratro abbandonato in mezzo al maggese diventa correlativo oggettivo di solitudine ed esclusione affettiva.</li>
+                            <li><strong>"Novembre":</strong> L'illusione ottica della primavera che cela in realtà la fredda estate dei morti.</li>
+                            <li><strong>Il Trittico (Temporale, Lampo, Tuono):</strong> Frammenti impressionistici. Il lampo mostra la terra sussultante nel buio (agonia paterna); il tuono si chiude col suono rassicurante della culla.</li>
+                            <li><strong>"Il gelsomino notturno":</strong> Simbolismo erotico. Il poeta osserva da escluso la fecondazione della natura e la camera nuziale degli sposi dell'amico.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">3.4 Gabriele D'Annunzio: Il Poeta Vate</div>
+                <div class="accordion-content">
+                    <p>D'Annunzio reinterpreta in chiave estetica il pensiero di Nietzsche, fondando il mito del <strong>Superuomo</strong> e del <strong>Poeta Vate</strong>, capace di guidare le masse. La sua poetica ruota attorno al <strong>Panismo</strong> (fusione dell'uomo nella natura selvaggia) e alla gestione moderna della propria immagine pubblica ("esperto di marketing").</p>
+                    <div class="brano-testuale">
+                        «Taci. Su le soglie
+                        del bosco non odo
+                        parole che dici
+                        umane; ma odo
+                        parole più nuove
+                        che parlano gocciole e foglie
+                        lontane.»
+                    </div>
+                    <p><strong>"La pioggia nel pineto" (da Alcyone):</strong> Struttura sinfonica a versi liberi corti ricca di onomatopee. Ermione e il poeta subiscono una progressiva metamorfosi vegetale, i loro volti diventano foglie, i loro cuori sono pesche intatte, finché non si fondono interamente con la pineta selvaggia.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="uda4" class="uda-section">
+            <h1>UdA n. 4: La Narrativa del Primo Novecento</h1>
+            
+            <div class="flashcard-widget" data-uda="uda4">
+                <div class="flashcard-q">Caricamento domanda...</div>
+                <button class="flashcard-btn" onclick="toggleAnswer(this)">Mostra Risposta</button>
+                <div class="flashcard-a">Caricamento risposta...</div>
+                <button class="flashcard-btn" style="margin-top:10px; background:#b89047;" onclick="generateFlashcard('uda4')">Prossima</button>
+            </div>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="chk-uda4" class="progress-chk">
+                <label for="chk-uda4"><strong>Segna UdA 4 come Completata e Archiviata</strong></label>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">4.1 Il Romanzo della Crisi Europeo</div>
+                <div class="accordion-content">
+                    <p>Nel primo Novecento si assiste alla dissoluzione della trama ordinata del realismo. <strong>Franz Kafka</strong> descrive l'angoscia dell'assurdo e l'alienazione burocratica; <strong>Marcel Proust</strong> indaga la memoria involontaria innescata da stimoli sensoriali (l'episodio della <em>madeleine</em>); <strong>James Joyce</strong> introduce il flusso di coscienza puro distruggendo le strutture logico-sintattiche tradizionali.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">4.2 Italo Svevo e la Coscienza di Zeno</div>
+                <div class="accordion-content">
+                    <p>Aron Hector Schmitz (Italo Svevo) unisce la cultura ebraica, tedesca e italiana nella Trieste asburgica. Sviluppa il nucleo tematico dell'<strong>Inetto</strong>: l'individuo inadatto alla vita pratica borghese, affetto da una paralisi psicologica che tuttavia lo rende aperto a infinite possibilità evolutive.</p>
+                    <div class="box anchor tecnica-box">
+                        <span class="box-anchor-title">Tecniche Narrative Sveviane</span>
+                        <ul>
+                            <li><strong>Narratore Inattendibile:</strong> Zeno mente al medico e a se stesso per auto-giustificare la propria nevrosi.</li>
+                            <li><strong>Tempo Misto:</strong> Il tempo cronologico è distrutto; il racconto si organizza attorno a nuclei tematici in cui passato e presente si sovrappongono continuamente.</li>
+                        </ul>
+                    </div>
+                    <h3>Analisi dei Brani di Riferimento:</h3>
+                    <ul>
+                        <li><strong>"Preambolo":</strong> La dichiarazione del fallimento terapeutico e il tentativo fumoso di recuperare la propria infanzia.</li>
+                        <li><strong>"L'ultima sigaretta":</strong> Il paradosso dell'alibi interiore dell'U.S. (Ultima Sigaretta), che permette a Zeno di continuare a fumare assaporando l'eroico proposito del cambiamento.</li>
+                        <li><strong>"Una catastrofe inaudita":</strong> La chiusura del romanzo in cui Zeno dichiara la salute ritrovata attraverso il successo commerciale in guerra. L'opera si conclude con la celebre profezia apocalittica: la terra sarà guarita dalle malattie solo quando un ordigno incomparabile la farà tornare allo stato di nebulosa cosmica.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">4.3 Luigi Pirandello: Maschere e Umorismo</div>
+                <div class="accordion-content">
+                    <p>La visione pirandelliana si fonda sul <strong>Vitalismo</strong>: la vita è un flusso continuo che l'uomo tenta di bloccare in forme rigide e fisse. La società impone delle <strong>Maschere</strong> che riducono l'individuo a un ruolo fittizio, generando il relativismo conoscitivo totale.</p>
+                    <div class="box anchor concetto-box">
+                        <span class="box-anchor-title">L'Umorismo Pirandelliano</span>
+                        Nel saggio del 1908, distingue il comico dall'umoristico. Il comico è l'<em>avvertimento del contrario</em> (la risata davanti a una bizzarria). L'umorismo è il <em>sentimento del contrario</em>: interviene la riflessione che scopre il dramma segreto dietro l'anormalità, trasformando la risata in compassione amara.
+                    </div>
+                    <h3>Percorso sulle Opere Principali:</h3>
+                    <ul>
+                        <li><strong>Il fu Mattia Pascal:</strong> L'inutilità del tentativo di evadere dalle trappole sociali cambiando identità in Adriano Meis; il protagonista finisce per ridursi a spettatore della propria vita.</li>
+                        <li><strong>Uno, nessuno e centomila:</strong> Vitangelo Moscarda scopre che gli altri hanno centomila percezioni diverse di lui. Impazzisce felicemente per distruggere ogni identità fissa, disperdendosi nel flusso della natura.</li>
+                        <li><strong>La rivoluzione teatrale:</strong> Con <em>Sei personaggi in cerca d'autore</em>, Pirandello realizza il "teatro nel teatro" (metateatro), abbattendo la quarta parete e portando sulla scena l'incomunicabilità tra attori e personaggi.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="uda5" class="uda-section">
+            <h1>UdA n. 5: Le Tendenze della Poesia Italiana del Novecento</h1>
+            
+            <div class="flashcard-widget" data-uda="uda5">
+                <div class="flashcard-q">Caricamento domanda...</div>
+                <button class="flashcard-btn" onclick="toggleAnswer(this)">Mostra Risposta</button>
+                <div class="flashcard-a">Caricamento risposta...</div>
+                <button class="flashcard-btn" style="margin-top:10px; background:#b89047;" onclick="generateFlashcard('uda5')">Prossima</button>
+            </div>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="chk-uda5" class="progress-chk">
+                <label for="chk-uda5"><strong>Segna UdA 5 come Completata e Archiviata</strong></label>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">5.1 Giuseppe Ungaretti e la Linea "Novecentista"</div>
+                <div class="accordion-content">
+                    <p>Giuseppe Ungaretti, con la raccolta <em>L'Allegria</em>, opera una rivoluzione formale drastica che influenzerà l'Ermetismo. L'esperienza drammatica della prima guerra mondiale sul fronte del Carso impone una scrittura essenziale, d'emergenza, basata sulla riscoperta della <strong>parola nuda</strong>.</p>
+                    <div class="box anchor tecnica-box">
+                        <span class="box-anchor-title">Scelte Stilistiche Rivoluzionarie</span>
+                        <ul>
+                            <li><strong>Frantumazione del verso:</strong> Riduzione del componimento a versicoli o singole parole isolate.</li>
+                            <li><strong>Abolizione totale della punteggiatura:</strong> Sostituita dal valore espressivo e denso dello spazio bianco della pagina.</li>
+                            <li><strong>Analogia fulminea:</strong> Accostamento immediato di concetti o elementi distanti, senza passaggi logici.</li>
+                        </ul>
+                    </div>
+                    <h3>Analisi Dettagliata dei Testi dell'Allegria:</h3>
+                    <ul>
+                        <li><strong>"Veglia":</strong> Una notte passata accanto al cadavere di un compagno massacrato. La vicinanza della morte genera per reazione vitale un disperato attaccamento alla vita e un bisogno assoluto d'amore.</li>
+                        <li><strong>"Fratelli":</strong> Una parola sussurrata nella trincea. Attraverso l'analogia con una <em>"foglia appena nata"</em>, Ungaretti esprime la fragilità estrema e la solidarietà spontanea degli uomini davanti al massacro.</li>
+                        <li><strong>"Sono una creatura":</strong> Il dolore del poeta non riesce a sfogarsi nel pianto e si pietrifica. Il paesaggio carsico (pietra fredda, dura, prosciugata) diventa il perfetto <strong>correlativo oggettivo</strong> della sua anima disseccata. Si chiude col celebre ossimoro: <em>"La morte / si sconta / vivendo"</em>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="uda6" class="uda-section">
+            <h1>UdA n. 6: Laboratorio di Lettura e Scrittura (Esame di Stato)</h1>
+            
+            <div class="flashcard-widget" data-uda="uda6">
+                <div class="flashcard-q">Caricamento domanda...</div>
+                <button class="flashcard-btn" onclick="toggleAnswer(this)">Mostra Risposta</button>
+                <div class="flashcard-a">Caricamento risposta...</div>
+                <button class="flashcard-btn" style="margin-top:10px; background:#b89047;" onclick="generateFlashcard('uda6')">Prossima</button>
+            </div>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="chk-uda6" class="progress-chk">
+                <label for="chk-uda6"><strong>Segna UdA 6 come Completata e Archiviata</strong></label>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">6.1 Guida Tecnica alle Tipologie d'Esame (Prima Prova)</div>
+                <div class="accordion-content">
+                    <p>La prima prova accerta la capacità argomentativa, di sintesi e di analisi critica dello studente. Ecco le linee guida operative per le tre tipologie:</p>
+                    
+                    <h3>Tipologia A: Analisi e Interpretazione di un Testo Letterario</h3>
+                    <ul>
+                        <li><strong>Fase 1: Comprensione.</strong> Parafrasi letterale (per la poesia) o riassunto strutturato per punti (per la prosa).</li>
+                        <li><strong>Fase 2: Analisi del testo.</strong> Individuazione delle scelte lessicali, sintattiche e delle figure retoriche. Occorre spiegare come la forma stilistica generi il significato profondo del brano.</li>
+                        <li><strong>Fase 3: Interpretazione.</strong> Inquadramento storico-culturale e collegamenti con l'intera poetica dell'autore.</li>
+                    </ul>
+
+                    <h3>Tipologia B: Analisi e Produzione di un Testo Argomentativo</h3>
+                    <ul>
+                        <li><strong>Fase 1: Smontaggio.</strong> Individuazione della tesi centrale dell'autore dell'estratto e dei singoli argomenti logici a supporto.</li>
+                        <li><strong>Fase 2: Produzione.</strong> Formulazione di una propria tesi, chiara ed esplicita. Va sostenuta tramite argomenti storici, culturali o di attualità, confutando un'eventuale antitesi contraria.</li>
+                    </ul>
+
+                    <h3>Tipologia C: Riflessione Critica di Carattere Espositivo-Argomentativo</h3>
+                    <p>Il tema di attualità. Richiede una trattazione ordinata che eviti generalizzazioni retoriche. È raccomandato seguire lo schema logico delle <strong>5W</strong>: definizione del fenomeno, cause storiche, soggetti coinvolti, effetti sulla società civile e prospettive future di risoluzione.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">6.2 Educazione Civica, Attualità e Territorio</div>
+                <div class="accordion-content">
+                    <p><strong>Primo Levi – "Se questo è un uomo":</strong> Riflessione sul Giorno della Memoria incentrata sulla scomposizione geometrica dell'essere umano nei campi di sterminio. Lo stile di Levi è distaccato e analitico, simile a quello di un chimico in laboratorio, offrendo una testimonianza oggettiva sulla distruzione sistematica della dignità umana.</p>
+                    <p><strong>Attività Metacognitive:</strong> Stesura dell'<em>Autobiografia Cognitiva</em> (analisi personale del proprio metodo di studio) e della <em>Lettera al futuro sé</em> per tracciare la propria evoluzione psicologica e didattica durante l'anno scolastico.</p>
+                    <p><strong>Relazione sul Territorio (Bunker Soratte):</strong> Studio storico-documentario dell'opera di ingegneria militare ipogea situata a Sant'Oreste. Nata come rifugio antiaereo per i vertici dell'esercito italiano nella Seconda Guerra Mondiale, divenne quartier generale delle truppe tedesche sotto il maresciallo Kesselring e infine riconvertita in bunker anti-atomico durante gli anni caldi della Guerra Fredda.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* --- BANCO DATI DELLE FLASHCARDS CONTESTUALI --- */
+        const flashcardsData = {
+            uda1: [
+                { q: "Cos'è il Titanismo romantico?", a: "È l'atteggiamento di ribellione eroica ma disperata del singolo contro forze superiori (destino, natura, società), conscio della propria inevitabile sconfitta economica o materiale." },
+                { q: "Qual è la formula fondamentale della poetica di Alessandro Manzoni?", a: "L'opera letteraria deve avere 'Il vero per oggetto, l'utile per iscopo, l'interessante per mezzo'." },
+                { q: "Cosa intende Manzoni per 'Provvida Sventura'?", a: "È la concezione cristiana secondo cui Dio permette il dolore e la sofferenza dei giusti e degli innocenti sulla terra al fine di favorire la loro maturazione spirituale e la salvezza eterna." }
+            ],
+            uda2: [
+                { q: "Cos'è l'ideale dell'ostrica in Giovanni Verga?", a: "È il principio secondo cui i personaggi delle classi deboli rimangono protetti finché restano tenacemente ancorati alle tradizioni e allo scoglio natio; se tentano il salto sociale vengono divorati dalla fiumana del progresso." },
+                { q: "Quali sono le tre forze deterministiche codificate da Hippolyte Taine?", a: "La Razza (eredità biologica), il Milieu (l'ambiente sociale e geografico) e il Moment (il periodo storico)." },
+                { q: "In cosa consiste il meccanismo della regressione del narratore nel Verismo?", a: "La voce narrante rinuncia alla cultura e ai giudizi morali borghesi dell'autore, abbassandosi completamente al livello linguistico, etico e mentale della comunità popolare rappresentata." }
+            ],
+            uda3: [
+                { q: "Qual è la differenza tra il tempo della scienza e il tempo della vita per Bergson?", a: "Il tempo della scienza è quantitativo, spazializzato e misurabile (come i secondi dell'orologio); il tempo della vita è la durata interiore, un flusso continuo in cui passato, presente e futuro si fondono nella coscienza." },
+                { q: "Cos'è lo 'Spleen' baudelaireiano?", a: "È uno stato di depressione cupa, angoscia claustrofobica e noia esistenziale che paralizza l'anima del poeta, impedendogli ogni slancio ideale verso il cielo." },
+                { q: "Cosa rappresenta l'aratro nella lirica 'Lavandare' di Pascoli?", a: "È un perfetto correlativo oggettivo che simboleggia l'abbandono, la solitudine radicale e l'esclusione affettiva dal nido familiare." }
+            ],
+            uda4: [
+                { q: "Chi è l'Inetto nella produzione letteraria di Italo Svevo?", a: "È l'intellettuale o il piccolo borghese psicologicamente paralizzato, incapace di agire e di integrarsi nelle logiche utilitaristiche della società borghese, ma dotato di una profonda e complessa autoanalisi interiore." },
+                { q: "Cos'è il 'sentimento del contrario' per Luigi Pirandello?", a: "È il nucleo fondante dell'Umorismo: l'intervento della riflessione logica che scava dietro l'anormalità comica, scoprendo la sofferenza e il dramma segreto del personaggio." }
+            ],
+            uda5: [
+                { q: "Perché Ungaretti abolisce la punteggiatura nell'Allegria?", a: "Per restituire centralità alla parola nuda, valorizzando il silenzio e gli spazi bianchi della pagina come pause metafisiche cariche di significato." },
+                { q: "Qual è il correlativo oggettivo in 'Sono una creatura'?", a: "La pietra del Carso, descritta come fredda, dura e totalmente disanimata, che riflette perfettamente il dolore pietrificato e prosciugato del poeta soldato." }
+            ],
+            uda6: [
+                { q: "Quali sono le tre fasi fondamentali per affrontare la Tipologia A?", a: "1) Comprensione e sintesi (parafrasi o riassunto), 2) Analisi stilistica, linguistica e retorica, 3) Interpretazione critica e inquadramento storico-culturale." },
+                { q: "Con quale attitudine Primo Levi descrive il lager in 'Se questo è un uomo'?", a: "Con lo stile lucido, razionale e distaccato del chimico industriale, analizzando scientificamente i meccanismi biologici e psicologici della demolizione dell'uomo." }
+            ]
+        };
+
+        /* --- STATE MANAGEMENT & LOCAL STORAGE --- */
+        let progressState = JSON.parse(localStorage.getItem('maturita_progress_state')) || {};
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initSPA();
+            initAccordions();
+            initTheme();
+            initProgressTracker();
+            
+            // Genera la prima flashcard per ogni sezione all'avvio
+            Object.keys(flashcardsData).forEach(uda => generateFlashcard(uda));
+        });
+
+        /* --- SINGLE PAGE APPLICATION (SPA) NAVIGATION --- */
+        function initSPA() {
+            const navItems = document.querySelectorAll(".nav-item");
+            const sections = document.querySelectorAll(".uda-section");
+            const sidebar = document.getElementById("sidebar");
+            const menuToggle = document.getElementById("menuToggle");
+
+            navItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    navItems.forEach(i => i.classList.remove("active"));
+                    sections.forEach(s => s.classList.remove("active-section"));
+
+                    item.classList.add("active");
+                    const targetId = item.getAttribute("data-target");
+                    document.getElementById(targetId).classList.add("active-section");
+                    
+                    // Chiude la sidebar su mobile dopo il clic
+                    sidebar.classList.remove("mobile-open");
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+
+            menuToggle.addEventListener("click", () => {
+                sidebar.classList.toggle("mobile-open");
+            });
+        }
+
+        /* --- SYSTEM ACCORDIONS --- */
+        function initAccordions() {
+            const headers = document.querySelectorAll(".accordion-header");
+            headers.forEach(header => {
+                header.addEventListener("click", () => {
+                    const item = header.parentElement;
+                    item.classList.toggle("open");
+                });
+            });
+        }
+
+        /* --- FLASHCARD ENGINE --- */
+        function generateFlashcard(udaId) {
+            const widget = document.querySelector(`.flashcard-widget[data-uda="${udaId}"]`);
+            const qEl = widget.querySelector(".flashcard-q");
+            const aEl = widget.querySelector(".flashcard-a");
+            const btnEl = widget.querySelector(".flashcard-btn");
+
+            const pool = flashcardsData[udaId];
+            const randomCard = pool[Math.floor(Math.random() * pool.length)];
+
+            qEl.textContent = randomCard.q;
+            aEl.textContent = randomCard.a;
+            
+            aEl.style.display = "none";
+            btnEl.textContent = "Mostra Risposta";
+        }
+
+        function toggleAnswer(btn) {
+            const aEl = btn.nextElementSibling;
+            if (aEl.style.display === "none" || aEl.style.display === "") {
+                aEl.style.display = "block";
+                btn.textContent = "Nascondi Risposta";
+            } else {
+                aEl.style.display = "none";
+                btn.textContent = "Mostra Risposta";
+            }
+        }
+
+        /* --- TRACCIAMENTO DEI PROGRESSI --- */
+        function initProgressTracker() {
+            const checkboxes = document.querySelectorAll(".progress-chk");
+            
+            checkboxes.forEach(chk => {
+                // Ripristina lo stato dal localStorage
+                if (progressState[chk.id]) {
+                    chk.checked = true;
+                }
+
+                chk.addEventListener("change", () => {
+                    progressState[chk.id] = chk.checked;
+                    localStorage.setItem('maturita_progress_state', JSON.stringify(progressState));
+                    updateProgressBar();
+                });
+            });
+
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const checkboxes = document.querySelectorAll(".progress-chk");
+            const total = checkboxes.length;
+            if(total === 0) return;
+            
+            let checkedCount = 0;
+            checkboxes.forEach(chk => {
+                if(chk.checked) checkedCount++;
+            });
+
+            const percentage = Math.round((checkedCount / total) * 100);
+            document.getElementById("progressBar").style.width = percentage + "%";
+            document.getElementById("progressPercentage").textContent = percentage + "%";
+        }
+
+        /* --- DARK / LIGHT MODE THEME TOGGLE --- */
+        function initTheme() {
+            const themeToggle = document.getElementById("themeToggle");
+            const currentTheme = localStorage.getItem("theme") || "light";
+
+            if (currentTheme === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+                themeToggle.textContent = "☀️ Light Mode";
+            }
+
+            themeToggle.addEventListener("click", () => {
+                let theme = document.documentElement.getAttribute("data-theme");
+                if (theme === "dark") {
+                    document.documentElement.setAttribute("data-theme", "light");
+                    localStorage.setItem("theme", "light");
+                    themeToggle.textContent = "🌙 Dark Mode";
+                } else {
+                    document.documentElement.setAttribute("data-theme", "dark");
+                    localStorage.setItem("theme", "dark");
+                    themeToggle.textContent = "☀️ Light Mode";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

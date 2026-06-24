@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maturità Hub: Piattaforma di Ripasso Interdisciplinare</title>
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --bg-main: #f8fafc;
+            --bg-sidebar: #0f172a;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-sidebar: #94a3b8;
+            --text-sidebar-active: #ffffff;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --tech-green: #0d9488;
+            --tech-green-bg: #f0fdf4;
+            --border-color: #e2e8f0;
+            --flashcard-bg: #eff6ff;
+            --flashcard-border: #bfdbfe;
+            --flashcard-text: #1e40af;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --bg-main: #0f172a;
+            --bg-sidebar: #1e293b;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-sidebar: #94a3b8;
+            --text-sidebar-active: #3b82f6;
+            --accent: #3b82f6;
+            --accent-hover: #60a5fa;
+            --tech-green: #2dd4bf;
+            --tech-green-bg: #115e59;
+            --border-color: #334155;
+            --flashcard-bg: #1e3a8a;
+            --flashcard-border: #3b82f6;
+            --flashcard-text: #dbeafe;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR LAYOUT */
+        aside {
+            width: 320px;
+            background-color: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-header h1 {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+        }
+
+        .sidebar-menu {
+            overflow-y: auto;
+            flex: 1;
+            padding: 1rem 0;
+        }
+
+        .subject-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .subject-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-sidebar);
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .menu-item.active {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: var(--text-sidebar-active);
+            border-left-color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* MAIN CONTENT AREA */
+        main {
+            margin-left: 320px;
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            width: calc(100% - 320px);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .theme-toggle-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* VIEW INFRASTRUCTURE */
+        .uda-view {
+            display: none;
+        }
+
+        .uda-view.active-view {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* INTERACTIVE WIDGETS */
+        .widget-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .flashcard-box {
+            background: var(--flashcard-bg);
+            border: 1px solid var(--flashcard-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            color: var(--flashcard-text);
+            width: 100%;
+            box-shadow: var(--shadow);
+        }
+
+        .flashcard-q {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .flashcard-a {
+            display: none;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--flashcard-border);
+            font-style: italic;
+        }
+
+        .flashcard-a.reveal {
+            display: block;
+        }
+
+        .btn-action {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .tracker-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-card);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* CONTENT STYLING */
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .literary-box {
+            font-family: 'Georgia', serif;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            background: rgba(59, 130, 246, 0.05);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* CODE AND TABLES */
+        pre {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Consolas', monospace;
+            background-color: rgba(0,0,0,0.08);
+            padding: 0.15rem 0.3rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        [data-theme="dark"] code {
+            background-color: rgba(255,255,255,0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(0,0,0,0.04);
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] th {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        /* ACCORDION */
+        .accordion-item {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background-color: rgba(0,0,0,0.02);
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        [data-theme="dark"] .accordion-header {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .accordion-content {
+            padding: 1rem;
+            display: none;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .accordion-content.open {
+            display: block;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 992px) {
+            aside {
+                width: 100%;
+                position: relative;
+                bottom: auto;
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+            body {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="sidebar-header">
+            <h1>Maturità Hub 2026</h1>
+            <p style="font-size: 0.8rem; color: var(--text-muted)">EdTech Interactive Review System</p>
+        </div>
+        <div class="sidebar-menu">
+            <div class="subject-group">
+                <div class="subject-title">Informatica</div>
+                <div class="menu-item active" onclick="switchView('info-uda1', this)">UdA 1: Architetture & Scambio Dati</div>
+                <div class="menu-item" onclick="switchView('info-uda2', this)">UdA 2: DB & Progettazione</div>
+                <div class="menu-item" onclick="switchView('info-uda3', this)">UdA 3: Algebra Relazionale & SQL</div>
+                <div class="menu-item" onclick="switchView('info-uda4', this)">UdA 4: PHP Server-Side & DB</div>
+                <div class="menu-item" onclick="switchView('info-uda5', this)">UdA 5: AJAX & CLIL Paradigm</div>
+                <div class="menu-item" onclick="switchView('info-uda6', this)">UdA 6: Prove d'Esame & CV Day</div>
+            </div>
+
+            <div class="subject-group">
+                <div class="subject-title">Italiano</div>
+                <div class="menu-item" onclick="switchView('ita-calvino', this)">Italo Calvino: Sistemi Combinatori</div>
+                <div class="menu-item" onclick="switchView('ita-pirandello', this)">Luigi Pirandello: Maschere e Viste</div>
+                <div class="menu-item" onclick="switchView('ita-svevo', this)">Italo Svevo: Coscienza e Stati</div>
+            </div>
+
+            <div class="subject-group">
+                <div class="subject-title">Inglese</div>
+                <div class="menu-item" onclick="switchView('eng-clil', this)">CLIL: Database Engineering</div>
+                <div class="menu-item" onclick="switchView('eng-joyce', this)">James Joyce: Asynchronous Streams</div>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <header>
+            <div id="current-subject-tag" style="font-weight: 700; text-transform: uppercase; color: var(--accent);">Informatica</div>
+            <button class="theme-toggle-btn" onclick="toggleTheme()">
+                🎨 Cambia Tema
+            </button>
+        </header>
+
+        <div id="info-uda1" class="uda-view active-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-info-uda1" onchange="storeProgress('info-uda1')">
+                    <label for="chk-info-uda1"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Qual è la differenza logica strutturale sostanziale tra JSON e XML?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">XML è un metalinguaggio di markup gerarchico basato su tag custom espandibili, orientato ai documenti e pesante per la verbosità. JSON è una notazione ultraleggera basata su coppie chiave-valore derivata da JavaScript, nativamente ottimizzata per il data-exchange asincrono nel web moderno.</div>
+                </div>
+            </div>
+
+            <h2>UdA 1: Consolidamento, Formati Scambio Dati e Architetture Web</h2>
+            <p class="subtitle">Evoluzione infrastrutturale e formati standard di serializzazione</p>
+
+            <div class="card">
+                <h3>1.1 Mappe e Pagine Web nei Sistemi Logistici</h3>
+                <p>La rappresentazione cartografica applicata ai flussi turistici e marittimi si basa sull'integrazione di motori cartografici via API (es. <b>Leaflet.js</b> o <b>Google Maps API</b>). I vettori geospaziali vengono manipolati come oggetti JavaScript, proiettando coordinate standard <code>WGS84</code> (Latitudine, Longitudine) su layer grafici dinamici.</p>
+            </div>
+
+            <div class="card">
+                <h3>1.2 Formati di Scambio: JSON vs XML</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Caratteristica</th>
+                            <th>XML (eXtensible Markup Language)</th>
+                            <th>JSON (JavaScript Object Notation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Sintassi</b></td>
+                            <td>Struttura ad albero con tag di apertura/chiusura (<code>&lt;item&gt;...&lt;/item&gt;</code>)</td>
+                            <td>Coppie chiave-valore e array ordinati (<code>{"chiave": "valore"}</code>)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Parsing</b></td>
+                            <td>Richiede interpreti pesanti (DOM / SAX Parser)</td>
+                            <td>Immediato e nativo in JavaScript (<code>JSON.parse()</code>)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Esempio di Laboratorio: Parsing XML DOM in Java (Gestione Magazzino/Spesa)</h4>
+                <pre>
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
+import java.io.File;
+
+public class MagazzinoParser {
+    public static void main(String[] args) throws Exception {
+        File file = new File("magazzino.xml");
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+        doc.getDocumentElement().normalize();
+        NodeList list = doc.getElementsByTagName("articolo");
+        for (int i = 0; i < list.getLength(); i++) {
+            Element elem = (Element) list.item(i);
+            System.out.println("Prodotto: " + elem.getElementsByTagName("nome").item(0).getTextContent());
+        }
+    }
+}</pre>
+            </div>
+
+            <div class="card">
+                <h3>1.3 Architetture Web Moderne: Microservizi e Orchestrazione</h3>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">L'Evoluzione Storica <span>▼</span></div>
+                    <div class="accordion-content">Dalle architetture monolitiche centralizzate (tutta la logica di business e persistenza in un unico blocco esecutivo) si è passati ai sistemi distribuiti a <b>Microservizi</b>.</div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">Docker & Kubernetes <span>▼</span></div>
+                    <div class="accordion-content">
+                        <ul>
+                            <li><b>Docker:</b> Isola i singoli microservizi all'interno di lightweight container immutabili comprendenti runtime e dipendenze.</li>
+                            <li><b>Kubernetes:</b> Agisce come orchestratore automatizzato per il deployment, lo scaling orizzontale e il self-healing dei container su cluster di macchine.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="info-uda2" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-info-uda2" onchange="storeProgress('info-uda2')">
+                    <label for="chk-info-uda2"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Quali sono i tre livelli di astrazione dell'architettura ANSI-SPARC di un DBMS?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">Livello Esterno (Viste personalizzate per l'utente), Livello Logico (Struttura astratta globale delle tabelle e vincoli), e Livello Interno/Fisico (Memorizzazione effettiva dei file di dati sui supporti di memoria di massa).</div>
+                </div>
+            </div>
+
+            <h2>UdA 2: Generalità sulle Basi di Dati e Progettazione (Concettuale e Logica)</h2>
+            <p class="subtitle">Modellazione dei dati aziendali dal modello concettuale alle forme normali</p>
+
+            <div class="card">
+                <h3>2.1 Architettura e Sicurezza DBMS</h3>
+                <p>Un <b>DBMS</b> garantisce l'accesso controllato e concorrente ai dati salvaguardando tre pilastri sistemici fondamentali:</p>
+                <ul>
+                    <li><b>Privatezza e Controllo Accessi:</b> Autenticazione e gestione dei privilegi utente (RBAC).</li>
+                    <li><b>Integrità Fisica:</b> Ripristino da guasti tramite meccanismi di Journaling e ACID log transazionali.</li>
+                    <li><b>Consistenza:</b> Transazioni atomiche che mantengono i vincoli logici stabili nel tempo.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>2.2 Il Ciclo di Progettazione e Modello E/R</h3>
+                <p>La progettazione concettuale formalizza la realtà tramite il diagramma <b>Entità-Relazione (E/R)</b> composto da:</p>
+                <ul>
+                    <li><b>Entità:</b> Classi di oggetti reali (es. Biblioteca, Aeroporto, Turismo, Car Pooling).</li>
+                    <li><b>Attributi:</b> Proprietà delle entità (compreso l'identificatore/Chiave Primaria).</li>
+                    <li><b>Associazioni e Cardinalità:</b> Vincoli numerici strutturali d'interconnessione <code>(0,1), (1,1), (0,N), (1,N)</code>.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>2.3 Mappatura Logica e Normalizzazione</h3>
+                <p>Regole di derivazione verso il <b>Modello Relazionale</b>:</p>
+                <ol>
+                    <li>Ogni entità diventa una <b>Relazione (Tabella)</b>.</li>
+                    <li>Le relazioni 1:N esportano la chiave primaria del lato 1 come <b>Chiave Esterna (Foreign Key)</b> nel lato N.</li>
+                    <li>Le relazioni N:N generano una nuova tabella ponte intermedia contenente le chiavi esterne ereditate.</li>
+                </ol>
+
+                <h4>Le Forme Normali contro le anomalie di ridondanza</h4>
+                <ul>
+                    <li><b>1FN:</b> Attributi atomici ed esistenza di una Chiave Primaria univoca.</li>
+                    <li><b>2FN:</b> In 1FN e ogni attributo non-chiave dipende totalmente dall'intera chiave primaria (no dipendenze parziali).</li>
+                    <li><b>3FN:</b> In 2FN e nessun attributo non-chiave dipende transitivamente dalla chiave primaria tramite altri attributi non-chiave.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="info-uda3" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-info-uda3" onchange="storeProgress('info-uda3')">
+                    <label for="chk-info-uda3"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Che differenza c'è tra WHERE e HAVING in SQL?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">La clausola WHERE filtra i singoli record prima dell'esecuzione dell'aggregazione. La clausola HAVING filtra i gruppi generati dal GROUP BY dopo che le funzioni di aggregazione (SUM, COUNT, ecc.) sono state calcolate.</div>
+                </div>
+            </div>
+
+            <h2>UdA 3: Algebra Relazionale e Interrogazione Avanzata (Linguaggio SQL)</h2>
+            <p class="subtitle">Fondamenti logico-matematici e dialetto SQL avanzato</p>
+
+            <div class="card">
+                <h3>3.1 Algebra Relazionale</h3>
+                <p>Linguaggio procedurale teorico basato su operatori:</p>
+                <ul>
+                    <li><b>Selezione ($\sigma_{condizione}$):</b> Estrazione orizzontale di tuple.</li>
+                    <li><b>Proiezione ($\pi_{attributi}$):</b> Estrazione verticale di colonne.</li>
+                    <li><b>Join Interno ($\bowtie$):</b> Combinazione logica condizionata di due relazioni.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>3.2 Script SQL di Interrogazione e Controllo Avanzato</h3>
+                <pre>
+-- Creazione di una Vista Virtuale Logica
+CREATE VIEW VistaIngegneria AS
+SELECT id_studente, COUNT(id_esame) AS totale_esami, AVG(voto) AS media_voti
+FROM esami
+WHERE settore = 'INF'
+GROUP BY id_studente
+HAVING AVG(voto) >= 27;
+
+-- Query con Subquery Annidata complessa (Uso di IN / ALL)
+SELECT cognome, nome, email 
+FROM studenti
+WHERE id_studente IN (
+    SELECT id_studente 
+    FROM esami 
+    WHERE voto > ALL (SELECT voto FROM esami WHERE id_corso = 12)
+);
+
+-- DCL: Gestione Sicurezza e Privilegi
+GRANT SELECT, INSERT ON VistaIngegneria TO 'operatore_segreteria'@'localhost';
+REVOKE DELETE ON studenti FROM 'operatore_segreteria'@'localhost';
+
+-- Vincoli Fisici di Integrità Referenziale e Gestione Date
+ALTER TABLE esami 
+ADD CONSTRAINT fk_studenti
+FOREIGN KEY (id_studente) REFERENCES studenti(id_studente)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Esempio Manipolazione Temporale MySQL
+SELECT id_studente, DATEDIFF(NOW(), data_immatricolazione) AS giorni_iscrizione
+FROM studenti
+WHERE YEAR(data_immatricolazione) = 2025;</pre>
+            </div>
+        </div>
+
+        <div id="info-uda4" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-info-uda4" onchange="storeProgress('info-uda4')">
+                    <label for="chk-info-uda4"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Come previene PDO gli attacchi di tipo SQL Injection?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">PDO introduce i Prepared Statements (query preparate). Separando esplicitamente la struttura logica del comando SQL dai dati di input utente tramite segnaposto (es. :user), neutralizza l'interpretazione di codice malevolo inserito nei campi di input.</div>
+                </div>
+            </div>
+
+            <h2>UdA 4: Programmazione Web Lato Server (PHP) e Interfacciamento Database</h2>
+            <p class="subtitle">Sviluppo backend sicuro, persistenza dello stato e interfacciamento PDO</p>
+
+            <div class="card">
+                <h3>4.1 Fondamenti di Architettura PHP</h3>
+                <p>PHP è un linguaggio di scripting interpretato lato server adibito alla composizione ipertestuale dinamica:</p>
+                <ul>
+                    <li><b>Scope:</b> Variabili locali o globali. Per unire moduli riusabili si usano <code>include</code> (warning non bloccante) o <code>require</code> (blocco fatale esecutivo in caso di mancanza del modulo).</li>
+                    <li><b>Strutture Dati:</b> Array indicizzati numericamente e <b>Array Associativi</b> strutturati in coppie chiave-valore.</li>
+                    <li><b>Interazione Stateless:</b> I vettori globali <code>$_GET</code> e <code>$_POST</code> intercettano i flussi provenienti dai moduli HTML client-side. La sanitizzazione obbligatoria (es. <code>htmlspecialchars()</code>) neutralizza attacchi di tipo Cross-Site Scripting (XSS).</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>4.2 Script Pratico: Connessione PDO Sicura e Autenticazione (Hogwarts Login)</h3>
+                <pre>
+&lt;?php
+// Centralizzazione della connessione tramite file protetto (config.php)
+$dsn = "mysql:host=localhost;dbname=Hogwarts;charset=utf8mb4";
+$user = "root";
+$pass = "password_sicura_2026";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    die("Errore di connessione al database: " . $e->getMessage());
+}
+
+// Controllo Login di Sicurezza con Prepared Statements
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
+    $password = $_POST['pass'];
+
+    $stmt = $pdo->prepare("SELECT id_utente, password_hash FROM utenti WHERE username = :username");
+    $stmt->execute(['username' => $username]);
+    $userRow = $stmt->fetch();
+
+    if ($userRow && password_verify($password, $userRow['password_hash'])) {
+        session_start();
+        $_SESSION['auth'] = true;
+        $_SESSION['user_id'] = $userRow['id_utente'];
+        header("Location: dashboard.php");
+        exit;
+    }
+}
+?&gt;</pre>
+            </div>
+
+            <div class="card">
+                <h3>4.3 Persistenza dello Stato e Accessori Web</h3>
+                <ul>
+                    <li><b>Cookie:</b> Memorizzati sul browser del client (<code>$_COOKIE</code>), regolati da <code>setcookie()</code>. Vincolati alle normative europee <b>GDPR (Cookie Banner)</b>.</li>
+                    <li><b>Sessioni:</b> Memorizzate in modo sicuro lato server (<code>$_SESSION</code>), legate all'identificativo effimero client-side <code>PHPSESSID</code>.</li>
+                    <li><b>Upload File:</b> Gestito dal vettore superglobale <code>$_FILES</code> combinato con verifiche di sicurezza sull'estensione MIME e la funzione <code>move_uploaded_file()</code>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="info-uda5" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-info-uda5" onchange="storeProgress('info-uda5')">
+                    <label for="chk-info-uda5"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Qual è la principale differenza nell'overloading dei metodi tra Java e PHP?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">Java supporta l'overloading nativo statico (più metodi con lo stesso nome ma firme/parametri diversi nello stesso perimetro). PHP non lo supporta nativamente e va emulato dinamicamente usando i metodi magici (es. __call) o parametri opzionali con valori di default.</div>
+                </div>
+            </div>
+
+            <h2>UdA 5: Tecnologie Asincrone (AJAX) e Moduli CLIL</h2>
+            <p class="subtitle">Paradigma asincrono client-server e programmazione a oggetti avanzata</p>
+
+            <div class="card">
+                <h3>5.1 Architettura Asincrona AJAX</h3>
+                <p><b>AJAX</b> scardina il modello sincrono del web tradizionale. Consente il parziale aggiornamento del documento ipertestuale operando scambi asincroni di dati in background (tramite l'API moderna <code>fetch()</code>), riducendo drasticamente il carico computazionale e azzerando i tempi di refresh dell'interfaccia client.</p>
+            </div>
+
+            <div class="card">
+                <h3>5.2 PHP Object-Oriented Programming (OOP) vs Java</h3>
+                <p>Struttura delle classi e paradigmi comparati:</p>
+                <pre>
+&lt;?php
+// Definizione di classe in PHP con Incapsulamento ed Ereditarietà
+class DatabaseConnector {
+    protected $connectionStatus;
+
+    public function __construct() {
+        $this->connectionStatus = "Disconnected";
+    }
+}
+
+class MySQLConnector extends DatabaseConnector {
+    private $dbName;
+
+    public function __construct($dbName) {
+        parent::__construct(); // Chiamata al costruttore padre
+        $this->dbName = $dbName;
+    }
+}
+?&gt;</pre>
+            </div>
+        </div>
+
+        <div id="info-uda6" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-info-uda6" onchange="storeProgress('info-uda6')">
+                    <label for="chk-info-uda6"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Qual è la prima operazione metodologica da compiere davanti a un tema d'esame ministeriale?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">La scomposizione del testo in requisiti funzionali e non funzionali, isolando le entità reali del dominio, le regole di business stabili e i vincoli transazionali richiesti dalla traccia.</div>
+                </div>
+            </div>
+
+            <h2>UdA 6: Simulazioni, Orientamento ed Esame di Stato</h2>
+            <p class="subtitle">Strategia metodologica per lo svolgimento della Seconda Prova</p>
+
+            <div class="card">
+                <h3>6.1 Scomposizione Temi Ministeriali ("Terminal Marittimo", "SportOvunque")</h3>
+                <p>I passi procedurali vincolanti per lo studente d'indirizzo comprendono:</p>
+                <ol>
+                    <li>Estrazione rigorosa del glossario dei dati dai vincoli testuali.</li>
+                    <li>Modellazione concettuale pulita priva di ridondanze strutturali.</li>
+                    <li>Derivazione logica normalizzata in 3FN.</li>
+                    <li>Ottimizzazione delle query SQL tramite indici fisici e clausole aggregative protette.</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3>6.2 Curriculum dello Studente e Orientamento (CV Day)</h3>
+                <p>La preparazione al colloquio transita dalla valorizzazione delle attività di <b>PCTO</b> ed esperienze laboratoriali integrate, argomentate dinamicamente in una prospettiva di competenze trasversali e consapevolezza del profilo professionale ICT.</p>
+            </div>
+        </div>
+
+        <div id="ita-calvino" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-ita-calvino" onchange="storeProgress('ita-calvino')">
+                    <label for="chk-ita-calvino"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: In che modo l'opera di Calvino mima un modello algoritmico informatico?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">Nell'approccio della letteratura combinatoria l'autore definisce una matrice fissa di elementi narrativi dotati di regole di sintassi fisse (es. le carte dei tarocchi o le strutture dei capitoli), la cui permutazione logica genera molteplici configurazioni testuali autonome.</div>
+                </div>
+            </div>
+
+            <h2>Italo Calvino: La Letteratura Combinatoria</h2>
+            <p class="subtitle">La destrutturazione strutturalista e la scomposizione geometrica della narrazione</p>
+
+            <div class="card">
+                <h3>Il Modello Strutturalista e l'Oulipo</h3>
+                <p>Influenzato dallo strutturalismo e dalla militanza nell'Oulipo, Italo Calvino rifiuta l'ispirazione lirica tradizionale, concependo l'atto della scrittura come un raffinato <b>meccanismo combinatorio</b> basato su matrici geometriche e variazioni algoritmiche finite di elementi segnici.</p>
+                
+                <div class="literary-box">
+                    "Il castello dei destini incrociati (1969): I personaggi privati della parola utilizzano i tarocchi come un database iconografico. Ogni carta muta il proprio valore semantico in base ai legami spaziali con le carte adiacenti, ricalcando l'esatta logica relazionale delle reti di dati."
+                </div>
+            </div>
+        </div>
+
+        <div id="ita-pirandello" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-ita-pirandello" onchange="storeProgress('ita-pirandello')">
+                    <label for="chk-ita-pirandello"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Cos'è il "sentimento del contrario" pirandelliano?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">È il nucleo fondante dell'Umorismo: a differenza dell'avvertimento del contrario (puro sconcerto comico davanti alla bizzarria), il sentimento interviene quando la riflessione profonda scompone la realtà, rivelando la sofferenza e il dramma celati sotto la maschera protettiva.</div>
+                </div>
+            </div>
+
+            <h2>Luigi Pirandello: Maschere e Viste</h2>
+            <p class="subtitle">La frantumazione dell'Io identitario e il relativismo conoscitivo</p>
+
+            <div class="card">
+                <h3>Il Relativismo e la Crisi dell'Identità</h3>
+                <p>Nelle opere di Pirandello l'identità solida dell'individuo collassa sotto il peso delle convenzioni sociali. L'uomo è intrappolato nella contrapposizione insanabile tra il flusso vitale magmatico interno (<b>la Vita</b>) e le maschere artificiali imposte dal contesto esterno (<b>la Forma</b>).</p>
+                
+                <div class="literary-box">
+                    "Uno, nessuno e centomila (1926): La scoperta casuale di un difetto fisico insignificante sgretola l'autopercezione del protagonista Vitangelo Moscarda. Egli scopre l'inconsistenza assoluta del proprio essere, frammentato in centomila percezioni parziali esterne, del tutto identiche a 'Viste SQL' eterogenee proiettate sulla medesima tabella di sistema."
+                </div>
+            </div>
+        </div>
+
+        <div id="ita-svevo" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-ita-svevo" onchange="storeProgress('ita-svevo')">
+                    <label for="chk-ita-svevo"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Perché Zeno Cosini è definito un narratore inattendibile?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">Perché le sue memorie scritte sono falsate da continui autoinganni consreziati, tesi a giustificare i propri fallimenti comportamentali e le proprie nevrosi croniche davanti al giudizio del proprio analista (il Dottor S.).</div>
+                </div>
+            </div>
+
+            <h2>Italo Svevo: Coscienza e Stati Persistenti</h2>
+            <p class="subtitle">La figura dell'Inetto e la destrutturazione del tempo cronologico linearizzato</p>
+
+            <div class="card">
+                <h3>L'Inettitudine e il Tempo Misto</h3>
+                <p>Svevo introduce il profilo dell'<b>Inetto</b>: l'intellettuale moderno paralizzato dall'ipertrofia psicologica, incapace di integrarsi nei ritmi produttivi industriali della borghesia triestina. Il tempo lineare svanisce in favore del <b>Tempo Misto</b> della coscienza.</p>
+                
+                <div class="literary-box">
+                    "La coscienza di Zeno (1923): L'autobiografia si articola per blocchi tematici interiori persistenti. Il passato riemerge costantemente per riscritture soggettive continue, offrendo una metafora letteraria della gestione degli 'Stati di Sessione' persistenti in un sistema ad interazioni asincrone."
+                </div>
+            </div>
+        </div>
+
+        <div id="eng-clil" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-eng-clil" onchange="storeProgress('eng-clil')">
+                    <label for="chk-eng-clil"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: Translate the term "Integrità Referenziale" and its implications.</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">"Referential Integrity". It implies that any foreign key value must strictly match an existing primary key value in the parent relation, preventing orphan records within the transactional filesystem.</div>
+                </div>
+            </div>
+
+            <h2>CLIL Module: Database Engineering & Technical Vocabulary</h2>
+            <p class="subtitle">Data architectures terminology and structural translations</p>
+
+            <div class="card">
+                <h3>Technical Glossary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>English Technical Term</th>
+                            <th>Italian Meaning</th>
+                            <th>Contextual Computing Application</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>ACID Properties</b></td>
+                            <td>Proprietà ACID</td>
+                            <td>Guarantees atomic execution and database consistency.</td>
+                        </tr>
+                        <tr>
+                            <td><b>NoSQL Systems</b></td>
+                            <td>Sistemi NoSQL</td>
+                            <td>Non-relational, highly distributed schemaless databases.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Foreign Key</b></td>
+                            <td>Chiave Esterna</td>
+                            <td>A constraint establishing structural constraints between tables.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="eng-joyce" class="uda-view">
+            <div class="widget-bar">
+                <div class="tracker-container">
+                    <input type="checkbox" id="chk-eng-joyce" onchange="storeProgress('eng-joyce')">
+                    <label for="chk-eng-joyce"><b>Segna come studiato</b></label>
+                </div>
+                <div class="flashcard-box">
+                    <div class="flashcard-q">❓ Flashcard: What does "Epiphany" represent in James Joyce's literature?</div>
+                    <button class="btn-action" onclick="toggleFlashcard(this)">Mostra Risposta</button>
+                    <div class="flashcard-a">An epiphany is a sudden, radical spiritual manifestation triggered by a casual, trivial gesture, sound, or object, which unexpectedly reveals the profound psychological truth of a character's trapped life condition.</div>
+                </div>
+            </div>
+
+            <h2>James Joyce: Asynchronous Streams</h2>
+            <p class="subtitle">The modernist revolution and the Stream of Consciousness technique</p>
+
+            <div class="card">
+                <h3>Modernism and Subversion of Time</h3>
+                <p>James Joyce tears apart the traditional Victorian structural timeline, mirroring the shift towards non-linear, <b>asynchronous execution flows</b>. The psychological interior monologue completely bypasses regular syntactic and grammatical boundaries.</p>
+                
+                <div class="literary-box" style="font-family: 'Georgia', serif;">
+                    "Eveline (from Dubliners, 1914): The protagonist is completely paralyzed by a psychological inability to escape her depressing life in Dublin. In 'Ulysses' (1922), the Stream of Consciousness reaches its peak, allowing thoughts, sensory reactions, and deep-seated memories to flow rawly and simultaneously, behaving just like an asynchronous data engine."
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // SPA ROUTING & SUBJECT UPDATER
+        function switchView(viewId, element) {
+            // Hide all views
+            const views = document.querySelectorAll('.uda-view');
+            views.forEach(v => v.classList.remove('active-view'));
+
+            // Show selected view
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.add('active-view');
+            }
+
+            // Manage active styles in sidebar
+            const items = document.querySelectorAll('.menu-item');
+            items.forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+
+            // Dynamic subject tag update
+            const parentGroup = element.closest('.subject-group');
+            const title = parentGroup.querySelector('.subject-title').innerText;
+            document.getElementById('current-subject-tag').innerText = title;
+
+            // Reset local flashcard states upon view change
+            const openAnswers = document.querySelectorAll('.flashcard-a');
+            openAnswers.forEach(ans => ans.classList.remove('reveal'));
+            const buttons = document.querySelectorAll('.btn-action');
+            buttons.forEach(btn => btn.innerText = "Mostra Risposta");
+            
+            // Scroll interface back to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // ACCORDION TOGGLE MECHANISM
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            content.classList.toggle('open');
+            const span = header.querySelector('span');
+            if (content.classList.contains('open')) {
+                span.innerText = "▲";
+            } else {
+                span.innerText = "▼";
+            }
+        }
+
+        // FLASHCARD REVEAL SYSTEM
+        function toggleFlashcard(button) {
+            const answerBox = button.nextElementSibling;
+            answerBox.classList.toggle('reveal');
+            if (answerBox.classList.contains('reveal')) {
+                button.innerText = "Nascondi Risposta";
+            } else {
+                button.innerText = "Mostra Risposta";
+            }
+        }
+
+        // PERSISTENCE LOCALSTORAGE MANAGER
+        function storeProgress(udaId) {
+            const checkbox = document.getElementById(`chk-${udaId}`);
+            if (checkbox) {
+                localStorage.setItem(`progress_2026_${udaId}`, checkbox.checked);
+            }
+        }
+
+        function restoreProgress() {
+            const keys = ['info-uda1', 'info-uda2', 'info-uda3', 'info-uda4', 'info-uda5', 'info-uda6', 'ita-calvino', 'ita-pirandello', 'ita-svevo', 'eng-clil', 'eng-joyce'];
+            keys.forEach(key => {
+                const state = localStorage.getItem(`progress_2026_${key}`);
+                const checkbox = document.getElementById(`chk-${key}`);
+                if (checkbox && state !== null) {
+                    checkbox.checked = (state === 'true');
+                }
+            });
+        }
+
+        // THEME TOGGLE STATE MANAGER
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('hub_theme_2026', newTheme);
+        }
+
+        function restoreTheme() {
+            const savedTheme = localStorage.getItem('hub_theme_2026');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+        }
+
+        // INITIALIZE APPLICATION
+        window.onload = function() {
+            restoreProgress();
+            restoreTheme();
+        };
+    </script>
+</body>
+</html>

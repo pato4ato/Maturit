@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maturità Hub 2026: Piattaforma Interdisciplinare Integrata</title>
+    <style>
+        /* --- DESIGN SYSTEM & VARIABILI CSS --- */
+        :root {
+            --bg-main: #f8fafc;
+            --bg-sidebar: #0f172a;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-sidebar: #94a3b8;
+            --text-sidebar-active: #ffffff;
+            --accent-primary: #3b82f6;
+            --accent-tech: #0d9488;
+            --accent-lit: #b89047;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            
+            /* Alert Boxes */
+            --box-concetto-bg: #f0fdf4;  --box-concetto-border: #bbf7d0;  --box-concetto-text: #166534;
+            --box-analisi-bg: #fef2f2;   --box-analisi-border: #fecaca;   --box-analisi-text: #991b1b;
+            --box-vocab-bg: #eff6ff;     --box-vocab-border: #bfdbfe;     --box-vocab-text: #1e40af;
+            --box-code-bg: #0f172a;      --box-code-text: #38bdf8;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-sidebar: #020617;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-sidebar: #64748b;
+            --text-sidebar-active: #f8fafc;
+            --border-color: #334155;
+            
+            /* Alert Boxes Dark */
+            --box-concetto-bg: #064e3b;  --box-concetto-border: #047857;  --box-concetto-text: #a7f3d0;
+            --box-analisi-bg: #7f1d1d;   --box-analisi-border: #b91c1c;   --box-analisi-text: #fecaca;
+            --box-vocab-bg: #1e3a8a;     --box-vocab-border: #1d4ed8;     --box-vocab-text: #bfdbfe;
+            --box-code-bg: #020617;      --box-code-text: #38bdf8;
+        }
+
+        /* --- layout GENERALE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- SIDEBAR NAV --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 24px;
+            box-shadow: 4px 0 20px rgb(0 0 0 / 0.15);
+        }
+
+        .sidebar-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-sidebar-active);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .nav-item button {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text-sidebar);
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item button:hover, .nav-item.active button {
+            background-color: rgb(255 255 255 / 0.08);
+            color: var(--text-sidebar-active);
+        }
+
+        .nav-item.active button {
+            border-left: 4px solid var(--accent-primary);
+            background-color: rgb(255 255 255 / 0.1);
+        }
+
+        /* --- GLOBAL PROGRESS BAR & THEME TOGGLE --- */
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgb(255 255 255 / 0.1);
+        }
+
+        .progress-container {
+            margin-bottom: 16px;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            color: var(--text-sidebar);
+        }
+
+        .progress-bar-bg {
+            background-color: rgb(255 255 255 / 0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-tech), var(--accent-primary));
+            transition: width 0.4s ease;
+        }
+
+        .theme-btn {
+            width: 100%;
+            padding: 10px;
+            background: rgb(255 255 255 / 0.05);
+            border: 1px solid rgb(255 255 255 / 0.1);
+            color: var(--text-sidebar-active);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .theme-btn:hover {
+            background: rgb(255 255 255 / 0.1);
+        }
+
+        /* --- MAIN CONTENT WINDOW --- */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        /* --- CONTROLLO VISIBILITÀ DELLE SCHEDE --- */
+        .app-view {
+            display: none;
+            animation: fadeIn 0.35s ease-in-out forwards;
+        }
+
+        .app-view.active-view {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ELEMENTI INTERNI AI CONTENUTI --- */
+        .page-header {
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            line-height: 1.7;
+            color: var(--text-main);
+        }
+
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* --- BOX ANCHOR / ANNOTAZIONI --- */
+        .box {
+            padding: 16px;
+            border-left: 4px solid;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+
+        .box-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .box-concetto { background-color: var(--box-concetto-bg); border-color: var(--box-concetto-border); color: var(--box-concetto-text); }
+        .box-analisi { background-color: var(--box-analisi-bg); border-color: var(--box-analisi-border); color: var(--box-analisi-text); }
+        .box-vocab { background-color: var(--box-vocab-bg); border-color: var(--box-vocab-border); color: var(--box-vocab-text); }
+
+        /* --- CODICE SORGENTE --- */
+        pre {
+            background-color: var(--box-code-bg);
+            color: var(--box-code-text);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            margin: 16px 0;
+            box-shadow: inset 0 2px 8px rgb(0 0 0 / 0.2);
+        }
+
+        .inline-code {
+            background-color: var(--border-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* --- CHECKLIST DEI PROGRESSI --- */
+        .checklist-group {
+            background: var(--bg-main);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-top: 16px;
+        }
+
+        .checklist-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 3px;
+            cursor: pointer;
+            accent-color: var(--accent-tech);
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .checklist-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        /* --- NAVIGAZIONE IN INFERIORE DELLE SCHEDE --- */
+        .bottom-nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-nav {
+            padding: 12px 24px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-nav:hover {
+            background-color: var(--border-color);
+        }
+
+        /* --- MOBILE TOPOBAR CONTROLS --- */
+        .mobile-header {
+            display: none;
+            background-color: var(--bg-sidebar);
+            color: var(--text-sidebar-active);
+            padding: 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 110;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- RESPONSIVE LAYOUT RESPONSIVITÀ --- */
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+                padding-top: 60px;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 280px;
+                top: 60px;
+                bottom: 0;
+                box-shadow: 5px 0 15px rgb(0 0 0 / 0.1);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            .mobile-header {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <div class="sidebar-brand">🎓 Maturità Hub 2026</div>
+        <button class="menu-toggle" id="menuToggleBtn">☰</button>
+    </div>
+
+    <nav class="sidebar" id="appSidebar">
+        <div class="sidebar-brand">🎓 Maturità Hub</div>
+        <div class="sidebar-subtitle">Esame di Stato 2026</div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item active" data-target="italiano"><button>🇮🇹 1. Italiano</button></li>
+            <li class="nav-item" data-target="inglese"><button>🇬🇧 2. Inglese (CLIL)</button></li>
+            <li class="nav-item" data-target="informatica"><button>💻 3. Informatica</button></li>
+            <li class="nav-item" data-target="sistemi"><button>🌐 4. Sistemi e Reti</button></li>
+            <li class="nav-item" data-target="trasversale"><button>🔗 5. Collegamenti Orale</button></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="progress-container">
+                <div class="progress-text">
+                    <span>Avanzamento Ripasso</span>
+                    <span id="globalProgressPercent">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="globalProgressBar"></div>
+                </div>
+            </div>
+            <button class="theme-btn" id="themeToggleBtn">🌙 Cambia Tema</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+
+        <section id="italiano" class="app-view active-view">
+            <div class="page-header">
+                <h1 class="page-title">Lingua e Letteratura Italiana</h1>
+                <p class="page-subtitle">Il Novecento, la scomposizione dell'Io e l'analisi del territorio</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Il Trittico della Modernità e della Crisi</div>
+                <p>Il programma affronta la frattura epistemologica di inizio Novecento, analizzando come la letteratura rifletta la perdita di certezze dell'uomo contemporaneo di fronte allo sviluppo tecnologico e industriale.</p>
+                
+                <div class="box box-analisi">
+                    <div class="box-title">Luigi Pirandello: La Scomposizione dell'Identità</div>
+                    L'identità si frammenta in una molteplicità di forme dettate dalle convenzioni sociali. L'individuo indossa "maschere" nude nel tentativo di adattarsi alla macchina sociale, arrivando alla conclusione paradossale di essere <i>Uno, Nessuno e Centomila</i>. Il contrasto insanabile tra Vita (flusso continuo) e Forma (gabbia cristallizzata) sfocia nell'umorismo come scomposizione analitica della realtà.
+                </div>
+
+                <div class="box box-analisi">
+                    <div class="box-title">Italo Svevo: La Coscienza e la Nevrosi dell'Inetto</div>
+                    Con <i>La Coscienza di Zeno</i>, il baricentro si sposta sulla psicoanalisi freudiana. L'inetto sveviano non è più un vinto tragico, ma un soggetto caratterizzato da una malattia costituzionale che si rivela, in definitiva, una paradossale forma di disponibilità e apertura verso il divenire, a differenza dei "sani" cristallizzati nelle loro certezze borghesi.
+                </div>
+
+                <div class="box box-analisi">
+                    <div class="box-title">Italo Calvino: La Complessità Combinatoria</div>
+                    Dalla destrutturazione psicologica si passa alla ricostruzione logica con la letteratura combinatoria. Calvino esplora modelli strutturali complessi, concependo la narrazione come una macchina algoritmica di combinazioni geometriche in grado di mappare il "caos-cosmo" del mondo reale.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Metacognizione e Relazione sul Territorio</div>
+                <h3>Autobiografie Cognitive</h3>
+                <p>Strumenti di analisi riflessiva in cui lo studente esamina criticamente i propri processi di apprendimento, isolando i punti di forza metodologici e le lacune operative per costruire una solida consapevolezza personale.</p>
+                
+                <h3>Studio sul Campo: Il Bunker Soratte</h3>
+                <p>Un'imponente opera di ingegneria militare e documentazione storica situata a Sant'Oreste (Roma). Nato come rifugio antiaereo per i vertici dell'esercito italiano nella Seconda Guerra Mondiale, divenne quartier generale delle truppe tedesche sotto Kesselring e, successivamente, riconvertito in bunker anti-atomico segreto durante gli anni della Guerra Fredda. Rappresenta un esempio perfetto di architettura strategica e memoria materiale del Novecento.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Stato Ripasso UDA (Italiano)</div>
+                <div class="checklist-group">
+                    <div class="checklist-title">Seleziona gli argomenti completati:</div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-ita-1" class="progress-chk">
+                        <label for="chk-ita-1"><b>UDA ITA-01:</b> Luigi Pirandello, il contrasto Vita-Forma e il saggio sull'Umorismo.</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-ita-2" class="progress-chk">
+                        <label for="chk-ita-2"><b>UDA ITA-02:</b> Italo Svevo, la nevrosi e la decostruzione della narrazione nella Coscienza di Zeno.</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-ita-3" class="progress-chk">
+                        <label for="chk-ita-3"><b>UDA ITA-03:</b> Italo Calvino, il modello della letteratura combinatoria e delle strutture geometriche.</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-ita-4" class="progress-chk">
+                        <label for="chk-ita-4"><b>UDA ITA-04:</b> Scrittura documentaria: Relazione tecnica di analisi sul Bunker Soratte.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav-buttons">
+                <span></span>
+                <button class="btn-nav next-tab" data-next="inglese">Avanti: Inglese ➡️</button>
+            </div>
+        </section>
+
+
+        <section id="inglese" class="app-view">
+            <div class="page-header">
+                <h1 class="page-title">Lingua e Letteratura Inglese (CLIL)</h1>
+                <p class="page-subtitle">Database Management Systems and Modern Literary Introspection</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Technical CLIL: Database Systems Architecture</div>
+                <p>A <b>Database Management System (DBMS)</b> is software designed to store, retrieve, and manage data systematically while ensuring security, data integrity, and concurrent access.</p>
+                
+                <div class="box box-vocab">
+                    <div class="box-title">Key Technical Vocabulary</div>
+                    <ul>
+                        <li><b>Data Redundancy:</b> The duplication of data across files, which is actively minimized using data normalization techniques.</li>
+                        <li><b>Data Integrity:</b> Ensuring accuracy, consistency, and reliability through explicit validation constraints (e.g., Primary Keys, Foreign Keys).</li>
+                        <li><b>Concurrency Control:</b> Managing simultaneous transactions safely to prevent data corruption or inconsistent states.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Literary Context: James Joyce & The Modernist Revolution</div>
+                <p>Parallel to the dissolution of form in Italian literature, Anglo-Irish Modernism abandons chronological narrative structures to explore the human psyche.</p>
+                
+                <div class="box box-analisi">
+                    <div class="box-title">James Joyce: Stream of Consciousness</div>
+                    In works like <i>Dubliners</i> and <i>Ulysses</i>, Joyce shifts focus from external reality to internal thoughts. The <b>Stream of Consciousness</b> technique captures the chaotic, unedited flow of memories, perceptions, and associations directly from the character's mind, utilizing interior monologue without conventional punctuation constraints.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Stato Ripasso UDA (Inglese)</div>
+                <div class="checklist-group">
+                    <div class="checklist-title">Seleziona gli argomenti completati:</div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-eng-1" class="progress-chk">
+                        <label for="chk-eng-1"><b>UDA ENG-01:</b> DBMS Core Paradigms, data independence, and constraint definitions.</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-eng-2" class="progress-chk">
+                        <label for="chk-eng-2"><b>UDA ENG-02:</b> Relational Algebra Foundations: Structured Query Language commands mapping.</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-eng-3" class="progress-chk">
+                        <label for="chk-eng-3"><b>UDA ENG-03:</b> James Joyce: Epiphanies in "Dubliners" and psychological introspection.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav-buttons">
+                <button class="btn-nav prev-tab" data-prev="italiano">⬅️ Indietro: Italiano</button>
+                <button class="btn-nav next-tab" data-next="informatica">Avanti: Informatica ➡️</button>
+            </div>
+        </section>
+
+
+        <section id="informatica" class="app-view">
+            <div class="page-header">
+                <h1 class="page-title">Informatica</h1>
+                <p class="page-subtitle">Progettazione dei database, sicurezza delle transazioni e sviluppo server-side</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Il Ciclo di Sviluppo di una Base Dati</div>
+                <p>La creazione di un database professionale si articola in quattro fasi sequenziali e rigorose:</p>
+                <ol>
+                    <li><b>Analisi dei Requisiti:</b> Raccolta delle specifiche dal testo della traccia e formalizzazione del glossario delle entry logiche.</li>
+                    <li><b>Progettazione Concettuale (Schema E/R):</b> Traduzione delle specifiche in un diagramma di entità e relazioni, isolando attributi, identificatori principali e cardinalità.</li>
+                    <li><b>Progettazione Logica (Schema Relazionale):</b> Applicazione delle regole di derivazione per mappare le entità in tabelle, gestendo le chiavi esterne e i vincoli referenziali (<span class="inline-code">ON UPDATE CASCADE</span>, <span class="inline-code">ON DELETE RESTRICT</span>).</li>
+                    <li><b>Progettazione Fisica ed Query SQL:</b> Implementazione effettiva sui motori DBMS (es. MySQL) tramite istruzioni DDL e DML.</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Sviluppo Backend Sicuro (PHP/PDO)</div>
+                <p>La protezione dei dati lato server richiede un contrasto proattivo alle vulnerabilità note, in particolare la <b>SQL Injection</b>.</p>
+                <div class="box box-concetto">
+                    <div class="box-title">Best Practice: Prepared Statements</div>
+                    L'uso dell'estensione PDO con le interrogazioni preparate separa rigidamente la struttura logica del comando SQL dai dati inseriti dall'utente. I parametri utente vengono trattati come stringhe letterali isolate, neutralizzando qualsiasi tentativo di scomposizione o alterazione del comando originale.
+                </div>
+                <pre>
+// Esempio prototipale di autenticazione sicura tramite PDO
+$stmt = $pdo->prepare('SELECT id_utente, password_hash FROM utenti WHERE email = :email');
+$stmt->execute(['email' => $userInputEmail]);
+$user = $stmt->fetch();
+
+if ($user && password_verify($userInputPassword, $user['password_hash'])) {
+    // Sessione avviata in sicurezza
+}</pre>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Stato Ripasso UDA (Informatica)</div>
+                <div class="checklist-group">
+                    <div class="checklist-title">Seleziona gli argomenti completati:</div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-info-1" class="progress-chk">
+                        <label for="chk-info-1"><b>UDA INF-01:</b> Progettazione Concettuale ed evoluzione nel Modello Entità-Relazione.</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-info-2" class="progress-chk">
+                        <label for="chk-info-2"><b>UDA INF-02:</b> Regole di derivazione logica e normalizzazione delle tabelle (1NF, 2NF, 3NF).</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-info-3" class="progress-chk">
+                        <label for="chk-info-3"><b>UDA INF-03:</b> Interrogazioni SQL complesse (Subquery, Inner/Left Join, raggruppamenti GROUP BY).</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-info-4" class="progress-chk">
+                        <label for="chk-info-4"><b>UDA INF-04:</b> Programmazione PHP/PDO orientata agli oggetti e costrutti per le transazioni atomiche.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav-buttons">
+                <button class="btn-nav prev-tab" data-prev="inglese">⬅️ Indietro: Inglese</button>
+                <button class="btn-nav next-tab" data-next="sistemi">Avanti: Sistemi e Reti ➡️</button>
+            </div>
+        </section>
+
+
+        <section id="sistemi" class="app-view">
+            <div class="page-header">
+                <h1 class="page-title">Sistemi e Reti</h1>
+                <p class="page-subtitle">Infrastrutture di rete, audit di sicurezza e tracciamento delle anomalie</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Infrastrutture e Cybersecurity</div>
+                <p>Nello sviluppo di architetture aziendali complesse (come il caso di studio del <i>"Terminal Marittimo"</i>), la sicurezza e l'isolamento dei segmenti logici di rete sono prioritari.</p>
+                <ul>
+                    <li><b>VLAN (Virtual LAN):</b> Segmentazione dello strato di collegamento (Layer 2) per isolare il traffico dati dei dipendenti da quello dei terminali di pubblica utilità.</li>
+                    <li><b>DMZ (Demilitarized Zone):</b> Sotto-rete isolata esposta all'esterno che ospita i server pubblici (Web, Mail), impedendo che una loro eventuale compromissione si estenda alla rete LAN interna.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Monitoraggio e Audit Avanzato via SQL</div>
+                <p>L'amministratore di sistema si occupa del tracciamento degli accessi analizzando i file di log per identificare anomalie sintomatiche di attacchi informatici (es. attacchi a dizionario o brute force).</p>
+                
+                <div class="box box-analisi">
+                    <div class="box-title">Query di Analisi Forense: Tracciamento Brute Force</div>
+                    La seguente query rileva gli utenti che hanno subito più di 5 tentativi di autenticazione falliti negli ultimi 30 giorni, isolando l'ultimo timestamp utile per facilitare il blocco temporaneo dell'indirizzo IP sorgente.
+                </div>
+                <pre>
+SELECT 
+    u.id_utente, 
+    u.username, 
+    COUNT(l.id_log) AS tentativi_falliti, 
+    MAX(l.data_evento) AS ultimo_attacco
+FROM utenti u
+INNER JOIN log_accessi l ON u.id_utente = l.fk_utente
+WHERE l.stato_autenticazione = 'FAILED' 
+  AND l.data_evento >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+GROUP BY u.id_utente, u.username
+HAVING COUNT(l.id_log) > 5
+ORDER BY tentativi_falliti DESC;</pre>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Stato Ripasso UDA (Sistemi)</div>
+                <div class="checklist-group">
+                    <div class="checklist-title">Seleziona gli argomenti completati:</div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-sis-1" class="progress-chk">
+                        <label for="chk-sis-1"><b>UDA SIS-01:</b> Architetture di rete e modelli gerarchici di routing (OSPF, BGP).</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-sis-2" class="progress-chk">
+                        <label for="chk-sis-2"><b>UDA SIS-02:</b> Dispositivi di sicurezza: Configurazione di Firewall, DMZ e sistemi IPS/IDS.</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-sis-3" class="progress-chk">
+                        <label for="chk-sis-3"><b>UDA SIS-03:</b> Crittografia simmetrica/asimmetrica e protocolli di trasporto sicuro (HTTPS, SSH, VPN).</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="chk-sis-4" class="progress-chk">
+                        <label for="chk-sis-4"><b>UDA SIS-04:</b> Log auditing, monitoraggio proattivo delle violazioni di sistema.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav-buttons">
+                <button class="btn-nav prev-tab" data-prev="informatica">⬅️ Indietro: Informatica</button>
+                <button class="btn-nav next-tab" data-next="trasversale">Avanti: Collegamenti Orale ➡️</button>
+            </div>
+        </section>
+
+
+        <section id="trasversale" class="app-view">
+            <div class="page-header">
+                <h1 class="page-title">Collegamenti Trasversali ed Argomenti Comuni</h1>
+                <p class="page-subtitle">Integrazione dei saperi e percorsi concettuali strutturati per il Colloquio Orale</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Nodi Concettuali Chiave (Mappa Logica d'Esame)</div>
+                <p>Durante il colloquio, la capacità di muoversi agilmente tra competenze scientifiche e riflessioni umanistiche costituisce l'elemento cardine della valutazione tecnica e della maturità espositiva.</p>
+                
+                <div class="box box-concetto" style="border-left-color: var(--accent-lit);">
+                    <div class="box-title" style="color: var(--accent-lit); font-size: 1.1rem;">NODO 1: La Frammentazione della Realtà e della Persona</div>
+                    <p style="margin-top: 8px;"><b>Italiano & Inglese:</b> La crisi dell'identità si manifesta in letteratura attraverso la rottura delle strutture narrative rigide. In <b>Pirandello</b> l'identità si frantuma in maschere imposte dall'esterno (<i>Uno, nessuno e centomila</i>); in <b>Svevo</b> la psiche è scomposta ed analizzata attraverso la lente della nevrosi. Nel contesto anglosassone, <b>James Joyce</b> formalizza questa frammentazione interiore applicando lo <i>Stream of Consciousness</i>.</p>
+                    <p><b>Aggancio Tecnico:</b> Questa scomposizione specchia la necessità informatica di atomizzare, catalogare e strutturare i dati grezzi del mondo reale all'interno di un **DBMS**, controllandone l'integrità e la sicurezza contro le minacce esterne che mirano a violare o manipolare l'identità digitale degli utenti.</p>
+                </div>
+
+                <div class="box box-concetto" style="border-left-color: var(--accent-tech);">
+                    <div class="box-title" style="color: var(--accent-tech); font-size: 1.1rem;">NODO 2: Organizzazione del Caos e Modelli Strutturali</div>
+                    <p style="margin-top: 8px;"><b>Italiano (Italo Calvino):</b> Con il modello della letteratura combinatoria, Calvino concepisce il romanzo come una macchina logica rigorosa capace di dominare la complessità caotica del mondo attraverso combinazioni matematiche geometriche e ordinate.</p>
+                    <p><b>Informatica (Progettazione Database):</b> È l'esatto equivalente della **Progettazione Concettuale e Logica (Schema E/R e Relazionale)**. Il progettista parte da una traccia caotica e destrutturata (i requisiti utente) e applica regole matematiche rigide (Forme Normali) per incanalare e organizzare la complessità in tabelle pulite ed efficienti prive di ridondanza.</p>
+                </div>
+
+                <div class="box box-concetto" style="border-left-color: var(--accent-primary);">
+                    <div class="box-title" style="color: var(--accent-primary); font-size: 1.1rem;">NODO 3: Memoria Strutturata, Log di Audit e Tracce Storiche</div>
+                    <p style="margin-top: 8px;"><b>Italiano (Analisi del Territorio):</b> Lo studio documentale e archivistico del **Bunker Soratte** mostra come la storia materiale conservi memoria delle grandi tensioni geopolitiche del Novecento, fungendo da "registro" monumentale degli eventi bellici e della Guerra Fredda.</p>
+                    <p><b>Sistemi e Reti (Log Auditing):</b> Nel mondo moderno, la memoria storica dell'infrastruttura di rete si riflette nei **File di Log di Accesso**. Tramite interrogazioni SQL forensi mirate, l'amministratore interroga il passato del sistema per rilevare attacchi brute-force o tentativi di intrusione, garantendo la resilienza cibernetica della struttura.</p>
+                </div>
+
+                <div class="box box-concetto" style="border-left-color: #78350f;">
+                    <div class="box-title" style="color: #78350f; font-size: 1.1rem;">NODO 4: Il Ruolo del Professionista (PCTO & Curriculum dello Studente)</div>
+                    <p style="margin-top: 8px;"><b>Informatica & Sistemi (Terminal Marittimo):</b> La risoluzione di un tema d'esame complesso simula una reale commessa aziendale, integrando la progettazione software e l'instradamento sicuro in rete (VLAN, DMZ).</p>
+                    <p><b>Competenze Trasversali (CV Day):</b> La discussione in sede d'esame riproduce le dinamiche di un colloquio di selezione in Aula Magna. Qui l'esposizione tecnica in lingua italiana deve associarsi alla padronanza terminologica della lingua inglese veicolare (**CLIL**), valorizzando le Soft Skills acquisite durante i percorsi di PCTO.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Consigli Strategici per l'Esposizione Orale</div>
+                <ol>
+                    <li><b>Partenza dalla Traccia:</b> Inizia evidenziando l'architettura tecnica del problema di Informatica o Sistemi (es. Sicurezza o Gestione Dati).</li>
+                    <li><b>Passaggio Interno:</b> Evidenzia come la necessità di gestire i vincoli e le eccezioni si colleghi alla ricerca di ordine formale in Calvino o alla gestione delle regole sociali (le maschere) in Pirandello.</li>
+                    <li><b>Dimensione Internazionale:</b> Concludi l'estensione del concetto di introspezione della coscienza collegando Svevo a Joyce in lingua inglese, dimostrando fluidità comunicativa senza interruzioni artificiali.</li>
+                </ol>
+            </div>
+
+            <div class="bottom-nav-buttons">
+                <button class="btn-nav prev-tab" data-prev="sistemi">⬅️ Indietro: Sistemi e Reti</button>
+                <span></span>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. GESTIONE DELLA NAVIGAZIONE (SINGLE PAGE APPLICATION)
+            const navItems = document.querySelectorAll(".nav-menu .nav-item");
+            const views = document.querySelectorAll(".app-view");
+            const sidebar = document.getElementById("appSidebar");
+            const menuToggleBtn = document.getElementById("menuToggleBtn");
+
+            const switchTab = (targetId) => {
+                // Rimuovi classe attiva da nav e viste
+                navItems.forEach(item => {
+                    if(item.getAttribute("data-target") === targetId) {
+                        item.classList.add("active");
+                    } else {
+                        item.classList.remove("active");
+                    }
+                });
+
+                views.forEach(view => {
+                    if(view.id === targetId) {
+                        view.classList.add("active-view");
+                    } else {
+                        view.classList.remove("active-view");
+                    }
+                });
+
+                // Scroll in alto automatico
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Chiudi sidebar su mobile se aperta
+                sidebar.classList.remove("open");
+            };
+
+            // Eventi click menu laterale
+            navItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    const target = item.getAttribute("data-target");
+                    switchTab(target);
+                });
+            });
+
+            // Pulsanti di navigazione inferiore (Avanti / Indietro)
+            document.querySelectorAll(".next-tab").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    switchTab(btn.getAttribute("data-next"));
+                });
+            });
+
+            document.querySelectorAll(".prev-tab").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    switchTab(btn.getAttribute("data-prev"));
+                });
+            });
+
+            // Toggle Menu Mobile
+            menuToggleBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+            });
+
+
+            // 2. MOTORE DELLE CHECKLIST E CALCOLO AVANZAMENTO GLOBALE
+            const checkboxes = document.querySelectorAll(".progress-chk");
+            const globalProgressBar = document.getElementById("globalProgressBar");
+            const globalProgressPercent = document.getElementById("globalProgressPercent");
+
+            const updateGlobalProgress = () => {
+                const total = checkboxes.length;
+                if (total === 0) return;
+
+                let checkedCount = 0;
+                checkboxes.forEach(chk => {
+                    if (chk.checked) checkedCount++;
+                });
+
+                const percentage = Math.round((checkedCount / total) * 100);
+                globalProgressBar.style.width = percentage + "%";
+                globalProgressPercent.textContent = percentage + "%";
+            };
+
+            // Listener per il salvataggio dello stato
+            checkboxes.forEach(chk => {
+                chk.addEventListener("change", () => {
+                    localStorage.setItem(`mathub_2026_${chk.id}`, chk.checked);
+                    updateGlobalProgress();
+                });
+            });
+
+            // Ripristino dello stato salvato delle checklist
+            const restoreChecklistState = () => {
+                checkboxes.forEach(chk => {
+                    const savedState = localStorage.getItem(`mathub_2026_${chk.id}`);
+                    if (savedState !== null) {
+                        chk.checked = (savedState === "true");
+                    }
+                });
+                updateGlobalProgress();
+            };
+
+
+            // 3. MOTORE DI THEMING (LIGHT / DARK MODE)
+            const themeToggleBtn = document.getElementById("themeToggleBtn");
+            const htmlElement = document.documentElement;
+
+            const initTheme = () => {
+                const savedTheme = localStorage.getItem("mathub_theme") || "light";
+                htmlElement.setAttribute("data-theme", savedTheme);
+                updateThemeButtonText(savedTheme);
+            };
+
+            const updateThemeButtonText = (theme) => {
+                themeToggleBtn.textContent = theme === "dark" ? "☀️ Modalità Chiara" : "🌙 Modalità Scura";
+            };
+
+            themeToggleBtn.addEventListener("click", () => {
+                const currentTheme = htmlElement.getAttribute("data-theme");
+                const newTheme = currentTheme === "dark" ? "light" : "dark";
+                
+                htmlElement.setAttribute("data-theme", newTheme);
+                localStorage.setItem("mathub_theme", newTheme);
+                updateThemeButtonText(newTheme);
+            });
+
+
+            // Esecuzione delle configurazioni all'avvio
+            restoreChecklistState();
+            initTheme();
+        });
+    </script>
+</body>
+</html>

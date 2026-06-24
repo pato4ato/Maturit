@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdTech Hub: Hub di Ripasso Esame di Stato 2026</title>
+    <style>
+        /* --- CONFIGURAZIONE VARIABILI E PALETTE (LIGHT/DARK) --- */
+        :root {
+            --bg-app: #fcfbf9;
+            --bg-sidebar: #0f172a;
+            --sidebar-text: #94a3b8;
+            --sidebar-text-active: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --accent-tech: #0d9488;
+            --accent-tech-hover: #0f766e;
+            --accent-lit: #78350f;
+            --border-color: #cbd5e1;
+            --code-bg: #1e293b;
+            --code-text: #38bdf8;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-app: #0f172a;
+            --bg-sidebar: #020617;
+            --sidebar-text: #64748b;
+            --sidebar-text-active: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: #1e293b;
+            --accent-tech: #2dd4bf;
+            --accent-tech-hover: #14b8a6;
+            --accent-lit: #fbbf24;
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+        }
+
+        /* --- RESET E LAYOUT STRUTTURALE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- SIDEBAR FISSA (FLEXBOX/GRID) --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-sidebar);
+            color: var(--sidebar-text);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--accent-tech);
+            padding-bottom: 10px;
+        }
+
+        .macro-section {
+            margin-bottom: 20px;
+        }
+
+        .macro-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-tech);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            margin-bottom: 5px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .menu-link:hover, .menu-link.active {
+            background-color: rgba(13, 148, 136, 0.15);
+            color: var(--sidebar-text-active);
+            font-weight: 600;
+        }
+
+        /* --- AREA CONTENUTO PRINCIPALE --- */
+        .main-content {
+            margin-left: 280px;
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 1200px;
+            width: calc(100% - 280px);
+        }
+
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        /* --- INTERRUTTORE TEMA (TOGGLE) --- */
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--accent-tech);
+            color: var(--accent-tech);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--accent-tech);
+            color: #ffffff;
+        }
+
+        /* --- STRUTTURA DELLE UDA (CONTENT CARDS) --- */
+        .uda-panel {
+            display: none;
+        }
+
+        .uda-panel.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .uda-header {
+            margin-bottom: 25px;
+        }
+
+        .uda-title {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        /* --- TRACKING COMPLETAMENTO --- */
+        .completion-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            width: fit-content;
+            border: 1px solid var(--border-color);
+        }
+
+        .completion-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent-tech);
+        }
+
+        /* --- INTERFACCIA FLASHCARD / QUICK QUIZ --- */
+        .quiz-container {
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(15, 23, 42, 0.05));
+            border: 1px dashed var(--accent-tech);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .quiz-btn {
+            background-color: var(--accent-tech);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .quiz-btn:hover {
+            background-color: var(--accent-tech-hover);
+        }
+
+        .quiz-box {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .quiz-question {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .answer-btn {
+            background-color: transparent;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .quiz-answer {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--accent-tech);
+            display: none;
+            font-style: italic;
+        }
+
+        /* --- ACCORDION SYSTEM (FISARMONICA DISCIPLINE) --- */
+        .accordion-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 18px 24px;
+            background-color: var(--card-bg);
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .accordion-header.tech { border-left: 6px solid var(--accent-tech); color: var(--accent-tech); }
+        .accordion-header.lit { border-left: 6px solid var(--accent-lit); color: var(--accent-lit); }
+        .accordion-header.eng { border-left: 6px solid #2563eb; color: #2563eb; }
+
+        .accordion-content {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-item.open .accordion-content {
+            padding: 24px;
+            max-height: 2000px; /* Altezza massima sufficiente per contenere il testo esteso */
+            overflow-y: auto;
+        }
+
+        /* --- REGOLE TIPOGRAFICHE ENTRO I CONTENUTI --- */
+        .content-block p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        .content-block ul, .content-block ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content-block li {
+            margin-bottom: 6px;
+        }
+
+        .literary-text {
+            font-family: Georgia, serif;
+            font-style: italic;
+            background-color: rgba(120, 53, 15, 0.05);
+            padding: 15px;
+            border-radius: 6px;
+            border-dash: 1px solid var(--accent-lit);
+            margin: 15px 0;
+        }
+
+        /* --- TABELLE E BLOCCHI DI CODICE --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            font-family: "Consolas", "Courier New", monospace;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            border-left: 4px solid var(--accent-tech);
+        }
+
+        code {
+            font-family: "Consolas", "Courier New", monospace;
+            background-color: rgba(13, 148, 136, 0.1);
+            color: var(--accent-tech);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border-color); }
+            .main-content { margin-left: 0; width: 100%; padding: 20px; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span>Maturità 2026</span>
+        </div>
+        
+        <div class="macro-section">
+            <div class="macro-title">Indice delle UdA</div>
+            <ul class="menu-list" id="sidebar-menu">
+                </ul>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-navbar">
+            <h2>Piattaforma di Studio Integrata</h2>
+            <button class="theme-toggle" id="theme-btn">Switch Theme</button>
+        </header>
+
+        <div id="uda-container">
+            </div>
+    </main>
+
+    <script>
+        // --- DATASET COMPLETO DEL PROGRAMMA INTEGRATO (9 UdA) ---
+        const programmaData = [
+            {
+                id: 1,
+                titolo: "UdA 1: Fondamenti delle Architetture di Rete",
+                quiz: [
+                    { q: "Qual è la differenza fondamentale tra TCP e UDP?", a: "TCP è orientato alla connessione e garantisce la consegna affidabile e ordinata dei pacchetti tramite riscontri (ACK). UDP è privo di connessione, non affidabile, ma ottimizzato per la massima velocità senza overhead." },
+                    { q: "Quali sono le quattro fasi sequenziali del protocollo DHCP?", a: "La sequenza DORA: Discover (broadcast del client), Offer (proposta del server), Request (richiesta del client), Acknowledge (conferma del server)." }
+                ],
+                informatica: `
+                    <h3>Infrastruttura e Livelli Protocollari</h3>
+                    <p>L'architettura di rete si fonda sulla scomposizione a livelli. Il modello <b>ISO/OSI</b> (7 livelli teorici) e lo stack <b>TCP/IP</b> (4 livelli pratici applicati) astraggono le operazioni di rete.</p>
+                    <table>
+                        <thead>
+                            <tr><th>Livello TCP/IP</th><th>PDU</th><th>Funzioni Chiave & Protocolli</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Applicazione</td><td>Dati</td><td>Interfaccia utente (HTTP, DNS, DHCP)</td></tr>
+                            <tr><td>Trasporto</td><td>Segmento</td><td>Process-to-process multiplexing (TCP, UDP). Gestione Porte e Socket.</td></tr>
+                            <tr><td>Internet</td><td>Pacchetto</td><td>Indirizzamento logico e routing (IP, ICMP)</td></tr>
+                            <tr><td>Accesso alla Rete</td><td>Frame/Bit</td><td>Indirizzamento fisico MAC ed emissione fisica sul mezzo</td></tr>
+                        </tbody>
+                    </table>
+                    <h3>NAT e PAT (Network/Port Address Translation)</h3>
+                    <p>Tecniche utilizzate per mappare indirizzi IP privati (non instradabili definiti dalla RFC 1918) in indirizzi pubblici globali sul router di frontiera, ovviando all'esaurimento dello spazio IPv4.</p>
+                `,
+                italiano: `
+                    <h3>Italo Calvino: La Rete Combinatoria della Realtà</h3>
+                    <p>Nelle opere di <b>Italo Calvino</b> come <i>Le città invisibili</i> (1972), lo spazio urbano si trasforma in una complessa struttura a nodi e flussi informativi. Calvino decostruisce la realtà geometricamente, interpretando il mondo come una grande architettura di rete in cui le relazioni umane e i destini si incrociano secondo precisi schemi logico-combinatori.</p>
+                `,
+                inglese: `
+                    <h3>Technical English: Core Networking Vocabulary</h3>
+                    <ul>
+                        <li><b>Socket:</b> The logical endpoint of a network bidirectional communication link, uniquely defined by combining an <code>IP Address</code> and a <code>Port Number</code>.</li>
+                        <li><b>Three-Way Handshake:</b> The TCP connection setup mechanism using <b>SYN</b>, <b>SYN-ACK</b>, and <b>ACK</b> flags to synchronize sequence numbers.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 2,
+                titolo: "UdA 2: Funzionalità e Caratteristiche dei Servizi di Rete",
+                quiz: [
+                    { q: "Qual è la differenza logica fondamentale tra Telnet e SSH?", a: "Telnet trasmette le credenziali e i comandi in chiaro sul canale (porta 23), esponendo a sniffing. SSH cifra simmetricamente e asimmetricamente l'intera sessione remota sulla porta 22." }
+                ],
+                informatica: `
+                    <h3>Architetture Software dell'Application Layer</h3>
+                    <p>I servizi software si dividono in due paradigmi principali: <b>Client-Server</b> (architettura asimmetrica centralizzata con server sempre in ascolto) e <b>Peer-to-Peer (P2P)</b> (nodi paritetici che agiscono simultaneamente da client e server).</p>
+                    <h3>Analisi dei Protocolli Applicativi</h3>
+                    <ul>
+                        <li><b>FTP (File Transfer Protocol):</b> Utilizza la porta 21 per i comandi e la porta 20 per il trasferimento dati (in modalità attiva o passiva).</li>
+                        <li><b>HTTP/HTTPS:</b> Modello stateless di richiesta/risposta. HTTPS incapsula la transazione dentro il protocollo crittografico TLS per garantire autenticazione e confidenzialità.</li>
+                        <li><b>Posta Elettronica:</b> SMTP (porta 25/587) per l'invio tra server (MTA). POP3 (porta 110, scarica localmente eliminando dal server) o IMAP4 (porta 143, mantiene i messaggi centralizzati e sincronizzati) per il recupero da client (MUA).</li>
+                        <li><b>IoT ed MQTT:</b> Protocollo di messaggistica ultraleggero basato sul pattern <i>Publish/Subscribe</i> mediato da un Broker centrale, ideale per l'Internet of Things.</li>
+                    </ul>
+                `,
+                italiano: `
+                    <h3>Luigi Pirandello: L'Alienazione Tecnologica e il Ruolo della Macchina</h3>
+                    <p>Nel romanzo <i>I quaderni di Serafino Gubbio operatore</i> (1925), Pirandello affronta criticamente l'automazione dei servizi e la meccanizzazione industriale. Serafino, ridotto ad essere una "mano che gira la manovella" di una cinepresa, sperimenta l'annullamento della spontaneità vitale. L'interfaccia tecnologica standardizza e aliena l'esperienza umana, riducendola a pura esecuzione procedurale.</p>
+                `,
+                inglese: `
+                    <h3>The Technological Shift in English Literature</h3>
+                    <p>The transition from manual systems to global technological frameworks is reflected in 20th-century literature. As automated application layers abstract raw computation, modern authors critique how technological dependence reshapes human interactions and language, transforming direct organic communication into mechanical transactions.</p>
+                `
+            },
+            {
+                id: 3,
+                titolo: "UdA 3: Virtual LAN (VLAN)",
+                quiz: [
+                    { q: "Cosa introduce lo standard IEEE 802.1Q per gestire le VLAN?", a: "Introduce un 'Tag' di 4 byte all'interno del frame Ethernet, contenente il campo VID (VLAN Identifier) a 12 bit per discriminare l'appartenenza logica del traffico sul trunk." }
+                ],
+                informatica: `
+                    <h3>Tecnologie di Livello 2 e Layer 3 Switching</h3>
+                    <p>Gli Switch managed di Livello 2 commutano i frame ispezionando la loro <i>MAC Address Table</i>. I moderni <b>Layer 3 Switch</b> combinano la velocità hardware ASIC degli switch L2 con le capacità di instradamento IP proprie dei router.</p>
+                    <h3>Architettura delle VLAN e Standard di Tagging 802.1Q</h3>
+                    <p>Una <b>VLAN</b> segmenta logicamente i domini di broadcast su una infrastruttura fisica comune, aumentando la sicurezza. Le porte si configurano in:</p>
+                    <ul>
+                        <li><b>Access Mode:</b> Collegamento di end-device. I frame transitano privi di modifiche strutturali.</li>
+                        <li><b>Trunk Mode:</b> Collegamento ad alta capacità inter-switch. Applica lo standard di tagging <b>IEEE 802.1Q</b> per incapsulare il codice VLAN (VID a 12 bit) nel frame.</li>
+                    </ul>
+                `,
+                italiano: `
+                    <h3>Pirandello: La Frammentazione dell'Io e la Scomposizione in Maschere</h3>
+                    <p>Il concetto ingegneristico di segmentazione logica delle VLAN trova un'analogia filosofica nel relativismo psicologico di Pirandello (<i>Uno, nessuno e centomila</i>). L'Io non è un dominio di broadcast monolitico, ma viene segmentato in molteplici <b>maschere</b> (sotto-interfacce) per adattarsi ai differenti contesti sociali, isolando flussi relazionali differenti e determinando l'incomunicabilità fondamentale dell'individuo.</p>
+                `,
+                inglese: `
+                    <h3>The Modernist Revolution: Fragmented Narratives</h3>
+                    <p>In Modernist literature (e.g., James Joyce and Virginia Woolf), characters' minds are structurally partitioned. Writers rejected linear plots to explore the <i>Stream of Consciousness</i>. Human identity is presented not as a single stream, but as segregated layers of consciousness that mirror the architectural isolation of network packets inside virtual domains.</p>
+                `
+            },
+            {
+                id: 4,
+                titolo: "UdA 4: Tecniche Crittografiche Applicate alla Sicurezza",
+                quiz: [
+                    { q: "Qual è il principio alla base della sicurezza dell'algoritmo asimmetrico RSA?", a: "La complessità computazionale intrinseca nella fattorizzazione in numeri primi di grandi interi n = p * q." }
+                ],
+                informatica: `
+                    <h3>I Requisiti della Sicurezza Informativa: CIA Triad</h3>
+                    <p>I cardini della sicurezza delle reti sono la <b>Riservatezza (Confidentiality)</b>, l'<b>Integrità (Integrity)</b> e la <b>Disponibilità (Availability)</b>, a cui si sommano autenticazione e non ripudio.</p>
+                    <h3>Sistemi Crittografici Simmetrici e Asimmetrici</h3>
+                    <ul>
+                        <li><b>Simmetrici:</b> Chiave condivisa segreta unica. Algoritmi rapidi come <b>AES</b> (sicuro) o <b>DES/3DES</b> (obsoleti/pesanti).</li>
+                        <li><b>Asimmetrici:</b> Coppia di chiavi (Pubblica per cifrare, Privata per decifrare). Algoritmo di riferimento: <b>RSA</b>.</li>
+                        <li><b>Crittografia Ibrida:</b> Utilizza l'algoritmo di <b>Diffie-Hellman</b> per scambiare in modo sicuro una chiave di sessione simmetrica temporanea, coniugando la sicurezza dell'asimmetrico con la velocità del simmetrico.</li>
+                    </ul>
+                    <h3>Firma Digitale e Certificati X.509</h3>
+                    <p>La firma si ottiene cifrando l'hash di un messaggio con la propria <i>chiave privata</i>. I certificati digitali emessi dalle <b>Certification Authority (CA)</b> legano univocamente una chiave pubblica alla reale identità del titolare.</p>
+                `,
+                italiano: `
+                    <h3>Italo Svevo: La Psicoanalisi come Crittanalisi dell'Inconscio</h3>
+                    <p>Ne <i>La coscienza di Zeno</i> (1923), Svevo struttura il romanzo come un ammasso di ricordi cifrati e atti mancati che nascondono le reali nevrosi di Zeno Cosini. Il percorso terapeutico guidato dal Dottor S. agisce come un processo di decodifica crittanalitica: analizzare il testo in chiaro delle memorie alterate del paziente per risalire alla chiave segreta del suo trauma rimosso.</p>
+                `,
+                inglese: `
+                    <h3>Alan Turing: Codebreaking and the Modern Break</h3>
+                    <p>During World War II, mathematician <b>Alan Turing</b> broke the German <i>Enigma</i> cipher machine at Bletchley Park using automated logic systems. Turing's work laid the foundations for modern computer science. This shift towards extreme logical processing matches the thematic breakdown of traditional humanism in post-war literature.</p>
+                `
+            },
+            {
+                id: 5,
+                titolo: "UdA 5: Tecniche di Filtraggio del Traffico (Firewall)",
+                quiz: [
+                    { q: "Qual è la differenza operativa tra un firewall Stateless e uno Stateful?", a: "Il firewall Stateless ispeziona i pacchetti uno alla volta in base a regole fisse (ACL). Lo Stateful Inspection traccia le sessioni attive in una tabella di stato, autorizzando il traffico di ritorno solo se generato dall'interno." }
+                ],
+                informatica: `
+                    <h3>Architettura dei Firewall e Sicurezza Perimetrale</h3>
+                    <p>Il firewall controlla i transiti di pacchetti tra domini a differente livello di fiducia. Si articola in filtri a pacchetto (Stateless/Stateful) e Application Gateway (Proxy Server).</p>
+                    <h3>Zone Demilitarizzate (DMZ) e liste ACL</h3>
+                    <p>La <b>DMZ</b> ospita i server pubblici isolandoli dalla LAN interna privata. Le architetture possono essere a <i>vicolo cieco</i> (Three-Legged, unico firewall a 3 schede) o a <i>cuscinetto</i> (due firewall in cascata). Le <b>ACL</b> implementano le regole di filtraggio:</p>
+                    <pre>
+! ACL Estesa Cisco IOS: Permette il traffico HTTPS verso il Web Server in DMZ
+Router(config)# access-list 110 permit tcp any host 192.168.3.10 eq 443
+Router(config)# access-list 110 deny ip any 192.168.1.0 0.0.0.255
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip access-group 110 in</pre>
+                `,
+                italiano: `
+                    <h3>Eugenio Montale: Il Muro e la Barriera dell'Esistenza</h3>
+                    <p>In <i>Meriggiare pallido e assorto</i> (da <i>Ossi di seppia</i>, 1925), Montale utilizza il correlativo oggettivo del "muro che ha in cima cocci aguzzi di bottiglia". Questo elemento architettonico agisce come una invalicabile lista di controllo degli accessi (ACL) esistenziale: una barriera perimetrale assoluta che nega il transito alla comprensione del segreto profondo della natura, isolando il poeta nel suo perimetro di sofferenza.</p>
+                `,
+                inglese: `
+                    <h3>George Orwell: Dystopian Boundaries and Surveillance</h3>
+                    <p>In George Orwell's <i>1984</i>, total containment and boundary controls represent totalitarian power. The Party implements psychological and behavioral firewalls via Big Brother. Surveillance systems block any unauthorized packet of free thought, monitoring data input/output through telescreens to maintain supreme state isolation.</p>
+                `
+            },
+            {
+                id: 6,
+                titolo: "UdA 6: Reti Private Virtuali (VPN)",
+                quiz: [
+                    { q: "Quali sono le due modalità operative della suite IPSec?", a: "Transport Mode (cifra solo il payload IP preservando l'header originale, usata end-to-end) e Tunnel Mode (cifra l'intero pacchetto originario incapsulandolo in un nuovo pacchetto IP, usata nelle VPN Site-to-Site)." }
+                ],
+                informatica: `
+                    <h3>Architettura e Modelli di VPN</h3>
+                    <p>Le <b>VPN (Virtual Private Network)</b> estendono una LAN aziendale su infrastruttura pubblica tramite un canale sicuro crittografato chiamato <b>Tunnel</b>. Si dividono in <i>Remote-Access</i> (per utenti mobili/smart working) e <i>Site-to-Site</i> (per interconnettere stabilmente sedi aziendali geograficamente separate).</p>
+                    <h3>Protocolli di Sicurezza: IPSec e SSL/TLS</h3>
+                    <p>La suite <b>IPSec</b> opera al Livello 3, sfruttando i protocolli <b>AH</b> (autenticazione/integrità) ed <b>ESP</b> (aggiunge la cifratura dei pacchetti). Le VPN basate su <b>SSL/TLS</b> operano a livello applicazione, sfruttando i browser web nativi per garantire accessi granulari senza installazione di client complessi.</p>
+                `,
+                italiano: `
+                    <h3>Giuseppe Ungaretti: Il Porto Sepolto come Canale Protetto</h3>
+                    <p>L'esigenza di creare un canale logico ermetico e intatto protetto dal disordine esterno trova riscontro nella poetica di <b>Giuseppe Ungaretti</b> ne <i>Il porto sepolto</i> (1916). Il porto rappresenta il nucleo sacro e inviolabile dell'interiorità del poeta, al riparo dalle devastazioni esterne della guerra di trincea. L'atto lirico incapsula la purezza della parola poetica difendendola dal caos della realtà storica.</p>
+                `,
+                inglese: `
+                    <h3>War Poets: Isolated but Secure Voices</h3>
+                    <p>The experience of World War I trench warfare isolated British soldiers from their homeland. Trench poetry served as an emotional and spiritual communication tunnel. Like a data encryption system, the hermetic use of language allowed poets to send raw, undistorted truths of human suffering back to civilization, safe from war propaganda.</p>
+                `
+            },
+            {
+                id: 7,
+                titolo: "UdA 7: Reti Wireless e Reti Cellulari",
+                quiz: [
+                    { q: "Qual è il protocollo crittografico introdotto dallo standard di sicurezza WPA3?", a: "Il protocollo SAE (Simultaneous Authentication of Equals), che sostituisce ilPSK classico neutralizzando attacchi offline a dizionario e garantendo Forward Secrecy." }
+                ],
+                informatica: `
+                    <h3>Architettura delle Reti Senza Fili</h3>
+                    <p>Le reti wireless si classificano per estensione: WPAN (Bluetooth), WLAN (Wi-Fi 802.11 composto da Wireless Terminal e Access Point organizzati in BSS o ESS), WMAN (WiMax) e WWAN (reti cellulari dal GSM fino al 5G ad altissima frequenza e bassissima latenza).</p>
+                    <h3>Sicurezza ed Autenticazione Wi-Fi</h3>
+                    <p>Evoluzione della riservatezza nel wireless: WEP (obsoleto, cifrario a flusso RC4 vulnerabile), WPA (patch con protocollo TKIP), WPA2 (robusto basato su crittografia simmetrica <b>AES/CCMP</b> ma vulnerabile all'attacco KRACK), <b>WPA3</b> (handshake moderno sicuro via <b>SAE</b>). In contesti aziendali, si implementa l'architettura centralizzata <b>AAA (Authentication, Authorization, Accounting)</b> basata su server <b>RADIUS</b>.</p>
+                `,
+                italiano: `
+                    <h3>Filippo Tommaso Marinetti: Il Manifesto del Futurismo e il Segnale Etereo</h3>
+                    <p>La propagazione wireless dei segnali, l'ubiquità dei terminali radiomobili e l'abbattimento delle barriere di spazio e tempo sono prefigurati dall'esaltazione tecnologica operata dal <b>Futurismo</b> di <b>Marinetti</b> (1909). Il Manifesto celebra la velocità pura, l'energia e la simultaneità delle comunicazioni globali. Le onde elettromagnetiche nello spazio aperto diventano il correlativo tecnologico del dinamismo universale teorizzato dalle avanguardie.</p>
+                `,
+                inglese: `
+                    <h3>Science Fiction and Ubiquitous Technology: Aldous Huxley</h3>
+                    <p>The elimination of wires and physical boundaries resonates with tech-driven sci-fi worlds. In Aldous Huxley's <i>Brave New World</i>, technological networks condition and control society ubiquitously. Wireless connectivity and electronic presence act as modern invisible webs that track individuals, removing offline spaces in the name of continuous operational status.</p>
+                `
+            },
+            {
+                id: 8,
+                titolo: "UdA 8: Virtualizzazione e Servizi Cloud",
+                quiz: [
+                    { q: "Qual è la differenza fondamentale tra Hypervisor Tipo 1 e Tipo 2?", a: "L'Hypervisor Tipo 1 (Bare-Metal) gira direttamente sull'hardware fisico sottostante, offrendo massime prestazioni. Il Tipo 2 (Hosted) viene eseguito sopra un sistema operativo ospitante tradizionale come comune applicazione software." }
+                ],
+                informatica: `
+                    <h3>Tecniche di Virtualizzazione hardware</h3>
+                    <p>La virtualizzazione interpone uno strato software (<b>Hypervisor</b> o <i>Virtual Machine Monitor</i>) per astrarre le risorse hardware fisiche in molteplici istanze logiche indipendenti denominate <b>Virtual Machines (VM)</b>. Massimizza il consolidamento dei server riducendo i costi energetici e hardware.</p>
+                    <h3>Cloud Computing: Architetture e Modelli di Servizio</h3>
+                    <p>Erogazione on-demand di risorse computazionali via rete distribuite in tre modelli di servizio:</p>
+                    <ul>
+                        <li><b>IaaS (Infrastructure as a Service):</b> Fornitura di macchine virtuali e storage grezzo (es. Amazon EC2).</li>
+                        <li><b>PaaS (Platform as a Service):</b> Fornitura di ambienti runtime per sviluppatori privi di gestione OS (es. Heroku).</li>
+                        <li><b>SaaS (Software as a Service):</b> Applicativi finali erogati via web browser (es. Google Workspace).</li>
+                    </ul>
+                `,
+                italiano: `
+                    <h3>Pirandello: La Virtualizzazione dell'Identità ne Il Fu Mattia Pascal</h3>
+                    <p>L'atto di astrarre un'istanza logica svincolata dall'hardware reale ricalca la scomposizione dell'identità civile compiuta da Pirandello ne <i>Il fu Mattia Pascal</i> (1904). Il protagonista genera la falsa istanza logica "Adriano Meis" a seguito della sua presunta morte. Tuttavia, l'impossibilità di Meis di ottenere una validazione formale e burocratica (mancanza di documenti reali) determina il crash del sistema d'identità fittizio, costringendolo a terminare la sessione virtuale e ridursi a pura ombra spettrale ("Fu Mattia Pascal").</p>
+                `,
+                inglese: `
+                    <h3>Post-Modernism: Virtual Realities and Simulation</h3>
+                    <p>The concept of cloud spaces and hardware abstraction links directly to post-modern literary theory. Authors question reality by presenting environments where digital representations replace real artifacts. The cloud infrastructure serves as a practical manifestation of simulated architecture, where structural resources are detached from physical presence.</p>
+                `
+            },
+            {
+                id: 9,
+                titolo: "UdA 9: Preparazione all'Esame ed Esercitazioni Critiche",
+                quiz: [
+                    { q: "Qual è l'obiettivo dello statement SQL 'HAVING'?", a: "Filtrare le righe risultanti da un'aggregazione di dati definita dal costrutto 'GROUP BY', agendo a differenza di 'WHERE' che filtra i record prima dell'aggregazione stessa." }
+                ],
+                informatica: `
+                    <h3>Metodologia della Seconda Prova Scritta</h3>
+                    <p>La risoluzione del tema di Sistemi prevede 4 fasi vincolanti: Scomposizione dei requisiti aziendali, Progettazione dello schema logico di rete (VLAN, DMZ, Firewall), Sviluppo del piano di indirizzamento IP (Subnetting VLSM) e Scrittura del codice software di backend richiesto.</p>
+                    <h3>Esempio di Scripting PHP con PDO e Query SQL di Interrogazione</h3>
+                    <pre>
+&lt;?php
+// Script d'esame protetto da SQL Injection per il login utenti
+$dsn = "mysql:host=localhost;dbname=maturita_2026;charset=utf8mb4";
+try {
+    $pdo = new PDO($dsn, "db_admin", "SecUrE_P@ss_2026", [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
+    
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
+        // Prepared Statement nativo
+        $stmt = $pdo->prepare("SELECT id, password_hash FROM utenti WHERE username = :u");
+        $stmt->execute(['u' => $user]);
+        $res = $stmt->fetch();
+        
+        if ($res && password_verify($_POST['pass'], $res['password_hash'])) {
+            echo "Autenticazione riuscita.";
+        }
+    }
+} catch (PDOException $e) {
+    die("Database Connection Error: " . $e->getMessage());
+}
+?&gt;</pre>
+                `,
+                italiano: `
+                    <h3>Il Colloquio Orale: Integrazione e Competenze Totali</h3>
+                    <p>In sede di colloquio d'esame, lo studente deve dimostrare l'interconnessione organica delle proprie competenze. Saper esporre un progetto tecnico argomentandolo con una corretta proprietà di linguaggio in lingua italiana costituisce il fulcro della valutazione dell'efficacia espositiva del candidato.</p>
+                `,
+                inglese: `
+                    <h3>CLIL Oral Defense: Synthesizing Complex ICT Architectures</h3>
+                    <p>During the final oral examination, presenting technical frameworks using professional English is crucial. Candidates must fluently defend architectural choices (such as subnetting designs, routing configurations, and system defenses) to validate their cross-disciplinary skills as modern international IT professionals.</p>
+                `
+            }
+        ];
+
+        // --- CORE APPLICATION ENGINE (JAVASCRIPT) ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const sidebarMenu = document.getElementById("sidebar-menu");
+            const udaContainer = document.getElementById("uda-container");
+            const themeBtn = document.getElementById("theme-btn");
+
+            // 1. Iniezione Dinamica delle Componenti nell'Infrastruttura DOM
+            programmaData.forEach((uda, index) => {
+                // Generazione Link in Sidebar
+                const li = document.createElement("li");
+                li.className = "menu-item";
+                li.innerHTML = `
+                    <a class="menu-link ${index === 0 ? 'active' : ''}" data-target="uda-${uda.id}">
+                        <span>UdA ${uda.id}</span>
+                        <span id="badge-${uda.id}" style="font-size:0.75rem; color:var(--accent-tech);"></span>
+                    </a>
+                `;
+                sidebarMenu.appendChild(li);
+
+                // Generazione Pannelli di Contenuto (Struttura ad Accordion per Materia)
+                const panel = document.createElement("div");
+                panel.className = `uda-panel ${index === 0 ? 'active' : ''}`;
+                panel.id = `uda-${uda.id}`;
+                panel.innerHTML = `
+                    <div class="uda-header">
+                        <h2 class="uda-title">${uda.titolo}</h2>
+                        <div class="completion-wrapper">
+                            <input type="checkbox" class="completion-checkbox" id="check-${uda.id}" data-uda="${uda.id}">
+                            <label for="check-${uda.id}" style="font-size:0.9rem; font-weight:600; cursor:pointer;">Segna come completato</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <button class="quiz-btn" data-uda="${uda.id}">Quick Quiz / Flashcard</button>
+                        <div class="quiz-box" id="quiz-box-${uda.id}">
+                            <p class="quiz-question" id="qq-${uda.id}"></p>
+                            <button class="answer-btn" id="ans-btn-${uda.id}">Rivela Risposta</button>
+                            <p class="quiz-answer" id="qa-${uda.id}"></p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header tech">Sistemi e Reti / Informatica</div>
+                        <div class="accordion-content content-block">${uda.informatica}</div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header lit">Letteratura Italiana</div>
+                        <div class="accordion-content content-block">${uda.italiano}</div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header eng">Lingua Inglese (CLIL)</div>
+                        <div class="accordion-content content-block">${uda.inglese}</div>
+                    </div>
+                `;
+                udaContainer.appendChild(panel);
+            });
+
+            // 2. Gestione Logica del Sistema a Tab tramite Sidebar
+            const links = document.querySelectorAll(".menu-link");
+            const panels = document.querySelectorAll(".uda-panel");
+
+            links.forEach(link => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    links.forEach(l => l.classList.remove("active"));
+                    panels.forEach(p => p.classList.remove("active"));
+
+                    link.classList.add("active");
+                    const target = link.getAttribute("data-target");
+                    document.getElementById(target).classList.add("active");
+                });
+            });
+
+            // 3. Gestione Logica dell'Accordion Interno alle UdA
+            const accordionHeaders = document.querySelectorAll(".accordion-header");
+            accordionHeaders.forEach(header => {
+                header.addEventListener("click", () => {
+                    const item = header.parentElement;
+                    item.classList.toggle("open");
+                });
+            });
+
+            // 4. Motore dei Quiz/Flashcard Casuali per Ciascuna Sezione
+            const quizBtns = document.querySelectorAll(".quiz-btn");
+            quizBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const udaId = btn.getAttribute("data-uda");
+                    const udaObj = programmaData.find(u => u.id == udaId);
+                    const randomQuiz = udaObj.quiz[Math.floor(Math.random() * udaObj.quiz.length)];
+
+                    const qBox = document.getElementById(`quiz-box-${udaId}`);
+                    const qText = document.getElementById(`qq-${udaId}`);
+                    const aText = document.getElementById(`qa-${udaId}`);
+                    const ansBtn = document.getElementById(`ans-btn-${udaId}`);
+
+                    qText.textContent = randomQuiz.q;
+                    aText.textContent = randomQuiz.a;
+                    aText.style.display = "none";
+                    qBox.style.display = "block";
+
+                    ansBtn.onclick = () => {
+                        aText.style.display = aText.style.display === "none" ? "block" : "none";
+                    };
+                });
+            });
+
+            // 5. Persistenza dei Dati via LocalStorage (Checkboxes)
+            const checkboxes = document.querySelectorAll(".completion-checkbox");
+            
+            const updateBadge = (id, isChecked) => {
+                const badge = document.getElementById(`badge-${id}`);
+                badge.textContent = isChecked ? "✓ Completato" : "";
+            };
+
+            checkboxes.forEach(cb => {
+                const id = cb.getAttribute("data-uda");
+                // Caricamento dello stato salvato
+                const savedState = localStorage.getItem(`uda-completed-${id}`);
+                if (savedState === "true") {
+                    cb.checked = true;
+                    updateBadge(id, true);
+                }
+
+                // Event Listener al cambio di stato
+                cb.addEventListener("change", () => {
+                    localStorage.setItem(`uda-completed-${id}`, cb.checked);
+                    updateBadge(id, cb.checked);
+                });
+            });
+
+            // 6. Logica di Toggle nativo Dark Mode / Light Mode
+            const body = document.body;
+            const savedTheme = localStorage.getItem("app-theme") || "light";
+            body.setAttribute("data-theme", savedTheme);
+
+            themeBtn.addEventListener("click", () => {
+                const currentTheme = body.getAttribute("data-theme");
+                const newTheme = currentTheme === "light" ? "dark" : "light";
+                body.setAttribute("data-theme", newTheme);
+                localStorage.setItem("app-theme", newTheme);
+            });
+        });
+    </script>
+</body>
+</html>

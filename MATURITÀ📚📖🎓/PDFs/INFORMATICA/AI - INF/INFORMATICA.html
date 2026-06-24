@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Macro-Dispensa di Studio Integrata - Esame di Stato 2026</title>
+    <style>
+        /* BASE SYSTEM & DESIGN TOKENS */
+        :root {
+            --bg-main: #fcfbf9;
+            --bg-card: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #4a5568;
+            --accent-primary: #0f172a; /* Blu Notte */
+            --accent-tech: #0d9488;    /* Verde Tech */
+            --border-color: #e2e8f0;
+            
+            /* Alert Box Colors */
+            --bg-concetto: #f0fdf4;  --border-concetto: #bbf7d0;  --text-concetto: #166534;
+            --bg-analisi: #fef2f2;   --border-analisi: #fecaca;   --text-analisi: #991b1b;
+            --bg-vocab: #eff6ff;     --border-vocab: #bfdbfe;     --text-vocab: #1e40af;
+            --bg-code: #f8fafc;      --border-code: #cbd5e1;      --text-code: #0f172a;
+            --bg-connect: #faf5ff;   --border-connect: #e9d5ff;   --text-connect: #6b21a8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        /* PRINT & PAGE BREAK OPTIMIZATIONS */
+        @media print {
+            body { padding: 0; background-color: #fff; }
+            .page-break { page-break-before: always; }
+            .no-break { page-break-inside: avoid; }
+            a { text-decoration: none; color: #000; }
+        }
+        .page-break { page-break-before: always; }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3, h4 { color: var(--accent-primary); font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        h1 { font-size: 26pt; border-bottom: 3px solid var(--accent-tech); padding-bottom: 0.5rem; margin-top: 0; text-transform: uppercase; }
+        h2 { font-size: 18pt; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3rem; margin-top: 2rem; }
+        h3 { font-size: 14pt; color: var(--accent-tech); }
+        p { margin-bottom: 1rem; text-align: justify; }
+        
+        .literary-text { font-family: Georgia, serif; font-size: 11.5pt; color: #1a202c; }
+
+        /* VISUAL ANCHORS / ALERT BOXES */
+        .box { padding: 1.25rem; margin: 1.5rem 0; border-left: 5px solid; border-radius: 4px; page-break-inside: avoid; }
+        .box-title { font-weight: bold; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 9.5pt; letter-spacing: 0.05em; }
+        
+        .box-concetto { background: var(--bg-concetto); border-color: var(--border-concetto); color: var(--text-concetto); }
+        .box-analisi { background: var(--bg-analisi); border-color: var(--border-analisi); color: var(--text-analisi); }
+        .box-vocab { background: var(--bg-vocab); border-color: var(--border-vocab); color: var(--text-vocab); }
+        .box-code { background: var(--bg-code); border-color: var(--border-code); color: var(--text-code); }
+        .box-connect { background: var(--bg-connect); border-color: var(--border-connect); color: var(--text-connect); }
+
+        /* TABLES */
+        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 10pt; page-break-inside: avoid; }
+        th, td { padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); }
+        th { background-color: var(--accent-primary); color: white; font-weight: 600; }
+        tr:nth-child(even) td { background-color: rgba(0,0,0,0.02); }
+
+        /* CODE BLOCKS */
+        code, pre { font-family: Consolas, Monaco, "Andale Mono", monospace; font-size: 9.5pt; }
+        pre { background: #1e293b; color: #f8fafc; padding: 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; border-left: 4px solid var(--accent-tech); white-space: pre-wrap; }
+        .inline-code { background: #e2e8f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 9.5pt; color: #0f172a; }
+
+        /* COVER PAGE */
+        .cover-page { height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at top right, #f8fafc 0%, #f1f5f9 100%); border: 10px double var(--accent-primary); padding: 3rem; margin-bottom: 5rem; }
+        .cover-title { font-size: 32pt; color: var(--accent-primary); margin-bottom: 1rem; line-height: 1.2; }
+        .cover-subtitle { font-size: 16pt; color: var(--accent-tech); margin-bottom: 3rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .cover-meta { font-size: 12pt; margin-top: auto; width: 100%; display: flex; justify-content: space-between; border-top: 2px solid var(--border-color); padding-top: 1.5rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <div class="cover-page">
+        <h1 class="cover-title">DISPENSA MACRO-INTEGRATA DI STUDIO</h1>
+        <div class="cover-subtitle">Esame di Stato conclusivo dei percorsi di istruzione secondaria superiore</div>
+        <p style="max-width: 600px; text-align: center; font-size: 12pt; color: var(--text-muted);">
+            Un'opera di sintesi e approfondimento interdisciplinare che unisce le strutture logiche dell'<b>Informatica</b>, i framework critico-espositivi della lingua <b>Inglese (CLIL)</b> e le traiettorie storico-letterarie della letteratura <b>Italiana</b>.
+        </p>
+        <div class="cover-meta">
+            <div><strong>Indirizzo:</strong> Informatica e Telecomunicazioni</div>
+            <div><strong>Anno Scolastico:</strong> 2025/2026</div>
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Informatica - UdA 1: Consolidamento, Scambio Dati e Architetture Web</h1>
+        
+        <h2>1.1 Mappe e Pagine Web nei Sistemi Turistici e Marittimi</h2>
+        <p>
+            La rappresentazione cartografica all'interno di applicazioni web sfrutta API basate su JavaScript (es. Leaflet.js o Google Maps API) per l'interazione dinamica con coordinate geospaziali (Latitudine e Longitudine). Nei sistemi di tracciamento marittimo e turistico, i vettori di dati vengono renderizzati sopra layer vettoriali o raster. La gestione asincrona permette di calcolare itinerari e visualizzare waypoint in tempo reale senza causare il ricaricamento dell'interfaccia utente.
+        </p>
+
+        <div class="box box-concetto">
+            <div class="box-title">Concetti Chiave: Geo-Coordinamento</div>
+            Il posizionamento si basa sul sistema standard WGS84. Nel software di gestione rotte marittime, ogni waypoint è una tupla formata da <span class="inline-code">[Lat, Lng, Timestamp, Speed]</span>.
+        </div>
+
+        <h2>1.2 Formati di Scambio Dati: JSON vs XML</h2>
+        <p>
+            Lo scambio di dati tra sistemi eterogenei avviene principalmente tramite due formati di serializzazione strutturata: XML (eXtensible Markup Language) e JSON (JavaScript Object Notation).
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Caratteristica</th>
+                    <th>XML (eXtensible Markup Language)</th>
+                    <th>JSON (JavaScript Object Notation)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Struttura</b></td>
+                    <td>Gerarchica basata su tag annidati definiti dall'utente.</td>
+                    <td>Coppie chiave-valore basate sulla sintassi degli oggetti JS.</td>
+                </tr>
+                <tr>
+                    <td><b>Trasparenza/Peso</b></td>
+                    <td>Verboso a causa dei tag di chiusura; richiede più banda.</td>
+                    <td>Leggero, essenziale, ottimizzato per il parsing web veloce.</td>
+                </tr>
+                <tr>
+                    <td><b>Tipi di Dati</b></td>
+                    <td>Tratta tutto come testo; richiede validazione via XML Schema/DTD.</td>
+                    <td>Supporta nativamente stringhe, numeri, booleani, array, oggetti.</td>
+                </tr>
+                <tr>
+                    <td><b>Parsing</b></td>
+                    <td>Richiede parser complessi come DOM (struttura ad albero) o SAX.</td>
+                    <td>Parser nativo integrato nei browser moderni (<span class="inline-code">JSON.parse()</span>).</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="box box-code">
+            <div class="box-title">Syntax/Code Block: Parsing XML in Ambiente Java</div>
+            <p>Esempio pratico di lettura e parsing di un file XML (Esercitazione Gestione Magazzino/Spesa) utilizzando l'approccio DOM (Document Object Model) incorporato nel JDK di Java:</p>
+<pre>
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import java.io.File;
+
+public class ParsingMagazzino {
+    public static void main(String[] args) {
+        try {
+            File inputFile = new File("magazzino.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            
+            System.out.println("Elemento radice: " + doc.getDocumentElement().getNodeName());
+            NodeList nList = doc.getElementsByTagName("articolo");
+            
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    System.out.println("ID Articolo: " + eElement.getAttribute("id"));
+                    System.out.println("Nome: " + eElement.getElementsByTagName("nome").item(0).getTextContent());
+                    System.out.println("Quantità: " + eElement.getElementsByTagName("quantita").item(0).getTextContent());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</pre>
+        </div>
+
+        <h2>1.3 Evoluzione delle Architetture Web: Dai Monoliti ai Microservizi</h2>
+        <p>
+            Le architetture web classiche di tipo <i>Monolitico</i> concentrano la logica di presentazione, di business e l'accesso ai dati all'interno di un unico perimetro applicativo ed esecutivo. Sebbene semplici da sviluppare inizialmente, i monoliti soffrono di rigidezza strutturale, scalabilità inefficiente (è necessario scalare l'intera applicazione anche se una sola risorsa è satura) e single point of failure (un bug in un modulo può arrestare l'intero server).
+        </p>
+        <p>
+            L'architettura a <b>Microservizi</b> scompone l'applicazione in servizi autonomi, circoscritti a un singolo dominio di business. Ogni microservizio comunica con gli altri tramite protocolli leggeri (tipicamente API REST via HTTP/JSON) e dispone di un proprio database indipendente.
+        </p>
+
+        <div class="box box-concetto">
+            <div class="box-title">Concetti Chiave: Containerizzazione e Orchestrazione</div>
+            <ul>
+                <li><b>Docker:</b> Tecnologia di containerizzazione che permette di impacchettare un microservizio insieme a tutte le sue dipendenze, librerie e file di configurazione in un "container" isolato, garantendo l'immutabilità e l'identità di comportamento tra ambienti di sviluppo, test e produzione.</li>
+                <li><b>Kubernetes (K8s):</b> Piattaforma di orchestrazione open-source creata per automatizzare il deployment, lo scaling, il bilanciamento del carico e la guarigione automatica (self-healing) di cluster complessi formati da migliaia di container Docker.</li>
+            </ul>
+        </div>
+
+        <div class="box box-connect">
+            <div class="box-title">Collegamenti Interdisciplinari: Calvino e la Combinatoria dei Sistemi</div>
+            La transizione da strutture testuali monolitiche ed organiche (il romanzo ottocentesco) verso strutture parcellizzate, modulari e combinatorie trova un parallelo perfetto nella letteratura della Neoavanguardia e dello Structuralismo italiano, in particolare nelle opere di <b>Italo Calvino</b> come <i>Il castello dei destini incrociati</i> o <i>Se una notte d'inverno un viaggiatore</i>. I destini dei personaggi di Calvino si comportano come record informatici atomici aggregati e riorganizzati all'interno di una matrice logica superiore, anticipando concettualmente l'architettura a microservizi riorganizzata da un orchestratore centrale.
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Italiano - Italo Calvino: La Letteratura Combinatoria</h1>
+        
+        <h2>La scomposizione della realtà e il modello algoritmico</h2>
+        <p class="literary-text">
+            Negli anni Sessanta e Settanta, Italo Calvino si avvicina all'Oulipo (Ouvroir de Littérature Potentielle) e ai modelli strutturalisti francesi. La letteratura smette di essere intesa come espressione romantica dell'interiorità dell'autore per trasformarsi in un raffinato meccanismo geometrico e combinatorio. L'opera diventa un sistema finito di elementi che si combinano secondo regole precise, del tutto analoghe agli algoritmi di elaborazione dati strutturati.
+        </p>
+
+        <div class="box box-analisi">
+            <div class="box-title">Analisi del Testo: "Il castello dei destini incrociati" (1969)</div>
+            <p class="literary-text">
+                Nel testo, un gruppo di viandanti che ha perso la parola si ritrova in un castello e comunica la propria storia disponendo sul tavolo dei mazzi di carte dei tarocchi. Ogni carta assume un significato denotativo e connotativo differente a seconda della sua posizione spaziale rispetto alle altre carte adiacenti. 
+            </p>
+            <p class="literary-text">
+                <b>Tratto distintivo:</b> L'incrocio delle carte genera un'architettura bidimensionale fissa che racchiude tutte le narrazioni possibili. È la traduzione estetica di una matrice di dati o di un grafo a nodi interconnessi, in cui il significato non risiede nella singola cella ma nelle relazioni spaziali e logiche della rete.
+            </p>
+        </div>
+
+        <div class="box box-connect">
+            <div class="box-title">Collegamenti Interdisciplinari: Strutture Dati Grafiche</div>
+            L'opera calviniana prefigura la distinzione informatica tra <b>Data Schema</b> (le regole del gioco, i tarocchi e la griglia) e <b>Data Instance</b> (le specifiche configurazioni create dalle mosse dei singoli personaggi). È il medesimo scarto semantico che intercorre tra lo schema logico di un Database e le tuple inserite al suo interno.
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Informatica - UdA 2: Basi di Dati e Progettazione Concettuale e Logica</h1>
+        
+        <h2>2.1 Introduzione ai Database e Architettura a Tre Livelli</h2>
+        <p>
+            Un Database è una collezione organizzata di dati strutturati, gestita in modo centralizzato da un software specifico chiamato <b>DBMS (Database Management System)</b>. Il DBMS garantisce l'efficienza nell'accesso, la consistenza, l'affidabilità dei dati e il controllo degli accessi concorrenti. L'architettura standard ANSI-SPARC definisce tre livelli distinti di astrazione per separare le applicazioni utente dall'effettiva memorizzazione fisica:
+        </p>
+        <ul>
+            <li><b>Livello Esterno (Viste):</b> Rappresenta la porzione di database visibile a un utente o a uno specifico sottogruppo applicativo. Nasconde le strutture non pertinenti.</li>
+            <li><b>Livello Logico:</b> Descrive l'intera struttura logica globale del database in termini di tabelle, vincoli e relazioni (indipendentemente dall'hardware e dal software di memorizzazione).</li>
+            <li><b>Livello Interno (Fisico):</b> Definisce la reale memorizzazione fisica dei dati sui supporti di memoria di massa (strutture dei file, indici B-Tree, allocazione dei blocchi).</li>
+        </ul>
+
+        <h2>2.2 Sicurezza, Riservatezza e Integrità dei Dati</h2>
+        <p>
+            Il DBMS deve operare come guardiano stringente per assicurare la <b>Privatezza</b> (attraverso meccanismi di autenticazione e autorizzazione), l'<b>Integrità Fisica</b> (tramite log delle transazioni e procedure di backup/recovery in caso di guasto hardware) e la <b>Consistenza</b> (impedendo che transazioni concorrenti interferiscano distruggendo la coerenza logica dello stato dei dati).
+        </p>
+
+        <h2>2.3 Progettazione Concettuale: Il Modello Entità-Relazione (E/R)</h2>
+        <p>
+            La progettazione di una base di dati si articola in tre grandi fasi sequenziali: Progettazione Concettuale, Progettazione Logica e Progettazione Fisica. Il Modello Entità-Relazione è lo strumento principe della fase concettuale, traducendo i requisiti della realtà in uno schema grafico indipendente dalla tecnologia finale.
+        </p>
+
+        <div class="box box-concetto">
+            <div class="box-title">Costrutti del Modello E/R</div>
+            <ul>
+                <li><b>Entità:</b> Classi di oggetti (es. <i>Studente</i>, <i>Libro</i>) del mondo reale che hanno un'esistenza autonoma e rilevanza per l'applicazione.</li>
+                <li><b>Attributi:</b> Proprietà elementari che descrivono le entità o le associazioni (es. <i>CodiceFiscale</i>, <i>Titolo</i>).</li>
+                <li><b>Chiave Primaria (Identificatore):</b> Un attributo o un insieme di attributi che identificano univocamente una specifica istanza dell'entità.</li>
+                <li><b>Associazioni (Relazioni):</b> Legami logici stabili tra due o più entità.</li>
+                <li><b>Cardinalità:</b> Specificano il numero minimo e massimo di istanze di un'entità che possono essere coinvolte nell'associazione (es. $(0,1)$, $(1,N)$, $(1,1)$).</li>
+            </ul>
+        </div>
+
+        
+
+        <h2>2.4 Progettazione Logica: Derivazione al Modello Relazionale</h2>
+        <p>
+            La progettazione logica converte lo schema E/R in uno schema relazionale, basato su tabelle composte da righe (tuple) e colonne (attributi). Le regole di derivazione standard stabiliscono che:
+        </p>
+        <ol>
+            <li>Ogni entità diventa una tabella (relazione).</li>
+            <li>Gli attributi dell'entità diventano le colonne della tabella.</li>
+            <li>Le relazioni 1:N si convertono esportando la chiave primaria dell'entità "lato 1" all'interno della tabella dell'entità "lato N", dove assume il ruolo di <b>Chiave Esterna (Foreign Key)</b> per implementare l'integrità referenziale.</li>
+            <li>Le relazioni N:N generano una nuova tabella ponte intermedia, avente come chiave primaria composta l'unione delle chiavi primarie delle due entità originarie, configurate anche singolarmente come chiavi esterne.</li>
+        </ol>
+
+        <h2>2.5 Normalizzazione delle Basi di Dati</h2>
+        <p>
+            La normalizzazione è un procedimento formale di scomposizione delle tabelle volto ad eliminare la ridondanza dei dati e a prevenire le pericolose anomalie di inserimento, cancellazione e aggiornamento. Si basa sullo studio delle dipendenze funzionali.
+        </p>
+        
+        <div class="box box-concetto">
+            <div class="box-title">Forme Normali (1FN, 2FN, 3FN)</div>
+            <ul>
+                <li><b>Prima Forma Normale (1FN):</b> Una tabella è in 1FN se e solo se tutti i suoi attributi sono atomici (non scomponibili e non multi-valore) e se esiste una chiave primaria definita.</li>
+                <li><b>Seconda Forma Normale (2FN):</b> Una tabella è in 2FN se è in 1FN e tutti gli attributi non-chiave dipendono in modo completo dall'intera chiave primaria (non da una sua parte comune o sottoinsieme). È sempre verificata se la chiave primaria è semplice (singolo attributo).</li>
+                <li><b>Terza Forma Normale (3FN):</b> Una tabella è in 3FN se è in 2FN e nessun attributo non-chiave dipende in modo transitivo dalla chiave primaria (ovvero, gli attributi non devono dipendere da altri attributi non-chiave).</li>
+            </ul>
+        </div>
+
+        <div class="box box-connect">
+            <div class="box-title">Collegamenti Interdisciplinari: Pirandello e la Frammentazione dell'Identità</div>
+            L'operazione di scomposizione della normalizzazione e il concetto di "Vista utente" trovano una corrispondenza critica radicale nella poetica dell'umorismo e della frammentazione identitaria di <b>Luigi Pirandello</b>. L'identità frammentata e parcellizzata descritta in <i>Uno, nessuno e centomila</i> mostra come la percezione complessiva di un individuo cambi radicalmente a seconda della "prospettiva esterna" (la maschera o la vista SQL) applicata dagli osservatori. L'identità univoca ed atomica collassa in una moltitudine di record inconsistenti all'interno del contesto sociale.
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Italiano - Luigi Pirandello: Le Maschere e il Relativismo Identitario</h1>
+        
+        <h2>La crisi dell'Io e la scomposizione della persona</h2>
+        <p class="literary-text">
+            All'inizio del Novecento, Luigi Pirandello registra la crisi irreversibile del soggetto cartesiano e ottocentesco. L'individuo non è più una monade solida e coerente, bensì un magma informe che riceve dall'esterno e da se stesso forme artificiali costrittive: le <b>maschere</b>. Questa visione produce il "relativismo conoscitivo": non esiste una verità oggettiva assoluta, ma tante verità quante sono le prospettive dei soggetti.
+        </p>
+
+        <div class="box box-analisi">
+            <div class="box-title">Analisi del Testo: "Uno, nessuno e centomila" (1926)</div>
+            <p class="literary-text">
+                Il protagonista, Vitangelo Moscarda, scopre casualmente da un'osservazione della moglie di avere il naso che pende verso destra. Questo minuscolo dettaglio anatomico innesca una reazione a catena devastante: Moscarda si rende conto che l'immagine che egli possiede di sé non corrisponde minimamente alle centomila immagini che gli altri hanno di lui. 
+            </p>
+            <p class="literary-text">
+                Egli scopre di essere estraneo a se stesso ("nessuno") e intraprende un percorso deliberato di distruzione delle sue vecchie forme sociali per ripulire l'essenza pura del proprio essere, fino all'alienazione finale nel ricovero per mendicanti, dove rinasce ad ogni istante identificandosi panicamente con gli elementi naturali (l'albero, la nuvola, il vento).
+            </p>
+        </div>
+
+        <div class="box box-vocab">
+            <div class="box-title">Glossario Critico Pirandelliano</div>
+            <ul>
+                <li><b>Forma vs Vita:</b> La Vita è il flusso continuo, magmatico ed eterno; la Forma è la cristallizzazione sociale, l'irrigidimento e la maschera mortifera che la società impone all'uomo.</li>
+                <li><b>Avvertimento del contrario:</b> Momento puramente comico in cui si percepisce una bizzarria o una distorsione della norma.</li>
+                <li><b>Sentimento del contrario:</b> Fase superiore e propriamente umoristica, in cui interviene la riflessione che analizza le ragioni profonde della sofferenza dietro la maschera comica.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Inglese - CLIL Module: Advanced Database Systems & Paradigm Shift</h1>
+        
+        <h2>Relational vs Non-Relational Data Management</h2>
+        <p>
+            In contemporary software engineering, information management is divided into two primary storage architectural philosophies: Relational Systems (RDBMS) and Non-Relational Systems (commonly known as NoSQL). Traditional database engines process data using strictly defined algebraic constraints, enforcing transaction reliability. Conversely, modern large-scale applications require horizontally scalable paradigms to manage unstructured or semi-structured data matrices.
+        </p>
+
+        <div class="box box-vocab">
+            <div class="box-title">Technical Vocabulary: Core Database Engineering</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Definition / Semantic Meaning</th>
+                        <th>Contextual Usage Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>DBMS</b></td>
+                        <td>Database Management System; software that orchestrates database access.</td>
+                        <td>"The enterprise migrated its tables to an enterprise-grade <i>DBMS</i>."</td>
+                    </tr>
+                    <tr>
+                        <td><b>ACID Properties</b></td>
+                        <td>Atomicity, Consistency, Isolation, Durability; guarantees transactional integrity.</td>
+                        <td>"Financial platforms require absolute compliance with <i>ACID properties</i>."</td>
+                    </tr>
+                    <tr>
+                        <td><b>NoSQL</b></td>
+                        <td>Not Only SQL; non-relational, highly distributed storage frameworks.</td>
+                        <td>"Real-time big data analytical tools rely heavily on <i>NoSQL</i> document databases."</td>
+                    </tr>
+                    <tr>
+                        <td><b>Foreign Key</b></td>
+                        <td>A column that establishes a link between data in two distinct tables.</td>
+                        <td>"The referential link is established via a <i>foreign key</i> constraint."</td>
+                    </tr>
+                    <tr>
+                        <td><b>Scalability</b></td>
+                        <td>The capability of a system to handle a growing amount of work by adding resources.</td>
+                        <td>"Cloud deployment scales up microservices to optimize data <i>scalability</i>."</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Technical Translation and Algebraic Modeling</h2>
+        <p>
+            To operationalize structured queries, developers must parse logical intentions into mathematical abstractions. The following table showcases the cross-compilation between mathematical relational operators, standard technical terms, and operational SQL implementations:
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Relational Algebra Symbol</th>
+                    <th>Technical English Term</th>
+                    <th>Standard SQL Syntax Clause</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>$\sigma$ (Sigma)</td>
+                    <td><b>Selection</b> (Filters rows satisfying a specific predicate)</td>
+                    <td><code>WHERE</code></td>
+                </tr>
+                <tr>
+                    <td>$\pi$ (Pi)</td>
+                    <td><b>Projection</b> (Extracts specified attribute columns)</td>
+                    <td><code>SELECT &lt;column_names&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>$\times$</td>
+                    <td><b>Cartesian Product</b> (Combines all elements of two entities)</td>
+                    <td><code>CROSS JOIN</code> / <code>FROM T1, T2</code></td>
+                </tr>
+                <tr>
+                    <td>$\bowtie$</td>
+                    <td><b>Inner Join</b> (Combines tuples based on matching join-predicates)</td>
+                    <td><code>INNER JOIN ... ON ...</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="page-break">
+        <h1>Informatica - UdA 3: Algebra Relazionale e Interrogazione Avanzata (SQL)</h1>
+        
+        <h2>3.1 Operatori dell'Algebra Relazionale</h2>
+        <p>
+            L'algebra relazionale è un linguaggio procedurale teorico basato su relazioni matematiche. Gli operatori primitivi fondamentali comprendono la <b>Selezione</b> ($\sigma$), che filtra le tuple orizzontalmente in base a una condizione; la <b>Proiezione</b> ($\pi$), che isola verticalmente un sottoinsieme delle colonne eliminando i duplicati; il <b>Prodotto Cartesiano</b> ($\times$), che accoppia ogni riga della prima tabella con ogni riga della seconda; e la <b>Congiunzione o Inner Join</b> ($\bowtie$), che unisce le righe correlate da una corrispondenza logica esplicita tra attributi comuni.
+        </p>
+
+        <h2>3.2 Tipologie di JOIN in SQL</h2>
+        <p>
+            In SQL standard (implementato ed esercitato su PhpMyAdmin/MySQL), il collegamento tra tabelle si realizza mediante costrutti semantici precisi:
+        </p>
+        <ul>
+            <li><b>INNER JOIN:</b> Restituisce unicamente le righe che trovano esatta corrispondenza in entrambe le tabelle coinvolte nella condizione di join.</li>
+            <li><b>LEFT OUTER JOIN:</b> Restituisce tutte le righe della tabella sinistra, accoppiate con quelle della tabella destra se disponibili; se non vi è corrispondenza, inserisce valori <span class="inline-code">NULL</span> nelle colonne della tabella destra.</li>
+            <li><b>RIGHT OUTER JOIN:</b> Speculare al precedente; preserva tutte le istanze della tabella destra riempiendo con <span class="inline-code">NULL</span> le colonne mancanti a sinistra.</li>
+            <li><b>FULL OUTER JOIN:</b> Unisce i risultati di Left e Right Join, mantenendo tutte le tuple di entrambe le tabelle e inserendo <span class="inline-code">NULL</span> dove manca la corrispondenza (in MySQL si emula con la <span class="inline-code">UNION</span> di Left e Right Join).</li>
+        </ul>
+
+        <h2>3.3 Aggregazioni, Filtri Complessi e Sottoquery</h2>
+        <p>
+            La manipolazione avanzata richiede il raggruppamento e l'elaborazione statistica dei record tramite funzioni aggreganti (<span class="inline-code">COUNT</span>, <span class="inline-code">SUM</span>, <span class="inline-code">AVG</span>, <span class="inline-code">MIN</span>, <span class="inline-code">MAX</span>) pilotate dalla clausola <span class="inline-code">GROUP BY</span>. 
+        </p>
+        <div class="box box-concetto">
+            <div class="box-title">La Distinzione Cruciale: WHERE vs HAVING</div>
+            La clausola <span class="inline-code">WHERE</span> opera come filtro preventivo sulle <i>singole righe</i> prima che avvenga l'aggregazione dei dati. La clausola <span class="inline-code">HAVING</span> agisce invece come filtro post-aggregazione, applicandosi direttamente ai <i>gruppi generati</i> dal raggruppamento.
+        </div>
+
+        <div class="box box-code">
+            <div class="box-title">Syntax/Code Block: Query Avanzata con Sottoquery e Viste</div>
+            <p>Scenario reale: Selezione dei clienti che hanno effettuato ordini superiori alla media aziendale, con utilizzo di query annidate (<span class="inline-code">IN</span>, <span class="inline-code">ALL</span>), vincoli fisici di aggiornamento a cascata e creazione di una vista virtuale.</p>
+<pre>
+-- Creazione di una vista logica virtuale per motivi di sicurezza e riuso del codice
+CREATE VIEW VistaOrdiniTop AS
+SELECT id_cliente, COUNT(id_ordine) AS totale_ordini, SUM(importo_totale) AS spesa_complessiva
+FROM ordini
+WHERE data_ordine >= '2025-01-01'
+GROUP BY id_cliente
+HAVING SUM(importo_totale) > (
+    -- Sottoquery scalare per determinare la media generale degli ordini aziendali
+    SELECT AVG(importo_totale) 
+    FROM ordini
+);
+
+-- Interrogazione complessa con costrutto IN e relazioni protette da vincoli fisici
+SELECT c.id_cliente, c.cognome, c.nome, v.spesa_complessiva
+FROM clienti c
+INNER JOIN VistaOrdiniTop v ON c.id_cliente = v.id_cliente
+WHERE c.id_cliente IN (
+    SELECT DISTINCT id_cliente 
+    FROM ordini 
+    WHERE importo_totale >= ANY (SELECT importo_totale FROM ordini WHERE id_cliente = 101)
+);
+
+-- DCL (Data Control Language): Assegnazione e revoca dei privilegi di sicurezza sulla vista
+GRANT SELECT, UPDATE ON VistaOrdiniTop TO 'operatore_marketing'@'localhost';
+REVOKE DELETE ON VistaOrdiniTop FROM 'operatore_marketing'@'localhost';
+</pre>
+        </div>
+
+        <h2>3.4 Manipolazione Temporale in MySQL</h2>
+        <p>
+            I campi di tipo <span class="inline-code">DATE</span> e <span class="inline-code">DATETIME</span> in MySQL richiedono funzioni specifiche per il calcolo e la formattazione, evitando errori sistemici legati a differenze regionali o formati di stringa. Tra le più utilizzate: <span class="inline-code">DATEDIFF(data1, data2)</span> per calcolare il delta di giorni, <span class="inline-code">DATE_ADD(data, INTERVAL 1 MONTH)</span> per proiezioni temporali preventive e <span class="inline-code">DATE_FORMAT(data, '%d/%m/%Y')</span> per la formattazione di visualizzazione nell'interfaccia utente.
+        </p>
+    </div>
+
+    <div class="page-break">
+        <h1>Informatica - UdA 4: Programmazione Web Lato Server (PHP) e Sicurezza</h1>
+        
+        <h2>4.1 Sintassi Fondamentale, Scope delle Variabili e Modularità</h2>
+        <p>
+            PHP (Hypertext Preprocessor) è un linguaggio di scripting interpretato lato server espressamente concepito per la generazione di pagine web dinamiche. Le variabili sono debolmente tipizzate e iniziano con il simbolo del dollaro (<span class="inline-code">$</span>). Lo scope delle variabili distingue nettamente tra variabili locali (visibili solo all'interno della funzione in cui sono dichiarate) e globali. Per iniettare costanti o librerie comuni salvaguardando il principio di riusabilità del codice DRY (Don't Repeat Yourself), si utilizzano le direttive strutturali:
+        </p>
+        <ul>
+            <li><span class="inline-code">include 'file.php';</span> Include il codice; in caso di errore logico o mancanza del file, emette un <span class="inline-code">Warning</span> e prosegue l'esecuzione.</li>
+            <li><span class="inline-code">require 'file.php';</span> Identico a include, ma in caso di errore blocca irreversibilmente l'esecuzione sollevando un <span class="inline-code">Fatal Error</span>. Da preferire per file di configurazione DB o script di controllo delle sessioni.</li>
+        </ul>
+
+        <h2>4.2 Interazione HTML-PHP e Sanitizzazione dell'Input</h2>
+        <p>
+            I dati inviati da form client-side vengono catturati sul server tramite array associativi globali predefiniti: <span class="inline-code">$_GET</span> (parametri visibili esplicitamente nella Query String dell'URL, ideale per ricerche e navigazione non sensibile) e <span class="inline-code">$_POST</span> (parametri incorporati nel corpo della richiesta HTTP, obbligatorio per password, transazioni e dati personali). La sicurezza impone il rifiuto categorico della fiducia negli input utente: i caratteri speciali devono essere neutralizzati tramite <span class="inline-code">htmlspecialchars()</span> per sventare attacchi di tipo <b>XSS (Cross-Site Scripting)</b>.
+        </p>
+
+        <div class="box box-code">
+            <div class="box-title">Syntax/Code Block: Connessione Sicura PDO e Script di Login</div>
+            <p>Script PHP modulare e sicuro per l'interazione con database MySQL tramite l'estensione <b>PDO (PHP Data Objects)</b>. Implementa le <i>Prepared Statements</i> per annullare totalmente il rischio di vulnerabilità di tipo <b>SQL Injection</b>.</p>
+<pre>
+&lt;?php
+// db_config.php - File di configurazione centralizzato
+$dsn = "mysql:host=localhost;dbname=Hogwarts;charset=utf8mb4";
+$db_user = "root";
+$db_pass = "PasswordSicura2026!";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+try {
+    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+} catch (\PDOException $e) {
+    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+}
+
+// login_process.php - Elaborazione autenticazione sicura
+require_once 'db_config.php';
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitizzazione dell'input per eliminare rischi di attacchi combinati
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+    $password = $_POST['password']; // Le password non si sanitizzano, si verificano gli hash
+
+    if ($username && $password) {
+        // Preparazione della query parametrizzata (Previene SQL Injection)
+        $stmt = $pdo->prepare("SELECT id_utente, password_hash, ruolo FROM utenti WHERE username = :user");
+        $stmt->execute(['user' => $username]);
+        $user = $stmt->fetch();
+
+        // Verifica crittografica della password tramite algoritmo nativo sicuro BCRYPT
+        if ($user && password_verify($password, $user['password_hash'])) {
+            // Rigenerazione dell'ID sessione per prevenire attacchi di Session Fixation
+            session_regenerate_id(true);
+            $_SESSION['user_id'] = $user['id_utente'];
+            $_SESSION['ruolo'] = $user['ruolo'];
+            $_SESSION['last_activity'] = time();
+            
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            $errore = "Credenziali non valide o inesistenti.";
+        }
+    }
+}
+?&gt;
+</pre>
+        </div>
+
+        <h2>4.3 Persistenza dello Stato: Sessioni e Cookie</h2>
+        <p>
+            Il protocollo HTTP è intrinsecamente <i>stateless</i> (ogni transazione è indipendente). Per mantenere lo stato tra richieste successive si utilizzano due tecnologie distinte:
+        </p>
+        <ul>
+            <li><b>Cookie:</b> Stringhe di testo memorizzate direttamente nel <i>browser del client</i>. Vengono inviati automaticamente al server ad ogni richiesta HTTP. Si impostano in PHP con la funzione <span class="inline-code">setcookie()</span>. Data la loro natura esposta sul client, sono soggetti a manipolazioni e sono vincolati dal rispetto della normativa europea <b>GDPR (Cookie Banner)</b> che impone il consenso esplicito prima del tracciamento dell'utente.</li>
+            <li><b>Sessioni:</b> Meccanismo centralizzato in cui i dati sensibili sono memorizzati in file protetti sul <i>server</i>. Al client viene trasmesso esclusivamente un identificativo univoco effimero chiamato <span class="inline-code">PHPSESSID</span> memorizzato all'interno di un cookie tecnico di sessione. Si attivano invocando obbligatoriamente <span class="inline-code">session_start()</span>.</li>
+        </ul>
+
+        <div class="box box-connect">
+            <div class="box-title">Collegamenti Interdisciplinari: Svevo e la Persistenza del Flusso Psicologico</div>
+            La contrapposizione informatica tra la natura effimera e priva di memoria del protocollo HTTP (stateless) e la necessità di ricostruire artificiosamente la persistenza dello stato (tramite Cookie e Sessioni che richiamano il passato dell'utente) trova un profondo riscontro nella struttura strutturale del romanzo modernista di <b>Italo Svevo</b>, <i>La coscienza di Zeno</i>. Il tempo lineare e cronologico svanisce, sostituito dal "tempo misto" della coscienza, in cui il passato riemerge continuamente condizionando le azioni del presente. Il diario terapeutico di Zeno Cosini agisce esattamente come un archivio di sessione persistente che tenta di strutturare la frammentarietà disordinata della sua esistenza psichica.
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Italiano - Italo Svevo: La Coscienza e il Tempo Misto</h1>
+        
+        <h2>La destrutturazione del romanzo tradizionale e l'Inetto</h2>
+        <p class="literary-text">
+            Italo Svevo introduce nella cultura italiana la profonda rivoluzione della psicoanalisi freudiana e la crisi dell'uomo borghese dell'inizio del Novecento. I suoi personaggi non sono eroi romantici né operai del naturalismo, ma <b>inetti</b>: intellettuali e impiegati incapaci di adattarsi ai ritmi rigidi e competitivi della società capitalistica e industriale, paralizzati da una costante e ipertrofica autoanalisi intellettuale.
+        </p>
+
+        <div class="box box-analisi">
+            <div class="box-title">Analisi del Testo: "La coscienza di Zeno" (1923)</div>
+            <p class="literary-text">
+                Il romanzo è strutturato come l'autobiografia del protagonista Zeno Cosini, redatta su invito del suo psicoanalista, il Dottor S., come parte della terapia. La narrazione non segue un asse temporale cronologico e oggettivo (dalla nascita alla vecchiaia), ma è organizzata per grandi nuclei tematici (<i>Il fumo</i>, <i>La morte di mio padre</i>, <i>La storia del mio matrimonio</i>, <i>La moglie e l'amante</i>).
+            </p>
+            <p class="literary-text">
+                <b>Il Tempo Misto:</b> Gli eventi si sovrappongono; il presente del narratore che scrive (vecchio e disincantato) si intreccia continuamente con il passato del protagonista che agisce (giovane e goffo). Zeno si rivela un <b>narratore inattendibile</b>: le sue memorie non sono resoconti storici esatti, ma continui tentativi di auto-giustificazione razionale dei propri fallimenti e delle proprie nevrosi. Il paradosso finale del romanzo mostra Zeno che si dichiara guarito non grazie alla psicoanalisi (da lui abbandonata), ma grazie ai successi commerciali ottenuti durante la speculazione bellica della Prima Guerra Mondiale, giungendo alla conclusione apocalittica che la vita stessa è "inquinata alle radici" e che solo una catastrofe cosmica potrà risanarla eliminando l'uomo dalla terra.
+            </p>
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Informatica - UdA 5: Tecnologie Asincrone (AJAX) e Moduli CLIL</h1>
+        
+        <h2>5.1 Architettura AJAX e Chiamate Asincrone</h2>
+        <p>
+            L'architettura <b>AJAX (Asynchronous JavaScript and XML)</b> rappresenta una svolta fondamentale nel web design e nello sviluppo applicativo. Consente alle pagine web di scambiare dati con il server in background, in modo completamente asincrono, aggiornando porzioni mirate e isolate dell'interfaccia grafica (DOM) senza richiedere il ricaricamento totale della pagina. Questo paradigma si implementa oggi tramite l'API moderna <span class="inline-code">fetch()</span> basata sulle <i>Promises</i> di JavaScript.
+        </p>
+
+        <h2>5.2 Programmazione Orientata agli Oggetti (OOP) in PHP vs Java</h2>
+        <p>
+            PHP supporta pienamente il paradigma Object-Oriented a partire dalla versione 5. I concetti chiave includono la definizione di Classi (<span class="inline-code">Class</span>), Oggetti (<span class="inline-code">Object</span>), Costruttori (<span class="inline-code">__construct</span>), Ereditarietà (<span class="inline-code">Inheritance</span> tramite la parola chiave <span class="inline-code">extends</span>), Incapsulamento (<span class="inline-code">Encapsulation</span> regolata dai modificatori <span class="inline-code">public</span>, <span class="inline-code">protected</span>, <span class="inline-code">private</span>) e Polimorfismo (<span class="inline-code">Polymorphism</span>).
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Caratteristica OOP</th>
+                    <th>Implementazione in Java</th>
+                    <th>Implementazione in PHP</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Tipizzazione</b></td>
+                    <td>Forte e Statica; ogni variabile d'istanza deve dichiarare esplicitamente il tipo.</td>
+                    <td>Debole e Dinamica (sebbene supporti il Type Hinting nelle versioni moderne).</td>
+                </tr>
+                <tr>
+                    <td><b>Operatore di Accesso</b></td>
+                    <td>Utilizza il punto (<span class="inline-code">oggetto.metodo()</span>).</td>
+                    <td>Utilizza la freccia (<span class="inline-code">$oggetto-&gt;metodo()</span>).</td>
+                </tr>
+                <tr>
+                    <td><b>Costruttore</b></td>
+                    <td>Ha lo stesso identico nome della classe (<span class="inline-code">public NomeClasse()</span>).</td>
+                    <td>Metodo magico predefinito fisso (<span class="inline-code">public function __construct()</span>).</td>
+                </tr>
+                <tr>
+                    <td><b>Overloading dei Metodi</b></td>
+                    <td>Supportato nativamente definendo più metodi con stesso nome ma diversa firma.</td>
+                    <td>Non supportato nativamente; va emulato tramite argomenti opzionali o metodi magici.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="box box-connect">
+            <div class="box-title">Collegamenti Interdisciplinari: Joyce e lo Stream of Consciousness Asincrono</div>
+            La natura non lineare, asincrona e interruttiva delle chiamate AJAX, che spezzano la sequenzialità classica del caricamento web sincrono, trova una corrispondenza metodologica formale nella letteratura modernista di lingua inglese di <b>James Joyce</b>. Lo <i>Stream of Consciousness</i> (Flusso di Coscienza) rompe la sintassi tradizionale e la punteggiatura del romanzo ottocentesco per riprodurre il fluire caotico, simultaneo e asincrono dei pensieri e delle impressioni sensorie della mente umana, operando un vero e proprio "aggiornamento parziale" continuo della coscienza del personaggio senza una regia narrativa centralizzata.
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Inglese - James Joyce: Modernism and the Stream of Consciousness</h1>
+        
+        <h2>The Modernist Revolution and the Subversion of Narrative Time</h2>
+        <p class="literary-text">
+            At the beginning of the 20th century, the traditional Victorian novel collapsed under the weight of historical trauma (World War I) and revolutionary intellectual discoveries (Einstein's relativity, Freud's psychoanalysis, and Bergson's internal time). <b>James Joyce</b> stands as the most radical innovator of English literature, orchestrating a complete shift from external objective description to internal psychological exploration.
+        </p>
+
+        <div class="box box-analisi">
+            <div class="box-title">Textual Analysis: "Eveline" (from <i>Dubliners</i>, 1914)</div>
+            <p class="literary-text">
+                <b>Plot and Theme:</b> Eveline is a nineteen-year-old girl trapped in a bleak, abusive Dublin household. She has the concrete opportunity to escape to Buenos Aires with her lover, Frank. The entire narrative takes place in a compressed external timeframe while she sits at the window, but expands immensely within her mind as she balances her duty to her dead mother against her desire for personal freedom.
+            </p>
+            <p class="literary-text">
+                <b>The Epiphany:</b> The climax represents a classic Joycean *epiphany* (a sudden spiritual manifestation triggered by a casual object or sound, in this case, a street organ playing). The music reminds her of her mother's miserable death. However, at the station, paralyzed by an unbearable, psychological inability to act (the core theme of *Dublin Paralysis*), she freezes and refuses to board the ship, looking at Frank like a helpless animal, completely incapable of altering her tragic destiny.
+            </p>
+        </div>
+
+        <div class="box box-analisi">
+            <div class="box-title">Textual Analysis: "Ulysses" (1922) and the Interior Monologue</div>
+            <p class="literary-text">
+                Set entirely on a single day (June 16, 1904), *Ulysses* follows Leopold Bloom, Stephen Dedalus, and Molly Bloom through Dublin. Joyce completely discards traditional syntax, punctuation, and logical transitions in the final chapter (Molly's Monologue) to capture the unmediated <b>Stream of Consciousness</b>. Thoughts, memories, and physical sensations flow together asynchronously, creating a rich, multi-layered cognitive network that mirrors the decentralized complexity of a modern digital system.
+            </p>
+        </div>
+    </div>
+
+    <div class="page-break">
+        <h1>Informatica - UdA 6: Simulazioni, Orientamento ed Esame di Stato</h1>
+        
+        <h2>6.1 Analisi Metodologica della Seconda Prova d'Esame</h2>
+        <p>
+            La scomposizione di un tema d'esame ministeriale (es. i casi di studio storici "Terminal Marittimo" o "SportOvunque") impone un approccio ingegneristico strutturato rigoroso diviso in macro-fasi sequenziali:
+        </p>
+        <ol>
+            <li><b>Analisi del Testo ed Enucleazione dei Requisiti:</b> Identificazione delle entità coinvolte, delle regole di business e dei vincoli fisici descritti esplicitamente o implicitamente nella traccia.</li>
+            <li><b>Progettazione Concettuale (Schema E/R):</b> Tracciamento del diagramma formale definendo le cardinalità minime e massime e isolando le chiavi primarie identificative.</li>
+            <li><b>Progettazione Logica (Schema Relazionale):</b> Applicazione rigorosa delle regole di conversione in tabelle, evidenziando le chiavi esterne e i vincoli di integrità referenziale (<span class="inline-code">ON UPDATE CASCADE</span>, <span class="inline-code">ON DELETE RESTRICT</span>).</li>
+            <li><b>Scrittura delle Interrogazioni (SQL):</b> Sviluppo delle query di estrazione statistiche richieste dalla traccia tramite JOIN e funzioni aggreganti avanzate.</li>
+            <li><b>Codifica Lato Server (PHP/PDO):</b> Implementazione del prototipo applicativo di sicurezza (es. form di inserimento dati o autenticazione) adottando le Prepared Statements.</li>
+        </ol>
+
+        <div class="box box-concetto">
+            <div class="box-title">Orientamento e Curriculum dello Studente (CV Day)</div>
+            Il percorso si completa con la valorizzazione delle competenze tecniche e trasversali (Soft Skills) maturate durante le attività di PCTO e i laboratori specialistici. Il colloquio d'esame in Aula Magna è configurato come una simulazione di colloquio professionale, in cui il candidato deve dimostrare non solo competenze verticali di codifica, ma anche capacità di link interdisciplinare e fluidità espositiva in lingua inglese veicolare (CLIL).
+        </div>
+    </div>
+
+</body>
+</html>

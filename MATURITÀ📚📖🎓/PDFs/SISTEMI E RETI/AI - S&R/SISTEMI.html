@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DISPENSA DI STUDIO INTEGRATA: ESAME DI STATO 2026</title>
+    <style>
+        /* --- CONFIGURAZIONE PAGINA E PALETTE TECH-ACADEMIC --- */
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #2c3e50;
+            background-color: #fcfbf9;
+            line-height: 1.6;
+            font-size: 11pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- TIPOGRAFIA ED ELEMENTI TITOLO --- */
+        .cover-page {
+            text-align: center;
+            padding-top: 50mm;
+            page-break-after: always;
+        }
+
+        .cover-title {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #0f172a;
+            font-size: 28pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 5mm;
+        }
+
+        .cover-subtitle {
+            font-size: 14pt;
+            color: #0d9488;
+            font-weight: 400;
+            margin-bottom: 40mm;
+        }
+
+        .cover-meta {
+            font-size: 11pt;
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        .uda-section {
+            page-break-before: always;
+            padding-top: 10mm;
+        }
+
+        h1 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #0f172a;
+            font-size: 18pt;
+            border-bottom: 3px solid #0f172a;
+            padding-bottom: 4px;
+            margin-top: 0;
+            margin-bottom: 6mm;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #0d9488;
+            font-size: 14pt;
+            margin-top: 6mm;
+            margin-bottom: 3mm;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #0f172a;
+            font-size: 11pt;
+            margin-top: 4mm;
+            margin-bottom: 2mm;
+            font-weight: 700;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 4mm;
+            text-align: justify;
+        }
+
+        /* --- STRUTTURE DATI E TABELLE PURE --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 5mm 0;
+            page-break-inside: avoid;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: 600;
+            font-size: 9.5pt;
+            text-transform: uppercase;
+            border: 1px solid #0f172a;
+            padding: 8px 10px;
+        }
+
+        td {
+            border: 1px solid #cbd5e1;
+            padding: 7px 10px;
+            font-size: 9.5pt;
+            background-color: #ffffff;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 4mm;
+            padding-left: 6mm;
+        }
+
+        li {
+            margin-bottom: 1.5mm;
+        }
+
+        /* --- BLOCCHI DI CODICE FORMATTATI --- */
+        pre {
+            background-color: #1e293b;
+            color: #38bdf8;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 9pt;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 5px solid #0d9488;
+            overflow: hidden;
+            margin: 4mm 0;
+            white-space: pre-wrap;
+            page-break-inside: avoid;
+        }
+
+        code {
+            font-family: "Consolas", "Courier New", monospace;
+            background-color: #e2e8f0;
+            color: #0d9488;
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-size: 9.5pt;
+        }
+
+        .math {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        /* --- VISUAL ANCHORS (BOX COLORATI ACCENTUATI) --- */
+        .box {
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin: 5mm 0;
+            page-break-inside: avoid;
+            border: 1px solid transparent;
+        }
+
+        .box-title {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 9pt;
+            margin-bottom: 2mm;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+
+        /* 1. Concetti Chiave */
+        .box-key {
+            background-color: #f1f5f9;
+            border-left: 5px solid #64748b;
+            border-color: #cbd5e1;
+        }
+        .box-key .box-title { color: #334155; }
+
+        /* 2. Analisi del Testo (Italiano) */
+        .box-analysis {
+            background-color: #fafaf9;
+            border-left: 5px solid #78350f;
+            border-color: #e7e5e4;
+            font-family: Georgia, serif;
+        }
+        .box-analysis .box-title { color: #78350f; font-family: "Helvetica Neue", sans-serif; }
+
+        /* 3. Technical Vocabulary (Inglese/CLIL) */
+        .box-vocab {
+            background-color: #f0fdf4;
+            border-left: 5px solid #166534;
+            border-color: #bbf7d0;
+        }
+        .box-vocab .box-title { color: #166534; }
+        .vocab-term { font-weight: bold; color: #0f766e; }
+
+        /* 4. Syntax/Code Block Alert */
+        .box-syntax {
+            background-color: #f0f9ff;
+            border-left: 5px solid #0369a1;
+            border-color: #bae6fd;
+        }
+        .box-syntax .box-title { color: #0369a1; }
+
+        /* 5. Collegamenti Interdisciplinari */
+        .box-inter {
+            background-color: #f5f3ff;
+            border-left: 5px solid #6d28d9;
+            border-color: #ddd6fe;
+        }
+        .box-inter .box-title { color: #6d28d9; }
+
+    </style>
+</head>
+<body>
+
+    <div class="cover-page">
+        <div class="cover-title">Dispensa di Studio Integrata</div>
+        <div class="cover-subtitle">Sistemi e Reti • Informatica • Italiano • Inglese CLIL</div>
+        <div class="cover-meta">
+            <strong>Percorso di Ripasso per l'Esame di Stato</strong><br>
+            Indirizzo: Informatica e Telecomunicazioni<br>
+            Configurazione Editoriale High-Density per il Massimo Punteggio<br>
+            Anno Scolastico 2025 / 2026
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 1: Modulo di Consolidamento e Fondamenti delle Architetture di Rete</h1>
+        
+        <h2>1.1 Infrastruttura e Livelli Protocollari: ISO/OSI e TCP/IP</h2>
+        <p>L'architettura delle reti moderne si fonda sulla scomposizione in livelli protocollari. Il <b>Modello ISO/OSI</b> (strutturato su 7 livelli logici isolati) funge da riferimento teorico, laddove lo <b>Stack TCP/IP</b> (composto da 4 livelli operativi) costituisce l'implementazione fisica e ingegneristica dell'infrastruttura Internet globale.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Livello ISO/OSI</th>
+                    <th>Livello TCP/IP</th>
+                    <th>Unità Dati (PDU)</th>
+                    <th>Funzione Primaria & Protocolli Chiave</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>7. Applicazione / 6. Pres. / 5. Sess.</td>
+                    <td>Applicazione</td>
+                    <td>Dati (Data)</td>
+                    <td>Interfaccia utente, formattazione, cifratura (HTTP, SSH, DNS).</td>
+                </tr>
+                <tr>
+                    <td>4. Trasporto</td>
+                    <td>Trasporto</td>
+                    <td>Segmento / Datagram</td>
+                    <td>Comunicazione end-to-end, multiplexing tramite porte (TCP, UDP).</td>
+                </tr>
+                <tr>
+                    <td>3. Rete</td>
+                    <td>Internet</td>
+                    <td>Pacchetto (Packet)</td>
+                    <td>Indirizzamento logico globale e instradamento ottimale (IPv4, IPv6, ICMP).</td>
+                </tr>
+                <tr>
+                    <td>2. Data Link</td>
+                    <td rowspan="2">Accesso alla Rete</td>
+                    <td>Frame</td>
+                    <td>Indirizzamento fisico (MAC), controllo degli errori sul mezzo (Ethernet, PPP).</td>
+                </tr>
+                <tr>
+                    <td>1. Fisico</td>
+                    <td>Bit</td>
+                    <td>Trasmissione dei segnali tensionarli o ottici sul canale hardware.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Al livello <b>Network / Internet</b>, l'indirizzamento IP garantisce l'identificazione univoca degli host. Al livello <b>Transport</b>, la comunicazione end-to-end viene gestita da due protocolli divergenti:</p>
+        <ul>
+            <li><b>TCP (Transmission Control Protocol):</b> Orientato alla connessione, affidabile, implementa il meccanismo del <i>Three-Way Handshake</i> (SYN, SYN-ACK, ACK), il controllo di flusso (finestra scorrevole) e la gestione della congestione. Garantisce la consegna ordinata e priva di errori dei segmenti.</li>
+            <li><b>UDP (User Datagram Protocol):</b> Non orientato alla connessione, non affidabile, privo di riscontri (ACK). Ottimizzato per la massima velocità e il basso overhead, ideale per streaming multimediale in tempo reale e query DNS.</li>
+        </ul>
+
+        <div class="box box-key">
+            <span class="box-title">Concetti Chiave: Socket Architecture</span>
+            La <b>Socket</b> rappresenta l'astrazione software che identifica univocamente un punto di terminazione di una comunicazione di rete. Essa è definita rigorosamente dalla combinazione logica: <code>Socket = Indirizzo IP + Porta Trasporto</code> (es. <code>192.168.1.50:443</code> per una sessione HTTPS).
+        </div>
+
+        <h2>1.2 Configurazione e Indirizzamento: DHCP e DNS</h2>
+        <p>L'assegnazione dei parametri IP all'interno di un dominio locale avviene dinamicamente mediante il protocollo <b>DHCP (Dynamic Host Configuration Protocol)</b>, operante a livello applicativo su porte UDP 67 e 68. Il ciclo d'interazione si articola in quattro fasi distinte (<b>DORA</b>):</p>
+        <ol>
+            <li><b>DHCP Discover:</b> Il client invia un frame in broadcast totale (<code>255.255.255.255</code>) per individuare i server attivi.</li>
+            <li><b>DHCP Offer:</b> I server rispondono in unicast/broadcast offrendo una configurazione IP disponibile (IP, Subnet, Gateway, DNS).</li>
+            <li><b>DHCP Request:</b> Il client richiede formalmente i parametri offerti dal server selezionato, notificando gli altri in broadcast.</li>
+            <li><b>DHCP Acknowledge (ACK):</b> Il server conferma l'assegnazione e fissa il tempo di locazione (<i>Lease Time</i>).</li>
+        </ol>
+        <p>Il sistema <b>DNS (Domain Name System)</b> mappa in modo distribuito e gerarchico i nomi di dominio leggibili (es. <code>www.esempio.it</code>) in indirizzi IP numerici instradabili, sfruttando record di tipo <code>A</code> (IPv4), <code>AAAA</code> (IPv6), <code>CNAME</code> (alias) e <code>MX</code> (server di posta).</p>
+
+        <h2>1.3 Traduzione degli Indirizzi: NAT e PAT</h2>
+        <p>Per arginare l'esaurimento dello spazio di indirizzamento IPv4, le tecniche di <b>NAT (Network Address Translation)</b> e <b>PAT (Port Address Translation)</b> consentono di mappare un intero blocco di indirizzi IP privati (non instradabili su Internet, definiti dalla RFC 1918) dietro un unico o un ristretto pool di indirizzi IP pubblici operanti sul router perimetrale. Nel PAT, il router riscrive l'intestazione del pacchetto modificando l'IP sorgente e associando ad ogni host interno una porta sorgente TCP/UDP univoca generata dinamicamente, mantenendo una tabella di traduzione di stato internamente.</p>
+
+        <div class="box box-vocab">
+            <span class="box-title">Technical Vocabulary & CLIL Integration</span>
+            <span class="vocab-term">Lease Time:</span> The specific duration for which a DHCP server allocates an IP address to a client before it expires or requires renewal.<br>
+            <span class="vocab-term">Three-Way Handshake:</span> The reliable synchronization process used by TCP to establish a connection using SYN, SYN-ACK, and ACK flags.<br>
+            <span class="vocab-term">Iterative Query:</span> A DNS resolution process where the local resolver queries multiple authoritative nameservers step-by-step down the domain hierarchy.
+        </div>
+
+        <h2>1.4 Laboratorio Cisco Packet Tracer: Subnetting e DHCP</h2>
+        <p>La pianificazione di un piano di indirizzamento efficiente richiede il calcolo delle maschere a lunghezza variabile (<b>VLSM</b>). Avendo a disposizione la rete <code>192.168.1.0/24</code>, si richiede il partizionamento in sottoreti per soddisfare le esigenze di dipartimenti aziendali isolati.</p>
+
+        <div class="box box-syntax">
+            <span class="box-title">Syntax/Code Block: Cisco IOS DHCP Configuration</span>
+            <pre>! Configurazione dell'interfaccia logica sul Router Perimetrale
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip address 192.168.1.1 255.255.255.192
+Router(config-if)# no shutdown
+Router(config-if)# exit
+
+! Esclusione degli indirizzi IP statici dedicati a server e gateway
+Router(config)# ip dhcp excluded-address 192.168.1.1 192.168.1.10
+
+! Definizione ed attivazione del Pool DHCP per i Client aziendali
+Router(config)# ip dhcp pool LAN_AZIENDALE
+Router(config-dhcp)# network 192.168.1.0 255.255.255.192
+Router(config-dhcp)# default-router 192.168.1.1
+Router(config-dhcp)# dns-server 8.8.8.8
+Router(config-dhcp)# lease 1 0 0 (1 giorno)</pre>
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari: Italo Calvino e le Reti Invisibili</span>
+            L'infrastruttura logica di instradamento e interconnessione delle architetture di rete trova un parallelo strutturale e concettuale nell'opera di <b>Italo Calvino</b>, in particolare nelle matrici combinatorie di <i>Le città invisibili</i> (1972) e <i>Il castello dei destini incrociati</i> (1969). Calvino decostruisce la narrazione tradizionale riducendola ad un insieme finito di nodi semantici e stringhe informative scambiate tra i personaggi. La comunicazione all'interno dello stack protocollare ricalca la ricerca calviniana di una struttura razionale e geometrica capace di imbrigliare il caos informativo del reale.
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 2: Funzionalità e Caratteristiche dei Principali Servizi di Rete</h1>
+        
+        <h2>2.1 Architetture Software dell'Application Layer</h2>
+        <p>I servizi di rete operano seguendo due paradigmi distribuiti principali:</p>
+        <ul>
+            <li><b>Client-Server:</b> Struttura centralizzata asimmetrica. Un host sempre attivo (Server) risponde in ascolto su porte note alle richieste asincrone inviate da molteplici nodi client (es. HTTP su 80, HTTPS su 443).</li>
+            <li><b>Peer-to-Peer (P2P):</b> Architettura simmetrica in cui ogni nodo (Peer) agisce contemporaneamente sia da client sia da server, condividendo porzioni di risorse computazionali e file system senza intermediari centralizzati.</li>
+        </ul>
+
+        <h2>2.2 Studio Analitico dei Protocolli Applicativi</h2>
+        <h3>Telnet e SSH</h3>
+        <p><b>Telnet</b> (porta TCP 23) consente l'avvio di sessioni terminali remote trasmettendo le credenziali e i comandi in chiaro, esponendo il sistema ad attacchi di intercettazione passiva (<i>sniffing</i>). <b>SSH (Secure Shell)</b> (porta TCP 22) sostituisce interamente Telnet implementando una cifratura asimmetrica per la fase di autenticazione e una cifratura simmetrica per la sessione di dati, garantendo riservatezza e integrità crittografica.</p>
+
+        <h3>FTP (File Transfer Protocol)</h3>
+        <p>Operante su porte TCP 20 (Dati) e 21 (Controllo). Si articola in due modalità:</p>
+        <ul>
+            <li><b>Modalità Attiva:</b> Il client si connette alla porta 21 del server e comunica una propria porta dinamica su cui il server dovrà avviare la connessione dati partendo dalla sua porta 20 (spesso bloccato dai firewall del client).</li>
+            <li><b>Modalità Passiva:</b> Il client avvia entrambe le connessioni; il server indica al client su quale porta effimera aprirà il canale dati, superando i limiti restrittivi dei firewall periferici.</li>
+        </ul>
+
+        <h3>HTTP, WWW e la transizione a HTTPS</h3>
+        <p>Il protocollo <b>HTTP (HyperText Transfer Protocol)</b> è di tipo stateless (privo di memoria di stato). I messaggi si dividono in Request (caratterizzate dai metodi <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>) e Response (identificate da codici di stato strutturati, es. <code>200 OK</code>, <code>404 Not Found</code>, <code>500 Internal Server Error</code>). La sua evoluzione sicura, <b>HTTPS</b>, incapsula il traffico HTTP classico all'interno di un canale cifrato governato dal protocollo <b>TLS (Transport Layer Security)</b>, garantendo l'autenticazione del server tramite certificati X.509 e l'inviolabilità dei dati in transito.</p>
+
+        <h3>Architettura della Posta Elettronica</h3>
+        <p>Il trasferimento dei messaggi tra server di posta (MTA) è affidato esclusivamente al protocollo <b>SMTP</b> (porta TCP 25 o 587 con TLS). Per il recupero e lo scaricamento locale dei messaggi da parte del client finale (MUA), si impiegano due standard antitetici:</p>
+        <ul>
+            <li><b>POP3 (Post Office Protocol v3):</b> Porta TCP 110. Scarica localmente i messaggi cancellandoli di default dal server, limitando la sincronizzazione multi-dispositivo.</li>
+            <li><b>IMAP4 (Internet Message Access Protocol v4):</b> Porta TCP 143. Mantiene i messaggi e le cartelle centralizzati sul server, consentendo una sincronizzazione costante e simultanea da più client remoti.</li>
+        </ul>
+
+        <h3>Protocolli Multimediali e IoT</h3>
+        <p>Per la trasmissione di flussi multimediali in tempo reale, si adoperano i protocolli <b>RTSP (Real-Time Streaming Protocol)</b> per il controllo della riproduzione e <b>RTP (Real-Time Transport Protocol)</b> su base UDP per il trasporto effettivo dei pacchetti dati. In ambito <b>IoT (Internet of Things)</b>, domina il protocollo ultraleggero <b>MQTT (Message Queuing Telemetry Transport)</b>, basato su un paradigma di tipo <i>Publish/Subscribe</i> mediato da un entità centrale detta <i>Broker</i>, minimizzando il consumo di banda e l'energia dei sensori.</p>
+
+        <div class="box box-vocab">
+            <span class="box-title">Technical Vocabulary & CLIL Integration</span>
+            <span class="vocab-term">Stateless Protocol:</span> A communications protocol that treats each request as an independent transaction, completely unrelated to any previous request.<br>
+            <span class="vocab-term">Publish/Subscribe:</span> A messaging pattern where senders (publishers) categorize messages into topics without knowing who the specific receivers (subscribers) are.
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari: Pirandello e i Quaderni di Serafino Gubbio Operatore</span>
+            La meccanizzazione e l'automazione dei servizi e della comunicazione di rete evocano la critica profonda avanzata da <b>Luigi Pirandello</b> nel romanzo <i>I quaderni di Serafino Gubbio operatore</i> (1925). Serafino, ridotto a una pura "mano che gira la manovella" della cinepresa, sperimenta l'alienazione indotta dall'interfaccia tecnologica. Così come i protocolli applicativi standardizzano lo scambio di messaggi riducendolo a rigidi costrutti binari ed esecutivi, l'uomo pirandelliano inserito nella macchina produttiva industriale perde la propria spontaneità vitale, trasformandosi in un mero ingranaggio rigido e impersonale di un'architettura client-server socio-economica.
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 3: Virtual LAN (VLAN)</h1>
+        
+        <h2>3.1 Tecnologie di Livello 2 e Livello 3</h2>
+        <p>Lo standard <b>Ethernet (IEEE 802.3)</b> opera al livello Data Link, governando la trasmissione dei frame basandosi sugli indirizzi fisici memorizzati nelle schede di rete (<b>MAC Address</b>, a 48 bit). Gli <b>Switch unmanaged</b> inoltrano i frame in modo trasparente popolando autonomamente una tabella interna (<i>MAC Address Table</i> o <i>CAM Table</i>) tramite l'ispezione dei MAC sorgente. Gli <b>Switch managed</b> consentono la configurazione avanzata delle porte, la gestione della sicurezza e la segmentazione in reti locali virtuali. I moderni <b>Layer 3 Switch</b> uniscono la velocità di commutazione hardware dello switch di livello 2 alle capacità di instradamento logico IP tipiche di un router di livello 3.</p>
+
+        <h2>3.2 Architettura delle VLAN e Standard di Tagging IEEE 802.1Q</h2>
+        <p>Una <b>VLAN (Virtual Local Area Network)</b> consiste in una segmentazione logica di una rete fisica locale di livello 2. Essa isola nativamente i domini di broadcast senza richiedere modifiche al cablaggio hardware, incrementando la sicurezza interna, ottimizzando le prestazioni di banda e semplificando la gestione amministrativa degli host.</p>
+        
+        <p>Le porte di uno switch managed possono essere configurate secondo due modalità operative:</p>
+        <ul>
+            <li><b>Access Port:</b> La porta appartiene stabilmente ad una singola VLAN specifica. Il traffico viaggia in modo tradizionale senza alcuna modifica, poichè i dispositivi terminali (PC, stampanti) non sono a conoscenza dell'esistenza delle VLAN.</li>
+            <li><b>Trunk Port:</b> Configurazione di collegamento ad alta capacità (generalmente tra switch o tra switch e router) che consente il transito simultaneo dei frame appartenenti a molteplici VLAN distinte sullo stesso canale fisico.</li>
+        </ul>
+
+        <p>Per veicolare il traffico di VLAN differenti su un unico link Trunk senza ambiguità, interviene lo standard internazionale <b>IEEE 802.1Q</b>. Questo protocollo inserisce un'intestazione di 4 byte (<i>Tag</i>) all'interno del frame Ethernet originario, posizionato immediatamente dopo il campo MAC Sorgente.</p>
+
+        <div class="box box-key">
+            <span class="box-title">Concetti Chiave: Struttura del Tag 802.1Q (4 Byte)</span>
+            <ul>
+                <li><b>TPID (Tag Protocol Identifier - 16 bit):</b> Fissato al valore esadecimale <code>0x8100</code> per identificare la presenza del frame modificato secondo lo standard 802.1Q.</li>
+                <li><b>TCI (Tag Control Information):</b> Sotto-strutturato a sua volta in:<br>
+                    - <i>PCP (Priority Code Point - 3 bit):</i> Utilizzato per la gestione della qualità del servizio (QoS / Class of Service).<br>
+                    - <i>DEI (Drop Eligible Indicator - 1 bit):</i> Indica la priorità di scarto del frame in caso di congestione di rete.<br>
+                    - <i>VID (VLAN Identifier - 12 bit):</i> Il valore numerico effettivo che specifica la VLAN di appartenenza (da 1 a 4094).
+                </li>
+            </ul>
+        </div>
+
+        <h2>3.3 Laboratorio Cisco Packet Tracer: Configurazione Multilayer VLAN Aziendale</h2>
+        <p>Implementazione di uno scenario aziendale strutturato su tre VLAN logiche distinte: <b>VLAN 10 (Amministrazione)</b>, <b>VLAN 20 (Produzione)</b>, e <b>VLAN 30 (Guest)</b>, con interconnessione inter-VLAN tramite router esterno sfruttando la tecnica <i>Router-on-a-Stick</i>.</p>
+
+        <div class="box box-syntax">
+            <span class="box-title">Syntax/Code Block: Switch and Router Subinterfaces Setup</span>
+            <pre>! =======================================================
+! CONFIGURAZIONE DELLO SWITCH MANAGED (L2)
+! =======================================================
+Switch# configure terminal
+Switch(config)# vlan 10
+Switch(config-vlan)# name Amministrazione
+Switch(config-vlan)# vlan 20
+Switch(config-vlan)# name Produzione
+Switch(config-vlan)# exit
+
+! Assegnazione della porta FastEthernet 0/5 alla VLAN 10 in modalità Access
+Switch(config)# interface FastEthernet0/5
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+Switch(config-if)# exit
+
+! Configurazione della porta GigabitEthernet 0/1 come Trunk verso il Router
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# exit
+
+! =======================================================
+! CONFIGURAZIONE DEL ROUTER (ROUTER-ON-A-STICK)
+! =======================================================
+Router# configure terminal
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+
+! Creazione e configurazione della sottointerfaccia logica per la VLAN 10
+Router(config)# interface GigabitEthernet0/0.10
+Router(config-subif)# encapsulation dot1Q 10
+Router(config-subif)# ip address 192.168.10.1 255.255.255.0
+Router(config-subif)# exit
+
+! Creazione e configurazione della sottointerfaccia logica per la VLAN 20
+Router(config)# interface GigabitEthernet0/0.20
+Router(config-subif)# encapsulation dot1Q 20
+Router(config-subif)# ip address 192.168.20.1 255.255.255.0
+Router(config-subif)# end</pre>
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari: Pirandello, la Segmentazione dell'Io e le Maschere Nude</span>
+            Il concetto di compartimentazione isolata e protetta fornito dalle VLAN trova una profonda corrispondenza analogica nel relativismo psicologico di <b>Luigi Pirandello</b>, in particolare nei capolavori <i>Il fu Mattia Pascal</i> (1904) e <i>Uno, nessuno e centomila</i> (1926). Le VLAN creano barriere logiche invisibili per separare il traffico dati all'interno della stessa infrastruttura fisica, impedendo ai nodi di comunicare se non esplicitamente autorizzati da un layer superiore. Allo stesso modo, l'uomo pirandelliano frammenta la propria identità in molteplici "maschere" o compartimenti stagni per adattarsi ai differenti contesti sociali. Ogni maschera è una "sottointerfaccia logica" (una vista parziale) che la società e l'individuo proiettano sull'Io, determinando l'isolamento comunicativo ed esistenziale dell'individuo, intrappolato in un proprio e autonomo dominio di broadcast sociale.
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 4: Tecniche Crittografiche Applicate alla Protezione dei Sistemi e delle Reti</h1>
+        
+        <h2>4.1 Requisiti di Internet Security: Il Modello CIA Triad</h2>
+        <p>La sicurezza informatica poggia sul modello a tre pilastri denominato <b>CIA Triad</b>:</p>
+        <ul>
+            <li><b>Riservatezza (Confidentiality):</b> Garantire che i dati siano accessibili solo alle entità legittimamente autorizzate, tramite l'ausilio di algoritmi crittografici.</li>
+            <li><b>Integrità (Integrity):</b> Assicurare che le informazioni non subiscano modifiche arbitrarie, manomissioni o alterazioni dolose durante la trasmissione o lo stoccaggio, verificabile tramite funzioni di hash.</li>
+            <li><b>Disponibilità (Availability):</b> Permettere agli utenti autorizzati l'accesso continuo e privo di interruzioni alle risorse e ai servizi aziendali, contrastando guasti hardware e attacchi DDoS.</li>
+        </ul>
+        <p>A questi si aggiungono l'<b>Autenticazione</b> (verifica certa dell'identità degli interlocutori) e il <b>Non Ripudio</b> (impossibilità per un'entità di negare l'invio o la ricezione di una transazione eseguita, implementato via Firma Digitale).</p>
+
+        <h2>4.2 Fondamenti Matematici e Teorici della Crittografia</h2>
+        <p>Un sistema crittografico è formalizzato dalla quintupla <span class="math">(P, C, K, E, D)</span>, dove <span class="math">P</span> è l'insieme del testo in chiaro (plaintext), <span class="math">C</span> il testo cifrato (ciphertext), <span class="math">K</span> lo spazio delle chiavi, <span class="math">E</span> l'algoritmo di cifratura e <span class="math">D</span> l'algoritmo di decifratura.</p>
+        
+        <p>Il principio cardine della sicurezza moderna è enunciato dal <b>Teorema di Kerckhoffs</b>: <i>la sicurezza di un cifrario deve dipendere esclusivamente dalla segretezza della chiave crittografica, e non dalla segretezza dell'algoritmo matematico utilizzato, che si assume essere di pubblico dominio.</i> Claude Shannon ha successivamente integrato questo approccio introducendo i concetti fondamentali di:</p>
+        <ul>
+            <li><b>Confusione:</b> Rendere la relazione statistica tra il testo cifrato e la chiave il più complessa e non lineare possibile.</li>
+            <li><b>Diffusione:</b> Distribuire la struttura statistica del testo in chiaro su tutto il testo cifrato (se un singolo bit del testo in chiaro muta, circa la metà dei bit del testo cifrato deve variare radicalmente - <i>Effetto Valanga</i>).</li>
+        </ul>
+        <p>L'unico cifrario perfetto a sicurezza incondizionata (inviolabile anche con potenza computazionale infinita) è il <b>One-Time Pad (OTP)</b>, a patto che la chiave sia generata in modo puramente casuale, sia lunga quanto il messaggio da cifrare, sia utilizzata una sola volta e mantenuta segreta.</p>
+
+        <h2>4.3 Tassonomia dei Cifratori Storici e Moderni</h2>
+        <p>I cifratori si dividono storicamente in <i>Sostituzione</i> (monoalfabetici come il Cifrario di Cesare, o polialfabetici basati su matrici come il Cifrario di Vigenère) e <i>Trasposizione</i> (riarrangiamento geometrico delle posizioni dei caratteri originali). I sistemi moderni si classificano invece in:</p>
+        <ul>
+            <li><b>Crittografia Simmetrica (Chiave Privata Condivisa):</b> Unica chiave per cifrare e decifrare. Estremamente veloce ed efficiente su grandi moli di dati. Il <b>DES (Data Encryption Standard)</b>, operante a blocchi di 64 bit con chiave effettiva di soli 56 bit, è oggi obsoleto per vulnerabilità intrinseche agli attacchi a forza bruta. Il suo successore temporaneo <b>Triple-DES (3DES)</b> esegue tre iterazioni consecutive di cifratura/decifratura aumentando la lunghezza della chiave, ma risulta computazionalmente pesante rispetto al moderno standard <b>AES (Advanced Encryption Standard)</b>.</li>
+            <li><b>Crittografia Asimmetrica (Chiave Pubblica/Privata):</b> Coppia di chiavi matematicamente correlate. La chiave pubblica è accessibile a chiunque e serve a cifrare; la chiave privata è strettamente segreta ed è l'unica in grado di decifrare. Il pilastro fondamentale è l'algoritmo <b>RSA</b> (dai creatori Rivest, Shamir, Adleman), la cui sicurezza computazionale si basa sull'intrinseca difficoltà matematica della fattorizzazione in fattori primi di grandi numeri interi (Problema del Logaritmo Discreto).</li>
+        </ul>
+
+        <div class="box box-key">
+            <span class="box-title">Modello Matematico dell'Algoritmo RSA</span>
+            1. Generazione delle chiavi:<br>
+            - Scegliere due numeri primi di grandi dimensioni <span class="math">p</span> e <span class="math">q</span>.<br>
+            - Calcolare il modulo <span class="math">n = p &times; q</span> e la funzione d'Eulero <span class="math">&phi;(n) = (p - 1)(q - 1)</span>.<br>
+            - Selezionare un esponente pubblico <span class="math">e</span> tale che sia coprimo con <span class="math">&phi;(n)</span> e <span class="math">1 < e < &phi;(n)</span>.<br>
+            - Calcolare l'esponente privato <span class="math">d</span> come l'inverso moltiplicativo di <span class="math">e</span> modulo <span class="math">&phi;(n)</span>, ovvero: <span class="math">d &times; e &equiv; 1 (mod &phi;(n))</span>.<br>
+            - Chiave Pubblica = <span class="math">(e, n)</span>; Chiave Privata = <span class="math">(d, n)</span>.<br>
+            2. Cifratura del messaggio <span class="math">m</span>: <span class="math">c = m<sup>e</sup> (mod n)</span>.<br>
+            3. Decifratura del testo cifrato <span class="math">c</span>: <span class="math">m = c<sup>d</sup> (mod n)</span>.
+        </div>
+
+        <p>Per superare i limiti di lentezza computazionale dell'algoritmo RSA e risolvere il problema della distribuzione sicura della chiave simmetrica, si utilizza la <b>Crittografia Ibrida</b>. Le entità scambiano in modo sicuro una chiave simmetrica temporanea (<i>Chiave di Sessione</i>) utilizzando l'algoritmo di scambio chiavi di <b>Diffie-Hellman</b>, dopodiché cifrano l'intera comunicazione dati tramite un cifrario simmetrico rapido (AES).</p>
+        
+        <p>L'integrità del messaggio è garantita dalle <b>funzioni di Hash</b> (algoritmi deterministici non invertibili a senso unico che generano un'impronta digitale a lunghezza fissa, come SHA-256). La <b>Firma Digitale</b> si ottiene cifrando l'hash del messaggio con la propria <i>chiave privata</i>, consentendo a chiunque possieda la chiave pubblica del mittente di verificarne l'autenticità e l'integrità. I <b>Certificati Digitali X.509</b> emessi dalle <b>Certification Authority (CA)</b> legano legalmente una chiave pubblica alla reale identità di un soggetto, neutralizzando gli attacchi di tipo Man-in-the-Middle.</p>
+
+        <div class="box box-syntax">
+            <span class="box-title">Syntax/Code Block: PHP Secure Connection with PDO & Password Hashing</span>
+            <pre>&lt;?php
+// Parametri di configurazione e connessione sicura al DB relazionale tramite PDO
+$dsn = "mysql:host=localhost;dbname=infrastruttura_sicura;charset=utf8mb4";
+$db_user = "admin_security";
+$db_pass = "KercKhoffs_2026!";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false, // Previene SQL Injection via Prepared Statements nativi
+];
+
+try {
+    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+} catch (\PDOException $e) {
+    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+}
+
+// Fase di Validazione ed Autenticazione Utente con hashing forte (BCRYPT)
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+    $password_input = $_POST['password'];
+
+    // Costruzione della query protetta tramite Prepared Statement
+    $stmt = $pdo->prepare("SELECT id_utente, password_hash FROM utenti WHERE username = :user");
+    $stmt->execute(['user' => $username]);
+    $user = $stmt->fetch();
+
+    if ($user && password_verify($password_input, $user['password_hash'])) {
+        // Autenticazione superata con successo: avvio della sessione persistente protetta
+        session_start();
+        $_SESSION['user_id'] = $user['id_utente'];
+        $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        echo "Autenticazione Crittografica Riuscita.";
+    } else {
+        echo "Credenziali Non Valide.";
+    }
+}
+?&gt;</pre>
+        </div>
+
+        <div class="box box-vocab">
+            <span class="box-title">Technical Vocabulary & CLIL Integration</span>
+            <span class="vocab-term">Cryptanalysis:</span> The study of cryptographic systems in order to find weaknesses and decrypt ciphertext without knowing the key.<br>
+            <span class="vocab-term">Steganography:</span> The practice of concealing a secret message, file, or image within another ordinary file or medium to hide its very existence.<br>
+            <span class="vocab-term">Brute-Force Attack:</span> An automated cryptanalytic attack that systematically checks all possible keys in the key space until the correct one is found.
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari: Svevo, la Psicoanalisi e la Decodifica della Coscienza</span>
+            La crittografia si propone come la scienza della decodifica di messaggi apparentemente privi di significato logico per rintracciarne la chiave interpretativa originaria. Questo impianto metodologico ricalca fedelmente la rivoluzione letteraria e psicologica operata da <b>Italo Svevo</b> ne <i>La coscienza di Zeno</i> (1923). Zeno Cosini, guidato dal Dottor S., scrive la propria autobiografia sotto forma di un ammasso disordinato di ricordi falsati, omissioni e atti mancati che nascondono sistematicamente la verità profonda delle sue nevrosi (la sua inettitudine). La psicoanalisi si comporta esattamente come un processo di <i>crittanalisi dell'inconscio</i>: il terapeuta deve interpretare il "testo cifrato" dei sintomi e dei sogni del paziente per ricostruire, tramite una faticosa decifratura logica, la "chiave segreta" del trauma originario rimosso, superando i firewall difensivi eretti dalla coscienza.
+        </div>
+        
+        <div class="box box-inter">
+            <span class="box-title">CLIL Literature Integration: Alan Turing and the Modernist Break</span>
+            The mathematical formalization of cryptography found its execution during World War II with <b>Alan Turing</b> and the decryption of the German <i>Enigma</i> machine at Bletchley Park. This logical and mechanized parsing of codes fundamentally changed the 20th century. In British literature, this technological shift corresponds to the <b>Modernist Revolution</b>. Authors like James Joyce and Virginia Woolf rejected traditional linear timelines, introducing the <i>Stream of Consciousness</i> technique. Just as Turing broken down human computation into binary state machines, Modernist writers broke down standard narratives into non-linear, fragmented lexical streams that require the active reader to act as a cryptanalyst to decipher the character's deeper psychological reality.
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 5: Tecniche di Filtraggio del Traffico di Rete (Firewall)</h1>
+        
+        <h2>5.1 Analisi dei Rischi nei Sistemi Informativi</h2>
+        <p>La protezione di un perimetro informatico impone l'identificazione sistematica degli <i>asset</i> (risorse fisiche come server e switch, e risorse logiche come database e sorgenti software). Le minacce si classificano in ambientali/naturali (alluvioni, incendi), umane involontarie (errori di configurazione dei sistemisti, distrazione dei dipendenti) e umane intenzionali (attacchi malware, esfiltrazione dati da parte di cracker). Le contromisure includono policy di sicurezza, sistemi di backup ridondati e difese perimetrali hardware.</p>
+
+        <h2>5.2 Architettura dei Firewall e Categorie di Filtraggio</h2>
+        <p>Il <b>Firewall</b> rappresenta il componente cardine della sicurezza perimetrale, incaricato di ispezionare e filtrare il traffico dati in transito tra reti a diverso livello di fiducia (es. Internet esterna e LAN aziendale interna). I sistemi di filtraggio si dividono in:</p>
+        <ul>
+            <li><b>Packet Filtering Stateless:</b> Analizza i singoli pacchetti in modo isolato, confrontandone i campi dell'intestazione (IP sorgente/destinazione, porte TCP/UDP, flag) con una lista di regole statiche (ACL), senza mantenere traccia delle sessioni attive complessive.</li>
+            <li><b>Packet Filtering Stateful (Stateful Inspection):</b> Mantiene una tabella di stato interna (<i>State Table</i>) che traccia attivamente tutte le connessioni stabilite. Il firewall permette il transito dei pacchetti in ingresso solo se appartengono a una sessione legittima avviata precedentemente dall'interno della rete, innalzando drasticamente il livello di protezione.</li>
+            <li><b>Application Level Firewall (Proxy Server):</b> Agisce al livello applicazione, interrompendo la connessione diretta tra client e server estraneo. Il Proxy rigenera interamente le richieste, ispezionando il contenuto effettivo dei payload (es. blocco di URL specifici, analisi di codice malevolo in transito), offrendo il massimo controllo a scapito delle prestazioni velocistiche.</li>
+        </ul>
+
+        <h2>5.3 Sicurezza Perimetrale: ACL e Zone Demilitarizzate (DMZ)</h2>
+        <p>Le <b>ACL (Access Control List)</b> implementano il filtraggio sul router/firewall. Si dividono in Cisco IOS in:</p>
+        <ul>
+            <li><i>ACL Standard (1-99):</i> Filtrano il traffico basandosi esclusivamente sull'indirizzo IP Sorgente. Vanno applicate il più vicino possibile alla destinazione.</li>
+            <li><i>ACL Estese (100-199):</i> Filtrano valutando IP Sorgente, IP Destinazione, Tipo di Protocollo (IP, TCP, UDP, ICMP) e Numero di Porta Trasporto. Vanno posizionate il più vicino possibile alla sorgente del traffico.</li>
+        </ul>
+        
+        <p>Per esporre servizi pubblici (Web Server, Mail Server) senza compromettere la sicurezza della LAN interna privata, si progetta una <b>DMZ (Demilitarized Zone)</b>. Le architetture principali sono:</p>
+        <ul>
+            <li><b>DMZ a vicolo cieco (Three-Legged Firewall):</b> Un unico firewall fisico dotato di tre schede di rete connette rispettivamente Internet, LAN interna e la DMZ in modo isolato.</li>
+            <li><b>DMZ a cuscinetto (Screened Subnet):</b> La DMZ è isolata fisicamente interponendosi tra due firewall distinti posti in cascata (Firewall Esterno connesso a Internet e Firewall Interno connesso alla LAN), massimizzando la resilienza strutturale contro le intrusioni.</li>
+        </ul>
+
+        <div class="box box-syntax">
+            <span class="box-title">Syntax/Code Block: Cisco Extended Access Control List Setup</span>
+            <pre>! Configurazione di una ACL Estesa per proteggere la LAN aziendale
+Router# configure terminal
+Router(config)# access-list 101 permit tcp any host 192.168.2.10 eq 80
+Router(config)# access-list 101 permit tcp any host 192.168.2.10 eq 443
+Router(config)# access-list 101 permit tcp 192.168.1.0 0.0.0.255 any
+Router(config)# access-list 101 deny ip any 192.168.1.0 0.0.0.255
+Router(config)# access-list 101 permit ip any any
+
+! Applicazione della regola all'interfaccia GigabitEthernet 0/0 in ingresso
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip access-group 101 in
+Router(config-if)# end</pre>
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari: Eugenio Montale e la Barriera Eletta del Muro</span>
+            Il concetto di firewall e di filtraggio perimetrale come barriera difensiva atta a respingere le minacce esterne trova una potente espressione analogica nella poetica esistenziale di <b>Eugenio Montale</b>, in particolare nella celebre lirica <i>Meriggiare pallido e assorto</i> (da <i>Ossi di seppia</i>, 1925). Il muro descritto da Montale, "che ha in cima cocci aguzzi di bottiglia", agisce esattamente come un firewall perimetrale invalicabile: una barriera fisica e insuperabile che isola l'uomo, impedendo la comunicazione tra l'interno (la coscienza dolorosa del poeta) e l'esterno (la felicità e il segreto della natura che rimangono preclusi). I cocci aguzzi di bottiglia rappresentano le regole rigide di una lista di controllo degli accessi esistenziale (ACL) che nega il transito dei pacchetti di senso, condannando l'individuo a un isolamento perimetrale assoluto.
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 6: Reti Private Virtuali (VPN)</h1>
+        
+        <h2>6.1 Architettura, Classificazione e Vantaggi delle VPN</h2>
+        <p>Una <b>VPN (Virtual Private Network)</b> estende una rete privata locale oltre i confini geografici, sfruttando un'infrastruttura di trasporto pubblica e condivisa come Internet. Tramite protocolli crittografici, la VPN instaura un canale logico cifrato protetto definito <b>Tunnel</b>. Rispetto alle linee dedicate tradizionali (es. affitto di circuiti dedicati punto-punto fisici), le VPN offrono un abbattimento drastico dei costi di gestione aziendali e un'elevatissima scalabilità e flessibilità di configurazione degli endpoint.</p>
+        
+        <p>Le VPN si classificano in base allo scenario operativo:</p>
+        <ul>
+            <li><b>Remote-Access VPN:</b> Consente ai singoli lavoratori remoti (es. in modalità Smart Working) di connettersi in modo sicuro alla rete aziendale centrale da qualsiasi postazione esterna tramite l'ausilio di un client software dedicato.</li>
+            <li><b>Site-to-Site VPN:</b> Interconnette stabilmente intere sedi geograficamente distanti di una medesima azienda (es. filiale periferica e quartier generale), configurando i tunnel direttamente sui router perimetrali in modo del tutto trasparente per gli utenti interni.</li>
+        </ul>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Modello di Sicurezza</th>
+                    <th>Caratteristiche Strutturali dell'Infrastruttura VPN</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Trusted VPN</b></td>
+                    <td>La sicurezza del percorso è garantita dall'operatore di telecomunicazioni che alloca circuiti dedicati esclusivi (es. MPLS), ma i dati non viaggiano necessariamente cifrati dal cliente.</td>
+                </tr>
+                <tr>
+                    <td><b>Secure VPN</b></td>
+                    <td>I dati vengono cifrati, autenticati e validati all'origine tramite protocolli di sicurezza crittografici prima dell'inoltro sulla rete pubblica di transito.</td>
+                </tr>
+                <tr>
+                    <td><b>Hybrid VPN</b></td>
+                    <td>Unisce le garanzie di instradamento di una rete Trusted con i protocolli di cifratura end-to-end di una rete Secure, massimizzando l'affidabilità aziendale.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6.2 Protocolli di Sicurezza per il Tunneling Crittografico</h2>
+        <p>Per la realizzazione del tunnel cifrato si impiegano principalmente due suite protocollari:</p>
+        <ol>
+            <li><b>IPSec (Internet Protocol Security):</b> Opera a livello 3 (Network). Suite robusta composta da due protocolli chiave: <i>AH (Authentication Header)</i> che garantisce solo l'integrità e l'autenticazione del pacchetto, ed <i>ESP (Encapsulating Security Payload)</i> che aggiunge la cifratura completa dei dati. IPSec può operare in <i>Transport Mode</i> (cifra solo il payload IP originale mantenendo intatta l'intestazione originaria) o in <i>Tunnel Mode</i> (l'intero pacchetto originario viene cifrato e incapsulato dentro un nuovo pacchetto IP esterno dotato di intestazioni inedite, ideale per connessioni Site-to-Site).</li>
+            <li><b>SSL/TLS VPN:</b> Opera a livello applicativo. Non richiede software client dedicati complessi poiché sfrutta l'architettura nativa dei comuni browser web, risultando ideale per accessi Remote-Access flessibili e granulari a servizi specifici.</li>
+        </ol>
+
+        <div class="box box-vocab">
+            <span class="box-title">Technical Vocabulary & CLIL Integration</span>
+            <span class="vocab-term">Tunneling:</span> A method of transmitting data across a network by encapsulating one network protocol data unit within the payload of another packet.<br>
+            <span class="vocab-term">Encapsulating Security Payload (ESP):</span> A core IPSec protocol providing encryption, source data authentication, and integrity protection for network packets.
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari: Ungaretti e il Porto Sepolto come Canale Sicuro</span>
+            L'esigenza di creare un tunnel protetto, ermetico e inaccessibile dall'esterno all'interno del caos indistinto della rete pubblica trova un riscontro lirico nell'Ermetismo di <b>Giuseppe Ungaretti</b>, e in particolare nella lirica <i>Il porto sepolto</i> (1916). Il porto rappresenta il nucleo nascosto e segreto dell'interiorità dell'autore, un rifugio spirituale intatto che si contrappone alla distruzione e al disordine della guerra di trincea. L'atto del poeta che discende nel porto per riemergere con i suoi canti ricalca il meccanismo di incapsulamento e tunneling di una VPN: i messaggi poetici vengono protetti dalle insidie del mondo esterno racchiudendosi in una forma ermetica pura e "cifrata", garantendo la persistenza dell'essenza umana al riparo dalle violenze della realtà storica circostante.
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 7: Reti Wireless e Reti Cellulari</h1>
+        
+        <h2>7.1 Architettura e Componenti delle Reti Senza Fili</h2>
+        <p>Le reti wireless eliminano la necessità del cablaggio fisico sfruttando onde radio o infrarossi. Si classificano in base al raggio di copertura geografica:</p>
+        <ul>
+            <li><b>WPAN (Wireless Personal Area Network):</b> Corto raggio (entro i 10 metri). Tecnologie chiave: <i>Bluetooth</i> (IEEE 802.15.1) adibito all'interconnessione di periferiche personali, e sistemi legacy <i>IrDA</i> a infrarossi.</li>
+            <li><b>WLAN (Wireless Local Area Network):</b> Standard <i>Wi-Fi</i> (IEEE 802.11). I componenti base includono i <b>Wireless Terminal (WT)</b> e gli <b>Access Point (AP)</b> che collegano i client wireless alla rete cablata. La topologia si articola in <i>BSS (Basic Service Set)</i> gestita da un singolo AP, e <i>ESS (Extended Service Set)</i> formata dall'unione logica di più BSS interconnessi per consentire il roaming.</li>
+            <li><b>WMAN (Wireless Metropolitan Area Network):</b> Copertura cittadina tramite standard <i>WiMax</i> (IEEE 802.16) per link point-to-multipoint a banda larga.</li>
+            <li><b>WWAN (Wireless Wide Area Network):</b> Reti cellulari globali ad evoluzione generazionale (dall'architettura commutata del GSM/2G fino all'estrema densità cellulare e bassissima latenza del 5G).</li>
+        </ul>
+
+        <h2>7.2 Sicurezza, Autenticazione e Protocolli Wi-Fi</h2>
+        <p>La natura aperta del mezzo radio espone intrinsecamente le reti wireless ad attacchi di intercettazione passiva (eavesdropping), inserimento di falsi access point (Rogue AP) e attacchi Man-in-the-Middle. L'evoluzione degli standard di sicurezza per il controllo accessi e la riservatezza comprende:</p>
+        <ol>
+            <li><b>WEP (Wired Equivalent Privacy):</b> Basato sull'algoritmo a flusso RC4 con chiavi statiche corte e vulnerabilità nel vettore di inizializzazione (IV). Obsoleto e violabile in pochi minuti.</li>
+            <li><b>WPA (Wi-Fi Protected Access):</b> Introdotto come patch temporanea del WEP, implementa il protocollo <i>TKIP</i> per variare dinamicamente le chiavi crittografiche per ogni pacchetto, ma mantiene l'algoritmo RC4.</li>
+            <li><b>WPA2:</b> Standard robusto basato sull'algoritmo simmetrico avanzato <b>AES</b> operante in modalità CCMP. Ha garantito elevatissima sicurezza per anni, finché non è stato esposto l'attacco *KRACK* (Key Reinstallation Attack) mirato a forzare la reinstallazione delle chiavi durante il 4-way handshake.</li>
+            <li><b>WPA3:</b> Il paradigma moderno più sicuro. Sostituisce il sistema di handshake tradizionale con il protocollo <b>SAE (Simultaneous Authentication of Equals)</b>, immune agli attacchi a dizionario offline e dotato di <i>Forward Secrecy</i> (la compromissione futura della password di rete non permette la decifratura del traffico registrato nel passato).</li>
+        </ol>
+
+        <div class="box box-key">
+            <span class="box-title">Modello di Autenticazione Centralizzata AAA (RADIUS)</span>
+            Nelle reti aziendali (Enterprise mode), la sicurezza degli accessi non si basa su una singola chiave condivisa pre-shared, bensì sull'architettura strutturata <b>AAA (Authentication, Authorization, Accounting)</b>. L'Access Point funge da intermediario inoltrando le credenziali d'accesso fornite dall'utente a un server centrale dedicato operante tramite protocollo <b>RADIUS</b> (Remote Authentication Dial-In User Service). Il server convalida l'identità interrogando un database utenti protetto e traccia i tempi di connessione per finalità di auditing.
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari: Marinetti, il Futurismo e l'Energia dell'Onda Wireless</span>
+            La propagazione wireless del segnale etereo, l'ubiquità delle connessioni cellulari e la demolizione delle barriere fisiche dello spazio e del tempo trovano la massima esaltazione ideologica nel <b>Futurismo</b> di <b>Filippo Tommaso Marinetti</b>, espresso nel <i>Manifesto del Futurismo</i> (1909). Marinetti glorifica la velocità, l'energia elettrica e la simultaneità tecnologica della modernità industriale. Le onde wireless, che viaggiano invisibili nello spazio interconnettendo istantaneamente terminali distanti, incarnano l'estetica futurista del dinamismo universale, in cui l'antico spazio statico viene annientato in favore di un flusso energetico perpetuo e onnipresente che ricalca l'infrastruttura di una rete ad altissima frequenza.
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 8: Virtualizzazione e Servizi Cloud</h1>
+        
+        <h2>8.1 Tecniche e Architetture di Virtualizzazione</h2>
+        <p>La <b>Virtualizzazione</b> consiste nell'interposizione di uno strato software astratto tra l'hardware fisico di una macchina e i sistemi operativi client. Questo strato software di controllo prende il nome di <b>Hypervisor</b> o <i>VMM (Virtual Machine Monitor)</i> e si suddivide in:</p>
+        <ul>
+            <li><b>Hypervisor Tipo 1 (Bare-Metal):</b> Viene eseguito direttamente sopra l'hardware fisico sottostante (es. VMware ESXi, KVM). Offre le massime prestazioni complessive, stabilità assoluta ed è lo standard dominante nei data center e nelle infrastrutture aziendali di produzione.</li>
+            <li><b>Hypervisor Tipo 2 (Hosted):</b> Viene eseguito come applicazione software integrata all'interno di un sistema operativo ospitante tradizionale (es. VirtualBox, VMware Workstation). Utilizzato prevalentemente per scopi di testing e sviluppo software in ambienti isolati.</li>
+        </ul>
+        <p>Il vantaggio primario della virtualizzazione risiede nel <i>Consolidamento dei Server</i>: ridurre drasticamente il numero di macchine fisiche necessarie, ottimizzando l'uso della CPU e della memoria (riducendo i tempi di inattività dell'hardware), abbattendo i consumi elettrici di raffreddamento e semplificando i piani di Disaster Recovery tramite snapshot immutabili dello stato di sistema.</p>
+
+        <h2>8.2 Cloud Computing: Modelli di Servizio e Distribuzione</h2>
+        <p>Il <b>Cloud Computing</b> rappresenta l'evoluzione naturale della virtualizzazione, consentendo l'accesso on-demand via Internet a risorse computazionali configurabili e scalabili, fornite secondo tre modelli di servizio principali:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Modello Cloud</th>
+                    <th>Definizione Estesa & Responsabilità di Gestione</th>
+                    <th>Esempi Pratici di Mercato</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>IaaS</b><br>(Infrastructure as a Service)</td>
+                    <td>Il provider alloca risorse hardware pure virtualizzate (CPU, storage di rete, macchine virtuali). L'utente ha il controllo totale del sistema operativo, delle applicazioni e delle configurazioni software.</td>
+                    <td>Amazon EC2, Google Compute Engine, Microsoft Azure VM.</td>
+                </tr>
+                <tr>
+                    <td><b>PaaS</b><br>(Platform as a Service)</td>
+                    <td>Il provider fornisce la piattaforma e l'ambiente runtime ottimizzato per lo sviluppo e l'esecuzione del software. L'utente gestisce solo il proprio codice sorgente, dimenticando la manutenzione del sistema operativo sottostante.</td>
+                    <td>Heroku, AWS Elastic Beanstalk, Google App Engine.</td>
+                </tr>
+                <tr>
+                    <td><b>SaaS</b><br>(Software as a Service)</td>
+                    <td>Il software applicativo finale è interamente ospitato, gestito e aggiornato dal provider cloud. L'utente finale vi accede direttamente tramite browser web senza installare alcuna componente locale.</td>
+                    <td>Google Workspace, Microsoft 365, Salesforce.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>I modelli di distribuzione si articolano in <b>Cloud Pubblico</b> (risorse condivise multi-tenant fornite via Internet da provider terzi), <b>Cloud Privato</b> (infrastruttura dedicata ad uso esclusivo di una singola organizzazione aziendale) e <b>Cloud Ibrido</b> (integrazione orchestrata tra piattaforme pubbliche e private per consentire la migrazione flessibile dei carichi di lavoro più critici).</p>
+
+        <div class="box box-vocab">
+            <span class="box-title">Technical Vocabulary & CLIL Integration</span>
+            <span class="vocab-term">Bare-Metal Hypervisor:</span> A virtualization software installed directly on the server's hardware, offering near-native operational efficiency.<br>
+            <span class="vocab-term">Multi-Tenancy:</span> A cloud computing architecture where a single physical instance of a resource serves multiple distinct customers (tenants) while guaranteeing data isolation.
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari: Pirandello e la Virtualizzazione dell'Identità Sociale</span>
+            La smaterializzazione delle macchine fisiche operata dalla virtualizzazione, capace di generare istanze logiche multiple ed effimere (le Virtual Machine) a partire da un unico server reale, richiama esplicitamente l'indagine di <b>Luigi Pirandello</b> sulla destrutturazione del soggetto. Nel romanzo <i>Il fu Mattia Pascal</i> (1904), il protagonista virtualizza la propria esistenza originaria creando l'istanza logica "Adriano Meis" a seguito della sua presunta morte. Mattia ricalca l'azione di un hypervisor che alloca risorse per una nuova macchina virtuale priva di radici storiche reali. Tuttavia, l'impossibilità per Adriano Meis di ottenere un'identità civile certificata (mancanza di documenti legali ufficiali) ne determina il crash di sistema, costringendo Pascal a distruggere l'istanza virtuale per tornare alla sua forma originaria, ormai svuotata di senso e ridotta alla figura spettrale e inerme di "Fu Mattia Pascal".
+        </div>
+    </div>
+
+    <div class="uda-section">
+        <h1>UdA n. 9: Preparazione all'Esame di Maturità ed Esercitazioni Critiche</h1>
+        
+        <h2>9.1 Analisi Metodologica della Seconda Prova Scritta</h2>
+        <p>Lo svolgimento ottimale del tema di Sistemi e Reti all'Esame di Stato richiede un approccio rigoroso e ingegneristico suddiviso in quattro fasi sequenziali vincolanti:</p>
+        <ol>
+            <li><b>Analisi del Testo e Scomposizione dei Requisiti:</b> Isolare tutte le specifiche esplicite e implicite imposte dalla traccia ministeriale, distinguendo tra requisiti funzionali (es. numero di postazioni da servire, servizi pubblici da implementare) e requisiti non funzionali (es. vincoli di budget, tolleranza ai guasti, criteri di sicurezza).</li>
+            <li><b>Scelta e Sviluppo dello Schema Logico di Rete:</b> Disegnare l'infrastruttura identificando la dislocazione degli apparati (Core, Distribution e Access Layer). Pianificare l'adozione delle VLAN per segmentare i dipartimenti aziendali, e posizionare la DMZ e i firewall perimetrali.</li>
+            <li><b>Pianificazione del Piano di Indirizzamento IP (Subnetting VLSM):</b> Calcolare matematicamente le dimensioni delle sottoreti partendo dai requisiti più stringenti di host richiesti. Ottimizzare lo spazio degli indirizzi documentando il lavoro in una tabella riassuntiva pulita contenente l'intervallo di indirizzi validi, la subnet mask in notazione CIDR e il default gateway associato.</li>
+            <li><b>Sviluppo degli Apparati Software e Scripting:</b> Scrivere la sintassi di configurazione degli apparati di rete (Cisco IOS) per le interfacce, rotte statiche/dinamiche, DHCP, VLAN e liste di controllo degli accessi (ACL). Implementare gli script backend richiesti (PHP/PDO) e le query SQL avanzate di interfacciamento al database.</li>
+        </ol>
+
+        <div class="box box-key">
+            <span class="box-title">Modello Strutturato di Piano di Indirizzamento IP (Esempio Tema d'Esame)</span>
+            Avendo a disposizione la rete privata <code>172.16.0.0/16</code>, si richiede il subnetting per tre dipartimenti aziendali:<br>
+            - <i>Subnet A (Produzione - 500 host richiesti):</i> Richiede una maschera a 23 bit (<span class="math">2<sup>9</sup> - 2 = 510</span> host validi).<br>
+              Indirizzo di Rete: <code>172.16.0.0/23</code> | Subnet Mask: <code>255.255.254.0</code> | Range IP validi: <code>172.16.0.1 - 172.16.1.254</code>.<br>
+            - <i>Subnet B (Amministrazione - 200 host richiesti):</i> Richiede una maschera a 24 bit (<span class="math">2<sup>8</sup> - 2 = 254</span> host validi).<br>
+              Indirizzo di Rete: <code>172.16.2.0/24</code> | Subnet Mask: <code>255.255.255.0</code> | Range IP validi: <code>172.16.2.1 - 172.16.2.254</code>.<br>
+            - <i>Subnet C (DMZ Server - 20 host richiesti):</i> Richiede una maschera a 27 bit (<span class="math">2<sup>5</sup> - 2 = 30</span> host validi).<br>
+              Indirizzo di Rete: <code>172.16.3.0/27</code> | Subnet Mask: <code>255.255.255.224</code> | Range IP validi: <code>172.16.3.1 - 172.16.3.30</code>.
+        </div>
+
+        <div class="box box-syntax">
+            <span class="box-title">Syntax/Code Block: Query Avanzata SQL con Interrogazione Multitabella (JOIN & Aggregazione)</span>
+            <pre>-- Query d'esame: Estrazione del report dei log degli accessi sospetti in DMZ
+-- Calcola il totale dei tentativi falliti per utente, filtrando solo quelli con media critica
+SELECT 
+    u.id_utente, 
+    u.username, 
+    COUNT(l.id_log) AS tentativi_falliti, 
+    MAX(l.data_evento) AS ultimo_attacco
+FROM utenti u
+INNER JOIN log_accessi l ON u.id_utente = l.fk_utente
+WHERE l.stato_autenticazione = 'FAILED' 
+  AND l.data_evento >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+GROUP BY u.id_utente, u.username
+HAVING COUNT(l.id_log) > 5
+ORDER BY tentativi_falliti DESC;</pre>
+        </div>
+
+        <div class="box box-inter">
+            <span class="box-title">Collegamenti Interdisciplinari Orientati al Colloquio: Il Modello delle Competenze Totali</span>
+            In sede di colloquio orale, la trattazione metodologica delle simulazioni d'esame deve saper dialogare correntemente con il <b>Curriculum dello Studente</b> e le esperienze maturate nei percorsi di <b>PCTO</b>. La scomposizione di un problema informatico complesso (come l'architettura d'esame del tema "Terminal Marittimo") dimostra il possesso di un <i>problem solving</i> avanzato che unisce la competenza tecnica della configurazione dei sistemi (Informatica e Reti) alla rigorosa capacità comunicativa ed espressiva della lingua italiana (essenziale nella stesura della relazione tecnica) e all'uso professionale della lingua inglese scientifica (CLIL), delineando il profilo completo di un moderno professionista ICT consapevole del proprio ruolo nella società digitale.
+        </div>
+    </div>
+
+</body>
+</html>
