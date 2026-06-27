@@ -1,0 +1,487 @@
+
+<style>
+h2.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui);color:var(--text-primary);background:transparent}
+.app{min-height:500px;display:flex;flex-direction:column}
+.header{background:var(--surface-1);border-bottom:0.5px solid var(--border);padding:10px 14px}
+.app-title{font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:8px;letter-spacing:.02em}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:5px 11px;border-radius:var(--radius);border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:11px;cursor:pointer;white-space:nowrap;font-weight:400;transition:all .15s}
+.tab.active{color:#fff;border-color:transparent;font-weight:500}
+.modebar{display:flex;gap:8px;padding:9px 14px;background:var(--surface-1);border-bottom:0.5px solid var(--border)}
+.mbtn{padding:5px 14px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:12px;cursor:pointer;transition:all .15s}
+.mbtn.active{border-color:var(--border-accent);background:var(--bg-accent);color:var(--text-accent)}
+.content{padding:14px;max-width:660px;margin:0 auto;width:100%}
+.intro-card{padding:12px 14px;border-radius:12px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:14px}
+.period-label{font-size:11px;font-weight:500;margin-bottom:4px}
+.intro-title{font-size:16px;font-weight:500;margin-bottom:6px;font-family:var(--font-voice,Georgia,serif)}
+.intro-text{font-size:13px;line-height:1.65;color:var(--text-secondary)}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.06em;color:var(--text-muted);text-transform:uppercase;margin:16px 0 8px 0}
+.author-card{border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px;overflow:hidden}
+.author-header{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 12px;cursor:pointer;gap:8px}
+.author-name{font-size:14px;font-weight:500}
+.author-ctx{font-size:11px;color:var(--text-muted);margin-top:2px}
+.chev{color:var(--text-muted);font-size:14px;padding-top:2px;flex-shrink:0}
+.author-body{padding:0 12px 12px;border-top:0.5px solid var(--border)}
+.ideas-list{padding-left:16px;margin-top:8px}
+.ideas-list li{font-size:12px;line-height:1.6;color:var(--text-secondary);margin-bottom:3px}
+.works-pill{margin-top:8px;padding:6px 10px;border-radius:6px;font-size:11px;line-height:1.5}
+.concept-card{padding:10px 12px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px}
+.concept-term{font-size:13px;font-weight:500;margin-bottom:4px;font-family:var(--font-voice,Georgia,serif)}
+.concept-def{font-size:12px;line-height:1.6;color:var(--text-secondary)}
+.fc-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:4px}
+.fc-counter{font-size:12px;color:var(--text-muted)}
+.fc-card{width:100%;min-height:170px;border-radius:12px;border:0.5px solid var(--border);background:var(--surface-1);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;cursor:pointer;transition:background .2s,border-color .2s}
+.fc-hint{font-size:11px;margin-bottom:10px}
+.fc-text{font-size:15px;line-height:1.65;font-family:var(--font-voice,Georgia,serif)}
+.fc-nav{display:flex;gap:10px}
+.fc-nav button{padding:7px 18px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:12px;cursor:pointer}
+.fc-actions{display:flex;gap:10px}
+.fc-actions button{padding:7px 18px;border-radius:20px;border:0.5px solid;font-size:12px;cursor:pointer;background:transparent}
+.btn-knew{border-color:var(--border-success);color:var(--text-success)}
+.btn-review{border-color:var(--border-danger);color:var(--text-danger)}
+.quiz-meta{display:flex;justify-content:space-between;margin-bottom:12px}
+.quiz-meta span{font-size:12px;color:var(--text-muted)}
+.quiz-q{padding:14px;border-radius:12px;background:var(--surface-1);border:0.5px solid var(--border);font-size:14px;line-height:1.65;font-family:var(--font-voice,Georgia,serif);margin-bottom:12px}
+.opt{padding:10px 13px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px;cursor:pointer;font-size:13px;transition:all .15s;display:flex;gap:8px;align-items:flex-start}
+.opt-letter{font-weight:500;flex-shrink:0}
+.opt:hover{border-color:var(--border-strong)}
+.opt.correct{background:var(--bg-success);border-color:var(--border-success);color:var(--text-success)}
+.opt.wrong{background:var(--bg-danger);border-color:var(--border-danger);color:var(--text-danger)}
+.next-btn{width:100%;padding:10px;border-radius:8px;border:0.5px solid var(--border-accent);background:var(--bg-accent);color:var(--text-accent);font-size:13px;cursor:pointer;margin-top:4px}
+.done-card{text-align:center;padding:28px 20px;border-radius:12px;background:var(--surface-1);border:0.5px solid var(--border)}
+.done-score{font-size:42px;font-weight:500;font-family:var(--font-voice,Georgia,serif);margin-bottom:6px}
+.done-label{font-size:14px;color:var(--text-secondary);margin-bottom:6px}
+.done-msg{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.retry-btn{padding:9px 24px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:13px;cursor:pointer}
+.progress-bar{height:3px;border-radius:2px;background:var(--border);margin-bottom:12px;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px;transition:width .3s}
+</style>
+
+<h2 class="sr-only">App di ripasso: letteratura italiana dalla maturità, con 6 UdA, modalità studio, flashcard e quiz.</h2>
+
+<div class="app" id="root"></div>
+
+<script>
+const UDAS=[
+{id:'u1',roman:'I',tab:'Romanticismo',title:'Consolidamento — Il Romanticismo',period:"Fine '700 – Prima metà '800",color:'#BA7517',bg:'#FAEEDA',
+intro:'Il Romanticismo nasce in Europa come reazione all\'Illuminismo razionalista, esaltando irrazionalità, individuo, storia e sentimento.',
+authors:[
+{name:'J.-J. Rousseau',ctx:'Illuminista francese (1712–1778)',ideas:['Esalta sentimento, natura e il "buon selvaggio"','Critica la società che corrompe l\'uomo','Trio illuministi francesi: Voltaire, Rousseau, Montesquieu'],works:'Contratto Sociale (1762)'},
+{name:'Novalis',ctx:'Romantico tedesco',ideas:['Sehnsucht: insoddisfazione perenne verso un ideale irraggiungibile','La notte come dimensione spirituale','Ispirato dallo Sturm und Drang'],works:'Fiore azzurro (1802, postumo)'},
+{name:'S. T. Coleridge',ctx:'Romantico inglese',ideas:['Rivoluziona la poesia abbandonando le regole neoclassiche','Potere assoluto a emozione, istinto e immaginazione','Scrive con Wordsworth'],works:'Ballate liriche (1798) — contiene La ballata del vecchio marinaio'},
+{name:'Ugo Foscolo',ctx:'Pre-Romantico italiano (1778–1827)',ideas:['Forma neoclassica: armonia estetica, riferimenti mitologici','Temi pre-romantici: passioni estreme, sepolcri, eroismo titanico','Scrive per diletto e sfogo, non a scopo educativo'],works:'Sepolcri (1807)'},
+{name:'Alessandro Manzoni',ctx:'Romanticismo italiano (1785–1873, Milano)',ideas:['"Il vero per soggetto, l\'utile per iscopo, l\'interessante per mezzo"','Ricerca di un linguaggio popolare accessibile','Temi: storia nazionale, religione, questioni sociali'],works:'I Promessi Sposi (1827–1842)'},
+{name:'Giacomo Leopardi',ctx:'Classicista/ponte (1798–1837, Recanati)',ideas:['1ª fase — Pessimismo storico: natura madre benevola, infelicità = colpa del progresso','2ª fase — Pessimismo cosmico: natura matrigna indifferente, infelicità = condanna universale','La "social catena": solidarietà umana contro la natura ostile (La Ginestra)'],works:'Canti (1831), La Ginestra (1845, postumo)'},
+],
+concepts:[
+{t:'Sehnsucht',d:'Di Novalis: insoddisfazione perenne e desiderio del desiderio. Espansione verso un ideale irraggiungibile; l\'individuo si dilata verso l\'infinito.'},
+{t:'Sturm und Drang',d:'"Tempesta e Assalto" — movimento pre-romantico tedesco che esalta passioni, istinto e ribellione contro la razionalità. Ispirò Novalis.'},
+{t:'Polemica Classicisti–Romantici',d:'Scatenata da Madame de Staël (1816). Classicisti (Giordani, Monti): difendono le opere antiche. Romantici: fondano Il Conciliatore a Milano (1818). Manifesto: Lettera semiseria di Grisostomo di Giovanni Berchet (1816).'},
+{t:'Pessimismo storico (Leopardi)',d:'1ª fase: la natura è ancora madre benevola. L\'infelicità è causata dal progresso e dall\'Illuminismo che privano l\'uomo delle illusioni consolatorie.'},
+{t:'Pessimismo cosmico (Leopardi)',d:'2ª fase: la natura diventa matrigna indifferente. L\'infelicità è la condanna di ogni creatura che nasce per soffrire e morire, indipendentemente dal progresso.'},
+{t:'Sugo della storia (Manzoni)',d:'Epilogo dei Promessi Sposi. Lucia smonta Renzo: lei non aveva fatto nulla, ma i guai l\'avevano trovata ugualmente. Solo la Provvidenza rende utile il dolore.'},
+],
+flashcards:[
+{f:'Cos\'è la Sehnsucht di Novalis?',b:'Insoddisfazione perenne e desiderio del desiderio. Spinge verso un ideale irraggiungibile espandendosi verso l\'infinito. Nucleo del Romanticismo tedesco.'},
+{f:'Chi animò la polemica Classicisti–Romantici in Italia?',b:'Madame de Staël (articolo 1816: letteratura italiana "sterile"). Classicisti: Giordani, Monti. Romantici: fondano Il Conciliatore (Milano, 1818). Manifesto: Lettera semiseria di Grisostomo di Berchet.'},
+{f:'Differenza Foscolo vs Manzoni',b:'Foscolo: forma neoclassica, temi pre-romantici (sepolcri, passioni), scrive per diletto. Manzoni: linguaggio popolare, scopo educativo e morale, temi storici e religiosi.'},
+{f:'Trama e morale de La ballata del vecchio marinaio',b:'Il marinaio uccide un Albatros (buon auspicio). Gli spiriti si ribellano: l\'equipaggio muore di sete. Lui benedice i serpenti marini per la loro bellezza → maledizione si attenua, torna in patria. Morale: rispettare tutte le creature della natura.'},
+{f:'Carattere iniziale di Renzo e Lucia',b:'Renzo: impulsivo e ingenuo, cerca giustizia con la forza. Lucia: timida e passiva, convinta che basti essere buoni. Entrambi maturano attraverso le prove.'},
+{f:'Pessimismo storico vs cosmico di Leopardi',b:'Storico: natura madre benevola, infelicità = colpa del progresso e dell\'Illuminismo. Cosmico: natura matrigna indifferente, infelicità = condanna universale di ogni creatura che nasce per soffrire e morire.'},
+],
+quiz:[
+{q:'Chi scrisse il manifesto del Romanticismo italiano "Lettera semiseria di Grisostomo" (1816)?',opts:['Alessandro Manzoni','Ugo Foscolo','Giovanni Berchet','Vincenzo Monti'],a:2},
+{q:'Cos\'è la "Sehnsucht" di Novalis?',opts:['Il sentimento patriottico romantico','Insoddisfazione perenne verso un ideale irraggiungibile','La nostalgia per il passato classico','Un movimento pre-romantico'],a:1},
+{q:'In quale fase Leopardi vede la natura come "matrigna indifferente"?',opts:['Pessimismo storico','Pessimismo cosmico','Classicismo maturo','Romanticismo positivo'],a:1},
+{q:'Cosa propone Leopardi nella "social catena" (La Ginestra)?',opts:['La fede in Dio come unica salvezza','La solidarietà umana per resistere alla natura ostile','L\'impegno politico patriottico','Il ritorno alle illusioni romantiche'],a:1},
+{q:'Cosa fa notare Lucia a Renzo nel "Sugo della storia"?',opts:['Che la Provvidenza non esiste','Che i guai li aveva cercati lei','Che la prudenza non basta: i guai possono trovare chiunque','Che Renzo deve tornare a Milano'],a:2},
+{q:'Le "Ballate liriche" (1798) furono scritte da Coleridge insieme a...',opts:['Novalis','Wordsworth','Byron','Shelley'],a:1},
+]},
+
+{id:'u2',roman:'II',tab:'Realismo',title:'L\'Età del Realismo',period:"Metà '800 – Fine '800",color:'#0F6E56',bg:'#E1F5EE',
+intro:'Il Positivismo trasforma la letteratura in strumento scientifico. Zola denuncia il vizio a Parigi; Verga rappresenta il fatalismo siciliano.',
+authors:[
+{name:'Auguste Comte',ctx:'Fondatore del Positivismo (FR)',ideas:['Coniò il termine "sociologia"','Tre stadi: teologico → metafisico → positivo (scientifico)','Riorganizzare la società su basi scientifiche dopo la Rivoluzione Francese'],works:'—'},
+{name:'Hippolyte Taine',ctx:'Determinismo (FR)',ideas:['Il comportamento umano è determinato da tre fattori','Razza = patrimonio genetico ereditario','Milieu = ambiente sociale/geografico. Moment = momento storico'],works:'—'},
+{name:'Cesare Lombroso',ctx:'Determinismo biologico (IT, 1835–1909)',ideas:['Fondatore dell\'antropologia criminale','I criminali nascono con predisposizione genetica a delinquere','Atavismo: tratti fisici di antenati primitivi (scimmie)','La pena ha funzione di protezione sociale, non retributiva'],works:'—'},
+{name:'Émile Zola',ctx:'Naturalismo (FR, 1840–1902)',ideas:['Il romanzo come esperimento scientifico','Eclissi dell\'autore: narratore invisibile, senza commenti né giudizi','Tranche de vie: ritaglio di vita quotidiana','Lessico adeguato all\'ambiente dei personaggi'],works:'Le Roman Expérimental (1880, manifesto); L\'Assommoir (1877)'},
+{name:'Giovanni Verga',ctx:'Verismo (IT, 1840–1922, Catania)',ideas:['Ideale dell\'ostrica: distaccarsi dalle radici = rovina definitiva','I "vinti": chi sfida il destino e perde','Straniamento, discorso indiretto libero, impersonalità del narratore','Pessimismo fatalista (vs ottimismo di Zola)'],works:'Vita dei campi (1880); Novelle Rusticane (1883); I Malavoglia (1881)'},
+],
+concepts:[
+{t:'Tre stadi di Comte',d:'1. Teologico: eventi spiegati da divinità. 2. Metafisico: forze astratte. 3. Positivo: metodo scientifico (il "come", non il "perché").'},
+{t:'Determinismo (Taine)',d:'Nulla accade per caso: tutto è catena causa-effetto. Nega il libero arbitrio. Tre fattori: razza (genetica) + milieu (ambiente sociogeografico) + moment (contesto storico).'},
+{t:'Eclissi dell\'autore (Zola)',d:'Nel romanzo naturalista il narratore è invisibile: riporta fatti senza commenti, giudizi o interventi di sorta. La letteratura diventa strumento scientifico di denuncia.'},
+{t:'Tranche de vie',d:'"Ritaglio di vita" — tecnica naturalista: il romanzo è un frammento di vita quotidiana realisticamente rappresentato, come un esperimento in laboratorio.'},
+{t:'Ideale dell\'ostrica (Verga)',d:'Chi si distacca dalle proprie radici (famiglia, tradizioni, lavoro) per migliorarsi viene travolto dalla "fiumana del progresso" e non torna mai più. I vinti: chi ci prova e perde.'},
+{t:'Straniamento (Verga)',d:'Presentare come strani i valori positivi (generosità) e come normali quelli spietati (egoismo), per mostrare la mentalità del mondo rurale siciliano senza intervento del narratore.'},
+{t:'Discorso indiretto libero',d:'Pensieri e parole dei personaggi riportati senza verbi dichiarativi (disse, pensò). Il romanzo sembra un "coro paesano" dove ogni abitante aggiunge la sua voce.'},
+{t:'Ciclo dei Vinti (Verga)',d:'Progetto incompiuto. Ogni livello sociale perde: pescatori (I Malavoglia) → borghesia (Mastro-don Gesualdo) → aristocrazia (Duchessa de Leyra) → politica → élite intellettuale.'},
+],
+flashcards:[
+{f:'I tre fattori di Taine (Determinismo)',b:'1. Razza (patrimonio genetico ereditario). 2. Milieu (ambiente sociale, economico, geografico). 3. Moment (momento storico).'},
+{f:'Naturalismo di Zola vs Verismo di Verga',b:'Contesto: metropoli parigine vs Sicilia rurale. Atteggiamento: positivista/ottimista vs pessimista/fatalista. Ruolo: medico-denunciante vs testimone impassibile del destino.'},
+{f:'Gervaise Macquart (L\'Assommoir)',b:'Lavandaia laboriosa a Parigi. Principi: lavoro onesto, tetto, cibo, figli. Determinata all\'alcolismo da origini e ambiente. Muore "assommée" — abbattuta — dalla vita e dall\'alcol in un sottoscala.'},
+{f:'I Malavoglia — personaggi principali',b:'Padron \'Ntoni (patriarca, proverbi). Bastianazzo (muore col naufragio). \'Ntoni (ribelle, prigione). Luca (morte a Lissa). Alessi (ricostruisce la casa). Mena (rinuncia). Lia (fuga, prostituzione).'},
+{f:'La Roba — chi è Mazzarò e come finisce?',b:'Contadino che dedica la vita ad acquistare terra (si priva del cibo). Alla morte, non accetta di lasciarla: uccide il bestiame urlando "Roba mia, vientene con me!"'},
+{f:'Ciclo dei Vinti — struttura',b:'Pescatori (I Malavoglia), borghesia (Mastro-don Gesualdo), aristocrazia (Duchessa de Leyra), ambizione politica (Onorevole Scipioni), élite intellettuale (Uomo di lusso). Tutti perdono, a ogni livello.'},
+],
+quiz:[
+{q:'I tre fattori del Determinismo secondo Taine sono:',opts:['Razza, nazione, religione','Razza, milieu, moment','Età, sesso, classe sociale','Famiglia, lavoro, educazione'],a:1},
+{q:'Cos\'è la "eclissi dell\'autore" nel Naturalismo?',opts:['L\'autore usa uno pseudonimo','Il narratore riporta fatti senza commenti né giudizi','Lo scrittore muore prima di finire il romanzo','Il protagonista scompare dalla storia'],a:1},
+{q:'Come finisce Gervaise Macquart in "L\'Assommoir"?',opts:['Recupera la lavanderia','Emigra in America','Muore in un sottoscala, abbattuta dall\'alcol e dalla vita','Viene salvata dal Comune'],a:2},
+{q:'Cos\'è l\'"ideale dell\'ostrica" in Verga?',opts:['Chi pesca di notte ha più fortuna','Chi si distacca dalle radici viene travolto e non torna','Chi lavora sodo alla fine ce la fa','Chi resta in Sicilia non migliora mai'],a:1},
+{q:'Chi è Alessi ne "I Malavoglia"?',opts:['Il ribelle che finisce in prigione','Il patriarca che cita proverbi','Il figlio che riacquista la casa e ricostruisce la famiglia','Il figlio morto nella battaglia di Lissa'],a:2},
+{q:'La differenza principale tra Zola e Verga:',opts:['Zola usa il dialetto, Verga l\'italiano','Zola è positivista nel progresso, Verga è pessimista/fatalista','Zola scrive novelle, Verga romanzi','Zola è italiano, Verga è francese'],a:1},
+{q:'Cosa urla Mazzarò ne "La Roba" alla sua morte?',opts:['"Lavorate! Lavorate!"','"La terra è mia!"','"Roba mia, vientene con me!"','"Non lascio niente a nessuno!"'],a:2},
+]},
+
+{id:'u3',roman:'III',tab:'Decadentismo',title:'Il Decadentismo',period:"Seconda metà '800 – inizio '900",color:'#534AB7',bg:'#EEEDFE',
+intro:'Reazione al Positivismo: il poeta diventa veggente emarginato. Bellezza, simbolo, spleen e malinconia dominano la scena europea.',
+authors:[
+{name:'Charles Baudelaire',ctx:'Padre del Simbolismo (FR, 1821–1867)',ideas:['Il poeta: figura tormentata e incompresa dalla borghesia','Estrarre l\'arte dal brutto, non più solo dal bello','Spleen: vuoto e disgusto paralizzante per la vita','Sinestesia e analogia per mescolare sfere sensoriali diverse'],works:'I fiori del male (1857) — Corrispondenze (manifesto Simbolismo) + 4 poesie sullo spleen'},
+{name:'Paul Verlaine / I poeti maledetti',ctx:'Simbolismo (FR)',ideas:['Verlaine definisce i "poeti maledetti" nel 1884: Rimbaud, Mallarmé, Corbière','Vita bohémien: alcol e droghe per alterare i sensi e "vedere"','Geni incompresi dalla borghesia materialista'],works:'Verlaine: Art poétique (1882). Rimbaud: Lettera del veggente (1871), Le Vocali (1871)'},
+{name:'Emilio Praga',ctx:'Scapigliatura (IT, 1839–1875, Milano)',ideas:['Delusione post-Risorgimento: speranze romantiche vs borghesia materialista','Vita bohémien, ispirazione ai poeti maledetti francesi','3 immagini del Preludio: aquila nel fango / cielo di piombo / anatomia come musa'],works:'Preludio (1864) — manifesto della Scapigliatura'},
+{name:'Giosuè Carducci',ctx:'Classicista (IT, 1835–1907, Pietrasanta)',ideas:['1° italiano a vincere il Nobel per la letteratura','Detesta il Romanticismo, crede in rigore e razionalità','Riproduce metriche antiche greche e latine'],works:'Odi Barbare (1877) — Nevicata (distico elegiaco)'},
+{name:'J.-K. Huysmans / Oscar Wilde',ctx:'Estetismo (FR/EN)',ideas:['Arte per l\'arte: rifiutare l\'utile, creare solo bellezza','Fare della propria vita un\'opera d\'arte','L\'artificio è superiore alla natura, rozza e superata'],works:'Huysmans: À rebours (1884). Wilde: Il ritratto di Dorian Gray (1890)'},
+{name:'Gabriele D\'Annunzio',ctx:'Estetismo + Superomismo (IT, 1863–1938, Pescara)',ideas:['Esteta + Superomismo nietzschiano: forgia una propria morale da imporre agli altri','Poeta vate: guida le masse tramite media e gossip','Panismo: fusione dell\'individuo con la natura (Alcyone)','Inventa nomi commerciali: La Rinascente, biscotti Saiwa'],works:'Il Piacere (1889); Le Laudi / Alcyone (1903) — La pioggia nel pineto'},
+{name:'Giovanni Pascoli',ctx:'Decadentismo (IT, 1855–1912, Forlì)',ideas:['Trauma: morte del padre a 12 anni → il "nido" come rifugio dal mondo violento','Il fanciullino (1897): parte bambinesca del poeta che vede tutto con stupore','Impressionismo, sinestesia, simbolismo'],works:'Myricae (1891) — X agosto, Lavandare, Novembre, trittico Temporale-Lampo-Tuono; Canti di Castelvecchio (1903)'},
+],
+concepts:[
+{t:'Simbolismo',d:'Fondato da Baudelaire: la realtà è una "foresta di simboli" che solo il poeta-veggente può cogliere. Basi: suggestione (evoca senza narrare), musicalità sopra il significato, analogie e sinestesie.'},
+{t:'Poeti maledetti',d:'Definiti da Verlaine (1884): Rimbaud, Mallarmé, Corbière. Geni incompresi dalla borghesia; vita bohémien; uso di alcol e droghe per raggiungere uno stato di "veggenza".'},
+{t:'Spleen (Baudelaire)',d:'Stato d\'animo simile alla depressione: vuoto e disgusto paralizzante per la vita senza motivo sostanziale. Sentimento caratteristico dei Decadentisti.'},
+{t:'Estetismo',d:'Arte per l\'arte; fare della vita un\'opera d\'arte; l\'artificio è superiore alla natura. Huysmans (FR): À rebours. Wilde (EN): Dorian Gray. D\'Annunzio (IT): Il Piacere.'},
+{t:'Panismo (D\'Annunzio)',d:'L\'individuo si spoglia dell\'umanità e si fonde con la natura. Da Pan (dio della natura) e "pan" (tutto). Massima espressione poetica in Alcyone — La pioggia nel pineto.'},
+{t:'Superomismo (D\'Annunzio)',d:'Da Nietzsche: forgiare una propria morale da imporre agli altri. D\'Annunzio si vede come guida delle masse pur snobbarle. Si contrappone al "gregge" borghese.'},
+{t:'Il fanciullino (Pascoli)',d:'Dentro ogni uomo c\'è una parte bambinesca. Solo il poeta riesce a dargli voce, vedendo ogni cosa con stupore, usando intuizione e fantasia invece della razionalità.'},
+{t:'Scapigliatura',d:'Corrente italiana post-Risorgimento (1861+). Delusione per la borghesia materialista. Vita bohémien. Manifesto: Preludio di Emilio Praga (1864).'},
+],
+flashcards:[
+{f:'"I fiori del male" — struttura e contenuto',b:'Raccolta di Baudelaire (1857). Titolo ossimoro: bellezza + degrado. Contiene: Corrispondenze (manifesto Simbolismo) + 4 poesie sullo spleen (vuoto paralizzante per la vita).'},
+{f:'Chi sono i "poeti maledetti"?',b:'Rimbaud, Mallarmé, Corbière. Definiti da Paul Verlaine (1884). Geni emarginati dalla borghesia; vita bohémien; alcol e droghe per "vedere" (veggenza).'},
+{f:'Jean des Esseintes (À rebours)',b:'Ultimo erede di nobile famiglia. Nevrotico e disgustato dalla modernità. Si chiude in villa, inverte ciclo sonno-veglia, usa profumi e arte bizzarra. Alla fine distrugge il sistema nervoso: il medico lo obbliga a tornare alla vita normale.'},
+{f:'Come finisce Dorian Gray?',b:'Tenta di distruggere il quadro (unica testimonianza dei suoi crimini). Pugnala la tela con lo stesso coltello con cui aveva ucciso il pittore Basil. Muore: trovato vecchio e deforme, riconoscibile solo dagli anelli alle dita.'},
+{f:'Andrea Sperelli (Il Piacere)',b:'Alter ego di D\'Annunzio. Diviso tra Elena Muti (passione, lo lascia per un ricco inglese) e Maria Ferres (angelo). Al primo rapporto intimo chiama Maria col nome di Elena → lei capisce e lo abbandona. Torna solo da dove era partito.'},
+{f:'Trittico pascoliano: Temporale, Il lampo, Il tuono',b:'Temporale: nuvole nere, casolare bianco come ala di gabbiano. Il lampo: notte, casolare come occhio terrorizzato dai lampi. Il tuono: tempesta lontana, nel casolare canto di madre e culla. Analogia al trauma del padre assassinato.'},
+],
+quiz:[
+{q:'Chi è considerato il "padre del Simbolismo"?',opts:['Paul Verlaine','Arthur Rimbaud','Charles Baudelaire','Stéphane Mallarmé'],a:2},
+{q:'Cos\'è lo "spleen" in Baudelaire?',opts:['Un organo fisico malato','Vuoto e disgusto paralizzante per la vita','Il titolo di una raccolta','Un termine per il patriottismo'],a:1},
+{q:'Chi definì i "poeti maledetti" nel 1884?',opts:['Baudelaire','Rimbaud','Mallarmé','Verlaine'],a:3},
+{q:'Cos\'è il "Panismo" in D\'Annunzio?',opts:['Il superuomo nietzschiano','La fusione dell\'individuo con la natura','L\'arte dedicata al dio Pan','Il vitalismo eroico militare'],a:1},
+{q:'Come finisce il protagonista di "À rebours"?',opts:['Trova la pace nell\'arte','Distrugge il sistema nervoso; il medico lo obbliga a tornare alla vita normale','Si converte all\'Islam','Muore di overdose'],a:1},
+{q:'Come muore Dorian Gray?',opts:['Vecchiaia naturale','Pugnala il quadro e muore con un coltello nel cuore, trovato vecchio e deforme','Malattia','Suicidio'],a:1},
+{q:'Cosa rappresenta il "nido" per Pascoli?',opts:['Il paradiso cristiano','Un ambiente sicuro dove rifugiarsi dal mondo violento','Il passato rurale italiano','La famiglia allargata del poeta'],a:1},
+{q:'Qual è il manifesto della Scapigliatura italiana?',opts:['I fiori del male (Baudelaire)','Art poétique (Verlaine)','Preludio di Emilio Praga (1864)','Il fanciullino di Pascoli (1897)'],a:2},
+]},
+
+{id:'u4',roman:'IV',tab:'Novecento',title:'La Narrativa del Primo Novecento',period:"Inizio '900",color:'#185FA5',bg:'#E6F1FB',
+intro:'Svevo indaga l\'inettitudine con la psicoanalisi. Pirandello frantuma l\'identità con il relativismo conoscitivo e il metateatro.',
+authors:[
+{name:'Italo Svevo (Aron H. Schmitz)',ctx:'Modernismo triestino (1861–1928)',ideas:['Influenze: Schopenhauer (pessimismo), Darwin (lotta per la vita), Marx (classi sociali), Freud (psicoanalisi come tecnica narrativa), Joyce (monologo interiore)','Tema centrale: inettitudine = inabilità di agire + auto-giustificazione perenne','L\'inetto si adatta meglio dei "sani" rigidi ai cambiamenti della realtà','Narratore inattendibile'],works:'Una vita (1892); Senilità (1898); La coscienza di Zeno (1923)'},
+{name:'Luigi Pirandello',ctx:'Modernismo e teatro (1867–1936, Agrigento)',ideas:['Vita = flusso continuo in trasformazione. Forma = ruolo fisso che soffoca l\'individuo','Relativismo conoscitivo: ognuno ha la propria visione soggettiva della realtà','Comico = avvertimento del contrario. Umorismo = sentimento del contrario (+ compassione)','Metateatro: il teatro dentro il teatro','Trauma: moglie Maria Antonietta impazzisce dopo disastro della zolfara (1903)'],works:'L\'umorismo (1908); Il fu Mattia Pascal (1904); Così è (se vi pare) (1917); Uno, nessuno e centomila (1926)'},
+],
+concepts:[
+{t:'Inettitudine (Svevo)',d:'Inabilità di agire. Il protagonista vive in uno stato di insoddisfazione e auto-giustificazione perenne, sognando imprese che non realizzerà mai. Nei primi romanzi = sconfitta. Poi = capacità di adattamento superiore ai "sani".'},
+{t:'Narratore inattendibile',d:'Tecnica di Svevo: il lettore non può fidarsi del narratore. In La coscienza di Zeno: Zeno è un paziente bugiardo, il Dottor S è un medico vendicativo. Entrambi inaffidabili.'},
+{t:'Vita / Forma (Pirandello)',d:'Vita = flusso continuo in trasformazione. Forma = il ruolo fisso (lavoro, famiglia) che congela il flusso e soffoca l\'individuo. Si fugge solo tramite l\'immaginazione o la follia.'},
+{t:'Comico vs Umorismo (Pirandello)',d:'Comico = "avvertimento del contrario" (si ride subito). Umorismo = "sentimento del contrario" (poi si prova compassione). Esempio: la vecchia signora truccata → prima ridi, poi capisci e rimani con un sorriso amaro.'},
+{t:'Metateatro',d:'Il teatro dentro il teatro: la finzione e la realtà si mescolano. Pirandello lo usa per destabilizzare le certezze del pubblico. Es. Sei personaggi in cerca di autore.'},
+{t:'I 6 capitoli de La coscienza di Zeno',d:'1. Il fumo (US = Ultima Sigaretta). 2. La morte di mio padre (schiaffo). 3. La moglie e l\'amante (Ada → Augusta). 4. Storia del mio matrimonio (Carla Greco). 5. Associazione commerciale (Guido muore per errore). 6. Psico-analisi (guerra, si dichiara "guarito").'},
+],
+flashcards:[
+{f:'Alfonso Nitti (Una vita)',b:'Impiegato bancario che sogna di fare lo scrittore. Ama Annetta Maller ma scappa dal matrimonio (inettitudine). Annetta sposa Macario. Nitti si suicida anziché affrontare il duello col fratello di lei.'},
+{f:'Emilio Brentani (Senilità)',b:'Piccola fama letteraria. Relazione con Angiolina (infedele e bugiarda) di cui si ossessiona invece di lasciarla. Sorella Amalia muore per l\'etere a causa del suo allontanare Balli. Alla fine fonde le due donne in un ricordo inventato.'},
+{f:'I 6 capitoli de La coscienza di Zeno',b:'1. Il fumo (Ultima Sigaretta). 2. La morte di mio padre (schiaffo sul letto di morte). 3. La moglie e l\'amante (Ada → Augusta). 4. Storia del mio matrimonio (Carla Greco). 5. Associazione commerciale (Guido muore per sbaglio). 6. Psico-analisi.'},
+{f:'Così è (se vi pare) — le due versioni',b:'Ponza: Frola è pazza, crede che la seconda moglie sia sua figlia morta. Frola: Ponza è pazzo, hanno dovuto fingere un secondo matrimonio. Gli archivi sono distrutti: nessuna verità assoluta. La donna: "Io sono colei che mi si crede."'},
+{f:'Mattia Pascal — trama sintetica',b:'Bibliotecario infelice. Fugge a Montecarlo, vince alla roulette, apprende la propria "morte" sul giornale. Diventa Adriano Meis a Roma, si innamora di Adriana. Non può sposarla (è "morto" per lo Stato). Finge un secondo suicidio. Torna a Miragno: la moglie ha risposato l\'amico Pomino. Finisce nella vecchia biblioteca come "Il fu Mattia Pascal".'},
+{f:'Vitangelo Moscarda (Uno, nessuno e centomila)',b:'La moglie gli fa notare che il naso pende verso destra → crollo della sua identità. Capisce di esistere in centomila versioni negli occhi degli altri. Si comporta in modo folle, usa il patrimonio per fondare un ospizio dove va a vivere: finalmente privo di forma.'},
+],
+quiz:[
+{q:'Cos\'è l\'"inettitudine" in Svevo?',opts:['L\'incapacità di scrivere romanzi','L\'inabilità di agire, vivere in insoddisfazione e auto-giustificazione perenne','La dipendenza da alcol dei protagonisti','Il fallimento economico dei personaggi'],a:1},
+{q:'Cosa significa "US" nei diari di Zeno?',opts:['United States','Ultima Sigaretta (promessa sempre rinviata)','Un simbolo freudiano','Il nome dell\'analista'],a:1},
+{q:'Differenza tra "comico" e "umorismo" per Pirandello:',opts:['Comico = teatrale, umorismo = narrativo','Comico = avvertimento del contrario; umorismo = sentimento del contrario (con compassione)','Comico fa ridere forte, umorismo fa sorridere','Nessuna differenza reale'],a:1},
+{q:'Come finisce Mattia Pascal?',opts:['Emigra in America','Si risposa con Romilda','Torna a Miragno e si ritira nella biblioteca come "Il fu Mattia Pascal"','Si suicida nel Po'],a:2},
+{q:'Cosa risponde la donna misteriosa in "Così è (se vi pare)"?',opts:['"Sono la moglie di Ponza"','"Sono la figlia di Frola"','"Per me, io sono nessuna. Sono colei che mi si crede."','"La verità non esiste"'],a:2},
+{q:'Perché Zeno si accoda al corteo funebre di uno sconosciuto? (cap. 5)',opts:['Si confonde per caso','È un lapsus freudiano che rivela il suo odio subconscio per Guido','Non sapeva dove si teneva il funerale','Vuole evitare Ada'],a:1},
+{q:'Cosa causa il trauma di Pirandello legato alla moglie?',opts:['La Prima Guerra Mondiale','Il disastro della zolfara (1903) che distrugge il patrimonio','La perdita di un figlio','Una relazione extraconiugale'],a:1},
+{q:'Cosa fa notare Dida a Moscarda (Uno, nessuno...)?',opts:['Che ha perso tutti i soldi','Che il naso pende verso destra','Che ha un alter ego nascosto','Che nessuno lo rispetta in banca'],a:1},
+]},
+
+{id:'u5',roman:'V',tab:'Poesia \'900',title:'La Poesia Italiana del Novecento',period:"Prima metà '900",color:'#993C1D',bg:'#FAECE7',
+intro:'Ungaretti porta l\'esperienza delle trincee nella poesia: versi brevissimi, parole essenziali, la vita che vale perché è fragile.',
+authors:[
+{name:'Giuseppe Ungaretti',ctx:'Ermetismo (IT, 1888–1970, Alessandria d\'Egitto)',ideas:['Nasce in Egitto (padre al Canale di Suez). Cresce ambiente multietnico ai margini del deserto','1912: Parigi — avanguardie (Picasso, Modigliani, Apollinaire, futuristi italiani)','1915: fante nelle trincee del Carso — scrive le poesie dell\'Allegria','Ermetismo: versi brevissimi, spazi bianchi al posto della sintassi, parole con valore assoluto','Dopo: fascismo, riscoperta della fede (Sentimento del Tempo). 1936: cattedra a San Paolo, morte del figlio → Il Dolore. 1942: Sapienza Roma. Muore 1970.'],works:'L\'Allegria (1916→1931); Sentimento del Tempo (1933); Il Dolore (1947)'},
+],
+concepts:[
+{t:'Ermetismo',d:'Corrente poetica italiana del \'900. Versi brevissimi (anche 1-3 parole). Spazi bianchi al posto della sintassi. Parole isolate con valore assoluto ed essenziale. Brevi analogie.'},
+{t:'L\'Allegria — titoli e significato',d:'"Il porto sepolto" (1916) → "Allegria di naufragi" → "L\'Allegria" (1931). Il sentimento dei naufragi che sfuggono alla morte: adrenalina pura che lentamente si diluisce. Tratta di morte, fragilità e attaccamento alla vita.'},
+{t:'Soldati',d:'Poesia di 4 righe. Tema: fragilità della vita. Le vite dei soldati sono paragonate a foglie sugli alberi d\'autunno.'},
+{t:'Veglia',d:'Notte passata vicino al cadavere di un fante massacrato. "Non sono mai stato tanto attaccato alla vita." Paradosso: la morte di uno insegna il valore della vita.'},
+{t:'Fratelli',d:'Due battaglioni si incrociano di notte e si scambiano la parola "fratelli": "involontaria rivolta dell\'uomo alla sua fragilità".'},
+{t:'Sono una creatura',d:'Ungaretti paragona il proprio dolore chiuso alla durezza della roccia del Monte San Michele. "La morte si sconta vivendo."'},
+],
+flashcards:[
+{f:'Percorso biografico di Ungaretti',b:'Egitto 1888 → Parigi 1912 (avanguardie) → WWI 1915 Carso (trincee, L\'Allegria) → Roma, fascismo, riscoperta della fede → San Paolo 1936 (morte del figlio, Il Dolore) → Sapienza 1942 → muore a Milano 1970.'},
+{f:'L\'Allegria — titoli e significato',b:'Il porto sepolto (1916) → Allegria di naufragi → L\'Allegria (1931). Il sentimento di adrenalina dei naufragi che sfuggono alla morte, che poi lentamente si diluisce.'},
+{f:'Le 4 poesie fondamentali dell\'Allegria',b:'Soldati (vita = foglie d\'autunno). Veglia (notte col cadavere del fante; "attaccato alla vita"). Fratelli (due battaglioni; "involontaria rivolta"). Sono una creatura ("la morte si sconta vivendo").'},
+{f:'Ermetismo — caratteristiche principali',b:'Versi brevissimi (spesso 1-3 parole). Spazi bianchi al posto della sintassi tradizionale. Parole isolate con valore essenziale e assoluto. Linguaggio di registro alto. Brevi analogie.'},
+],
+quiz:[
+{q:'Dove nacque Giuseppe Ungaretti?',opts:['Trieste','Firenze','Alessandria d\'Egitto','Beirut'],a:2},
+{q:'Qual era il titolo ORIGINALE de "L\'Allegria"?',opts:['Allegria di naufragi','Il porto sepolto','Sentimento del Tempo','Soldati'],a:1},
+{q:'Cosa si dicono i due battaglioni nella poesia "Fratelli"?',opts:['"Nemici"','"Soldati"','"Fratelli"','"Italia"'],a:2},
+{q:'Cosa descrive la poesia "Veglia"?',opts:['Il tramonto sul Carso','La notte vicino al cadavere di un fante massacrato','Il ritorno a casa dopo la guerra','La fragilità delle foglie autunnali'],a:1},
+{q:'Quale tecnica caratterizza l\'Ermetismo di Ungaretti?',opts:['Lunghe strofe narrative con rime baciate','Versi brevissimi, spazi bianchi al posto della sintassi, parole con valore assoluto','Dialetto siciliano e discorso indiretto libero','Metriche antiche greche'],a:1},
+{q:'Cosa simboleggiano le "foglie sugli alberi d\'autunno" in "Soldati"?',opts:['La bellezza della natura','La fragilità della vita dei soldati','La speranza del ritorno a casa','La morte dei nemici'],a:1},
+]},
+
+{id:'u6',roman:'VI',tab:'Scrittura',title:'Laboratorio di Scrittura — Esame di Stato',period:'Esame di Stato',color:'#3B6D11',bg:'#EAF3DE',
+intro:'Le tre tipologie di scrittura dell\'Esame di Stato: analisi, argomentazione e riflessione critica su tematiche di attualità.',
+authors:[],
+concepts:[
+{t:'Tipologia A',d:'Analisi e interpretazione di un testo letterario. Si analizzano forma, contenuto e stile di un testo poetico o narrativo proposto dalla commissione.'},
+{t:'Tipologia B',d:'Analisi e produzione di un testo argomentativo. Si analizza un testo proposto (articolo, saggio) e si produce una propria argomentazione strutturata.'},
+{t:'Tipologia C',d:'Riflessione critica di carattere espositivo-argomentativo su tematiche di attualità. Tema libero su argomento proposto dalla commissione.'},
+],
+flashcards:[
+{f:'Tipologia A',b:'Analisi e interpretazione di un testo letterario (poetico o narrativo).'},
+{f:'Tipologia B',b:'Analisi e produzione di un testo argomentativo (su un articolo o saggio proposto).'},
+{f:'Tipologia C',b:'Riflessione critica espositivo-argomentativa su tematiche di attualità.'},
+],
+quiz:[
+{q:'Quante tipologie di scrittura prevede l\'Esame di Stato?',opts:['2','3','4','5'],a:1},
+{q:'La Tipologia A riguarda...',opts:['Un testo argomentativo su attualità','Analisi e interpretazione di un testo letterario','La produzione di un saggio storico','Scrittura creativa libera'],a:1},
+{q:'La Tipologia B riguarda...',opts:['L\'analisi di un testo narrativo','Analisi e produzione di un testo argomentativo','Una riflessione critica su tematiche di attualità','La traduzione di un testo'],a:1},
+{q:'La Tipologia C riguarda...',opts:['L\'analisi di un testo narrativo','L\'analisi di un testo argomentativo','Una riflessione critica espositivo-argomentativa su tematiche di attualità','La traduzione di un testo'],a:2},
+]},
+];
+
+let state={udaIdx:0,mode:'studio',openAuthor:null,cardIdx:0,flipped:false,quizIdx:0,selected:null,answered:false,score:0,done:false};
+
+function setState(updates){Object.assign(state,updates);render();}
+
+function render(){
+  const u=UDAS[state.udaIdx];
+  const c=u.color;
+  const R=document.getElementById('root');
+  R.innerHTML='';
+
+  const header=el('div',{class:'header'});
+  header.appendChild(el('div',{class:'app-title',text:'Ripasso — Letteratura Italiana'}));
+  const tabs=el('div',{class:'tabs'});
+  UDAS.forEach((ud,i)=>{
+    const t=el('button',{class:'tab'+(state.udaIdx===i?' active':''),text:ud.roman+'. '+ud.tab});
+    if(state.udaIdx===i)t.style.background=ud.color;
+    t.onclick=()=>setState({udaIdx:i,mode:state.mode,openAuthor:null,cardIdx:0,flipped:false,quizIdx:0,selected:null,answered:false,score:0,done:false});
+    tabs.appendChild(t);
+  });
+  header.appendChild(tabs);
+  R.appendChild(header);
+
+  const mbar=el('div',{class:'modebar'});
+  [['studio','Studio'],['flashcard','Flashcard'],['quiz','Quiz']].forEach(([m,label])=>{
+    const b=el('button',{class:'mbtn'+(state.mode===m?' active':''),text:label});
+    b.onclick=()=>setState({mode:m,openAuthor:null,cardIdx:0,flipped:false,quizIdx:0,selected:null,answered:false,score:0,done:false});
+    mbar.appendChild(b);
+  });
+  R.appendChild(mbar);
+
+  const content=el('div',{class:'content'});
+  if(state.mode==='studio') renderStudio(u,content,c);
+  else if(state.mode==='flashcard') renderFlashcard(u,content,c);
+  else renderQuiz(u,content,c);
+  R.appendChild(content);
+}
+
+function renderStudio(u,content,c){
+  const intro=el('div',{class:'intro-card'});
+  const pLabel=el('div',{class:'period-label',text:u.period});
+  pLabel.style.color=c;
+  intro.appendChild(pLabel);
+  intro.appendChild(el('div',{class:'intro-title',text:u.roman+'. '+u.title}));
+  intro.appendChild(el('div',{class:'intro-text',text:u.intro}));
+  content.appendChild(intro);
+
+  if(u.authors.length>0){
+    content.appendChild(el('div',{class:'section-label',text:'Autori'}));
+    u.authors.forEach((a,i)=>{
+      const card=el('div',{class:'author-card'});
+      card.style.borderLeftWidth='3px';
+      card.style.borderLeftColor=c+'80';
+      const hdr=el('div',{class:'author-header'});
+      hdr.onclick=()=>setState({...state,openAuthor:state.openAuthor===i?null:i});
+      const hLeft=el('div',{});
+      hLeft.appendChild(el('div',{class:'author-name',text:a.name}));
+      hLeft.appendChild(el('div',{class:'author-ctx',text:a.ctx}));
+      hdr.appendChild(hLeft);
+      hdr.appendChild(el('i',{class:'ti '+(state.openAuthor===i?'ti-chevron-up':'ti-chevron-down'),style:'color:var(--text-muted)','aria-hidden':'true'}));
+      card.appendChild(hdr);
+      if(state.openAuthor===i){
+        const body=el('div',{class:'author-body'});
+        const ul=el('ul',{class:'ideas-list'});
+        a.ideas.forEach(idea=>ul.appendChild(el('li',{text:idea})));
+        body.appendChild(ul);
+        if(a.works&&a.works!=='—'){
+          const wp=el('div',{class:'works-pill'});
+          wp.style.background=c+'18';
+          wp.style.color=c;
+          wp.innerHTML='<strong>Opere:</strong> '+a.works;
+          body.appendChild(wp);
+        }
+        card.appendChild(body);
+      }
+      content.appendChild(card);
+    });
+  }
+
+  if(u.concepts.length>0){
+    content.appendChild(el('div',{class:'section-label',text:'Concetti chiave'}));
+    u.concepts.forEach(cp=>{
+      const cc=el('div',{class:'concept-card'});
+      const t=el('div',{class:'concept-term',text:cp.t});
+      t.style.color=c;
+      cc.appendChild(t);
+      cc.appendChild(el('div',{class:'concept-def',text:cp.d}));
+      content.appendChild(cc);
+    });
+  }
+}
+
+function renderFlashcard(u,content,c){
+  const cards=u.flashcards;
+  if(!cards.length){content.appendChild(el('div',{class:'intro-text',text:'Nessun flashcard per questa UdA.'}));return;}
+  const card=cards[state.cardIdx];
+  const pct=Math.round(((state.cardIdx)/cards.length)*100);
+
+  const wrap=el('div',{class:'fc-wrap'});
+  const ctr=el('div',{class:'fc-counter',text:(state.cardIdx+1)+' / '+cards.length});
+  wrap.appendChild(ctr);
+
+  const pb=el('div',{class:'progress-bar',style:'width:100%'});
+  const pf=el('div',{class:'progress-fill',style:'width:'+pct+'%;background:'+c});
+  pb.appendChild(pf);
+  wrap.appendChild(pb);
+
+  const fc=el('div',{class:'fc-card'});
+  if(state.flipped){fc.style.background='var(--surface-2)';fc.style.borderColor=c;}
+  const inner=el('div',{});
+  const hint=el('div',{class:'fc-hint',text:state.flipped?'↩ Risposta':'Domanda — clicca per girare'});
+  hint.style.color=state.flipped?c:'var(--text-muted)';
+  inner.appendChild(hint);
+  inner.appendChild(el('div',{class:'fc-text',text:state.flipped?card.b:card.f}));
+  fc.appendChild(inner);
+  fc.onclick=()=>setState({...state,flipped:!state.flipped});
+  wrap.appendChild(fc);
+
+  const nav=el('div',{class:'fc-nav'});
+  const prev=el('button',{text:'← Prec'});
+  prev.onclick=()=>{if(state.cardIdx>0)setState({...state,cardIdx:state.cardIdx-1,flipped:false});};
+  prev.disabled=state.cardIdx===0;
+  const next=el('button',{text:'Succ →'});
+  next.onclick=()=>{if(state.cardIdx<cards.length-1)setState({...state,cardIdx:state.cardIdx+1,flipped:false});};
+  next.disabled=state.cardIdx===cards.length-1;
+  nav.appendChild(prev);nav.appendChild(next);
+  wrap.appendChild(nav);
+
+  if(state.flipped){
+    const acts=el('div',{class:'fc-actions'});
+    const knew=el('button',{class:'btn-knew',text:'✓ Lo sapevo'});
+    const rev=el('button',{class:'btn-review',text:'✗ Da rivedere'});
+    const advance=()=>{
+      if(state.cardIdx<cards.length-1)setState({...state,cardIdx:state.cardIdx+1,flipped:false});
+      else setState({...state,flipped:false});
+    };
+    knew.onclick=advance;rev.onclick=advance;
+    acts.appendChild(knew);acts.appendChild(rev);
+    wrap.appendChild(acts);
+  }
+  content.appendChild(wrap);
+}
+
+function renderQuiz(u,content,c){
+  const qs=u.quiz;
+  if(!qs.length){content.appendChild(el('div',{class:'intro-text',text:'Nessuna domanda per questa UdA.'}));return;}
+
+  if(state.done){
+    const pct=Math.round((state.score/qs.length)*100);
+    const dc=el('div',{class:'done-card'});
+    const ds=el('div',{class:'done-score',text:pct+'%'});
+    ds.style.color=c;
+    dc.appendChild(ds);
+    dc.appendChild(el('div',{class:'done-label',text:state.score+' / '+qs.length+' risposte corrette'}));
+    const msg=pct>=80?'Ottimo! Sei pronto/a per la maturità.':pct>=60?'Bene! Ripassare i punti deboli.':'Rileggi la UdA e riprova.';
+    dc.appendChild(el('div',{class:'done-msg',text:msg}));
+    const rb=el('button',{class:'retry-btn',text:'Riprova'});
+    rb.onclick=()=>setState({...state,quizIdx:0,selected:null,answered:false,score:0,done:false});
+    dc.appendChild(rb);
+    content.appendChild(dc);
+    return;
+  }
+
+  const q=qs[state.quizIdx];
+  const pct=Math.round((state.quizIdx/qs.length)*100);
+
+  const pb=el('div',{class:'progress-bar'});
+  const pf=el('div',{class:'progress-fill',style:'width:'+pct+'%;background:'+c});
+  pb.appendChild(pf);content.appendChild(pb);
+
+  const meta=el('div',{class:'quiz-meta'});
+  meta.appendChild(el('span',{text:'Domanda '+(state.quizIdx+1)+' / '+qs.length}));
+  const scoreEl=el('span',{text:'Punteggio: '+state.score});
+  scoreEl.style.color=c;
+  meta.appendChild(scoreEl);
+  content.appendChild(meta);
+
+  content.appendChild(el('div',{class:'quiz-q',text:q.q}));
+
+  q.opts.forEach((opt,i)=>{
+    const div=el('div',{class:'opt'});
+    if(state.answered){
+      if(i===q.a)div.classList.add('correct');
+      else if(i===state.selected&&i!==q.a)div.classList.add('wrong');
+    }
+    const letter=el('span',{class:'opt-letter',text:String.fromCharCode(65+i)+'.'});
+    if(!state.answered)letter.style.color=c;
+    div.appendChild(letter);
+    div.appendChild(el('span',{text:opt}));
+    if(state.answered&&i===q.a)div.appendChild(el('span',{text:' ✓',style:'margin-left:4px'}));
+    if(state.answered&&i===state.selected&&i!==q.a)div.appendChild(el('span',{text:' ✗',style:'margin-left:4px'}));
+    if(!state.answered){
+      div.onclick=()=>{
+        const correct=i===q.a;
+        setState({...state,selected:i,answered:true,score:state.score+(correct?1:0)});
+      };
+    }
+    content.appendChild(div);
+  });
+
+  if(state.answered){
+    const nb=el('button',{class:'next-btn',text:state.quizIdx<qs.length-1?'Prossima domanda →':'Vedi risultato →'});
+    nb.onclick=()=>{
+      if(state.quizIdx<qs.length-1)setState({...state,quizIdx:state.quizIdx+1,selected:null,answered:false});
+      else setState({...state,done:true});
+    };
+    content.appendChild(nb);
+  }
+}
+
+function el(tag,props={}){
+  const e=document.createElement(tag);
+  if(props.class)e.className=props.class;
+  if(props.text)e.textContent=props.text;
+  if(props.style)e.setAttribute('style',props.style);
+  if(props['aria-hidden'])e.setAttribute('aria-hidden',props['aria-hidden']);
+  if(props.disabled)e.disabled=true;
+  Object.keys(props).forEach(k=>{
+    if(!['class','text','style','aria-hidden','disabled'].includes(k))
+      try{e[k]=props[k];}catch(err){}
+  });
+  return e;
+}
+
+render();
+</script>
