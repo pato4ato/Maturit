@@ -1,0 +1,627 @@
+
+<style>
+h2.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui);color:var(--text-primary);background:transparent}
+.app{min-height:500px}
+.hdr{background:var(--surface-1);border-bottom:0.5px solid var(--border);padding:10px 14px}
+.albl{font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:8px;letter-spacing:.03em}
+.tabs{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:4px 9px;border-radius:var(--radius);border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:10.5px;cursor:pointer;white-space:nowrap;font-weight:400;transition:all .15s}
+.tab.on{color:#fff;border-color:transparent;font-weight:500}
+.mbar{display:flex;gap:8px;padding:8px 14px;background:var(--surface-1);border-bottom:0.5px solid var(--border)}
+.mbtn{padding:5px 14px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:12px;cursor:pointer;transition:all .15s}
+.mbtn.on{border-color:var(--border-accent);background:var(--bg-accent);color:var(--text-accent)}
+.cnt{padding:14px;max-width:660px;margin:0 auto;width:100%}
+.ic{padding:12px 14px;border-radius:12px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:14px}
+.per{font-size:11px;font-weight:500;margin-bottom:4px}
+.itl{font-size:15px;font-weight:500;margin-bottom:6px}
+.itx{font-size:13px;line-height:1.65;color:var(--text-secondary)}
+.slbl{font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin:16px 0 8px}
+.acard{border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px;overflow:hidden}
+.ahdr{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 12px;cursor:pointer;gap:8px}
+.an{font-size:13.5px;font-weight:500}
+.ax{font-size:11px;color:var(--text-muted);margin-top:2px}
+.abody{padding:0 12px 12px;border-top:0.5px solid var(--border)}
+.alist{padding-left:16px;margin-top:8px}
+.alist li{font-size:12px;line-height:1.65;color:var(--text-secondary);margin-bottom:3px}
+.wp{margin-top:8px;padding:6px 10px;border-radius:6px;font-size:11px;line-height:1.5}
+.cc{padding:10px 12px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px}
+.ct{font-size:13px;font-weight:500;margin-bottom:4px}
+.cd{font-size:12px;line-height:1.6;color:var(--text-secondary)}
+.fw{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:4px}
+.fctr{font-size:12px;color:var(--text-muted)}
+.fc{width:100%;min-height:160px;border-radius:12px;border:0.5px solid var(--border);background:var(--surface-1);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;cursor:pointer;transition:background .2s,border-color .2s}
+.fh{font-size:11px;margin-bottom:10px}
+.ft{font-size:14px;line-height:1.7}
+.fnv{display:flex;gap:10px}
+.fnv button{padding:7px 18px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:12px;cursor:pointer}
+.fax{display:flex;gap:10px}
+.fax button{padding:7px 18px;border-radius:20px;border:0.5px solid;font-size:12px;cursor:pointer;background:transparent}
+.bk{border-color:var(--border-success);color:var(--text-success)}
+.br{border-color:var(--border-danger);color:var(--text-danger)}
+.qm{display:flex;justify-content:space-between;margin-bottom:12px}
+.qm span{font-size:12px;color:var(--text-muted)}
+.qq{padding:14px;border-radius:12px;background:var(--surface-1);border:0.5px solid var(--border);font-size:14px;line-height:1.65;margin-bottom:12px}
+.opt{padding:10px 13px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px;cursor:pointer;font-size:13px;transition:all .15s;display:flex;gap:8px;align-items:flex-start}
+.ol{font-weight:500;flex-shrink:0}
+.opt:hover{border-color:var(--border-strong)}
+.opt.ok{background:var(--bg-success);border-color:var(--border-success);color:var(--text-success)}
+.opt.ko{background:var(--bg-danger);border-color:var(--border-danger);color:var(--text-danger)}
+.nb{width:100%;padding:10px;border-radius:8px;border:0.5px solid var(--border-accent);background:var(--bg-accent);color:var(--text-accent);font-size:13px;cursor:pointer;margin-top:4px}
+.dn{text-align:center;padding:28px 20px;border-radius:12px;background:var(--surface-1);border:0.5px solid var(--border)}
+.ds{font-size:42px;font-weight:500;margin-bottom:6px}
+.dl{font-size:14px;color:var(--text-secondary);margin-bottom:6px}
+.dm{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.rb{padding:9px 24px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:13px;cursor:pointer}
+.pb{height:3px;border-radius:2px;background:var(--border);margin-bottom:12px;overflow:hidden}
+.pf{height:100%;border-radius:2px;transition:width .3s}
+code{font-family:var(--font-mono,'Courier New',monospace);font-size:11px;background:var(--surface-2);padding:1px 5px;border-radius:3px}
+</style>
+
+<h2 class="sr-only">App di ripasso: Informatica, 7 UdA, modalità studio, flashcard e quiz.</h2>
+<div class="app" id="root"></div>
+<script>
+const U=[
+{id:'u1',r:'I',tab:'Prog. Web',title:'Programmazione Web — Client/Server',per:'Front-end · Back-end · Architettura',c:'#185FA5',
+intro:'Il modello Client/Server è il fondamento logico di Internet. Client (browser/app) e Server (elaboratore remoto) comunicano tramite HTTP con ruoli nettamente separati.',
+secs:[
+{n:'Modello Client/Server',cx:'Architettura di base del web',id:[
+'Server: elaboratore potente e costantemente attivo, custodisce dati e fornisce servizi',
+'Client: browser o applicazione che inizia sempre la comunicazione (asimmetrica)',
+'Il server rimane in ascolto passivo in attesa di interrogazioni dalla rete',
+'Il server elabora la richiesta e restituisce una risposta strutturata al client',
+'Comunicazione tramite protocolli standard (HTTP), garantendo indipendenza tecnologica',
+'Vantaggi: risorse critiche e logiche di sicurezza centralizzate in un unico luogo protetto',
+],works:''},
+{n:'Front-end (Programmazione lato client)',cx:'HTML · CSS · JavaScript',id:[
+'Tutto ciò che viene eseguito fisicamente sul dispositivo dell\'utente finale',
+'Obiettivo: costruzione dell\'interfaccia utente e ottimizzazione dell\'esperienza visiva',
+'Linguaggi: HTML (struttura), CSS (stile), JavaScript (logica dinamica)',
+'Il codice è visibile a qualsiasi utente tramite gli strumenti di sviluppo del browser',
+'VIETATO: inserire algoritmi segreti, credenziali o logiche di validazione critiche nel front-end',
+'Ruolo nella validazione: controlla la correttezza formale dei form prima di inviare al server',
+],works:'Browser è il motore di esecuzione del front-end'},
+{n:'Back-end (Programmazione lato server)',cx:'Python · Java · Node.js · C# · PHP',id:[
+'Eseguito su macchine remote in datacenter protetti → codice totalmente inaccessibile all\'utente (black box)',
+'Gestisce regole di business, autenticazione sicura degli account, calcoli complessi',
+'L\'UNICA entità autorizzata a comunicare direttamente con i database',
+'Operazioni ad alta intensità di calcolo (crittografia, AI) delegate al server',
+'Invia al client solo il risultato finale, mascherando l\'intero processo decisionale interno',
+'Lo sviluppatore back-end deve garantire la scalabilità (migliaia di connessioni simultanee)',
+],works:'PHP, Python, Java, Node.js, C#'},
+],
+conc:[
+{t:'Comunicazione asimmetrica',d:'L\'iniziativa di dialogo parte SEMPRE e SOLO dal client. Il server rimane in ascolto passivo e risponde solo alle richieste ricevute.'},
+{t:'Front-end vs Back-end',d:'Front-end: codice visibile, eseguito nel browser. HTML+CSS+JS. NON deve contenere credenziali. Back-end: codice invisibile (black box), eseguito sul server. Unico ad accedere al DB.'},
+{t:'Perché il front-end non deve contenere credenziali',d:'Il codice sorgente front-end è visibile a qualsiasi utente tramite gli strumenti di sviluppo del browser. Qualsiasi credenziale, algoritmo segreto o logica di validazione critica sarebbe facilmente leggibile e sfruttabile.'},
+],
+fc:[
+{f:'Chi inizia sempre la comunicazione in un modello Client/Server?',b:'Sempre e solo il CLIENT. Il server rimane in ascolto passivo e risponde solo alle richieste ricevute. La comunicazione è asimmetrica per definizione.'},
+{f:'Quali linguaggi si usano nel front-end e cosa fa ciascuno?',b:'HTML: struttura della pagina. CSS: stile visivo. JavaScript: logica dinamica e interattività. Tutti eseguiti nel browser dell\'utente.'},
+{f:'Perché non inserire credenziali nel front-end?',b:'Il codice front-end è visibile a qualsiasi utente tramite gli strumenti di sviluppo del browser. Credenziali, algoritmi segreti o validazioni critiche andrebbero inserite SOLO nel back-end (black box).'},
+{f:'Cosa fa esclusivamente il back-end?',b:'Gestisce regole di business, autenticazione sicura, calcoli complessi (AI, crittografia) ed è l\'UNICO ad accedere direttamente al database. Il codice back-end è una "black box" inaccessibile all\'utente.'},
+],
+quiz:[
+{q:'Chi inizia sempre la comunicazione nel modello Client/Server?',opts:['Il server, in modalità push','Il client — la comunicazione è asimmetrica','Entrambi contemporaneamente','Il DNS, che coordina la comunicazione'],a:1},
+{q:'Quali sono i tre linguaggi fondamentali del front-end?',opts:['PHP, Python, Java','HTML, CSS, JavaScript','SQL, JSON, XML','Node.js, React, Vue'],a:1},
+{q:'Perché è vietato inserire credenziali nel front-end?',opts:['Perché il browser non supporta la crittografia','Il codice front-end è visibile a qualsiasi utente tramite gli strumenti di sviluppo','Perché il front-end non ha accesso a Internet','Perché rallenta troppo il browser'],a:1},
+{q:'Quale componente è l\'UNICO autorizzato ad accedere direttamente al database?',opts:['Il browser dell\'utente','Il front-end tramite JavaScript','Il back-end (lato server)','Il DNS server'],a:2},
+{q:'Cosa invia il server al client dopo aver elaborato una richiesta?',opts:['Il codice sorgente completo','Solo il risultato finale elaborato, mascherando il processo interno','Il database completo in formato JSON','Tutti i log di sistema'],a:1},
+]},
+
+{id:'u2',r:'II',tab:'DB e DBMS',title:'Generalità sulle Basi di Dati e DBMS',per:'Database · DBMS · Architettura ANSI/SPARC · SQL',c:'#0F6E56',
+intro:'Un database è una raccolta strutturata di dati correlati. Il DBMS è il software intermediario che nasconde la complessità tecnica offrendo un\'interfaccia standardizzata.',
+secs:[
+{n:'Database',cx:'Raccolta strutturata di informazioni',id:[
+'Raccolta di informazioni strutturate e correlate, facilmente accessibile, gestibile e aggiornabile',
+'Elimina la ridondanza: un dato non viene duplicato inutilmente',
+'Centralizzazione: tutti gli utenti attingono a un\'unica fonte di verità aggiornata',
+'Struttura predefinita che descrive il significato e le relazioni logiche dei dati',
+'Qualsiasi servizio digitale (social network, e-commerce) dipende dai database',
+],works:''},
+{n:'DBMS — Database Management System',cx:'Software intermediario · Architettura ANSI/SPARC',id:[
+'Intermediario tra il database fisico, gli utenti e le applicazioni',
+'Architettura ANSI/SPARC a TRE LIVELLI: Fisico → Logico → Esterno (vista)',
+'Livello Fisico: come i dati sono salvati sui dischi (settori, blocchi)',
+'Livello Logico: struttura globale — tabelle e relazioni, senza curarsi dell\'hardware',
+'Livello Esterno/Vista: porzioni di dati pertinenti a un determinato ruolo aziendale',
+'La separazione garantisce indipendenza dei dati: si cambiano i server senza riscrivere i programmi',
+'Gestisce l\'accesso simultaneo di migliaia di utenti (concorrenza)',
+],works:'Oracle, MySQL, Microsoft SQL Server, PostgreSQL'},
+{n:'Problemi dei vecchi file system',cx:'Prima dei database',id:[
+'Ridondanza: stessa informazione ripetuta in più file separati (spreco di spazio e costi)',
+'Inconsistenza: aggiornare un dato in un file non aggiornava automaticamente gli altri',
+'Dipendenza dai programmi: ogni software doveva conoscere la struttura fisica del file',
+'Difficoltà nella concorrenza: un file bloccato da un utente era inaccessibile agli altri',
+'Ricerche complesse richiedevano ore e lunghi programmi ad hoc',
+],works:'I database moderni eliminano tutte queste criticità'},
+{n:'Modelli e SQL',cx:'Relazionale · NoSQL · DDL/DML/DCL/DQL',id:[
+'Modello relazionale: tabelle bidimensionali (standard attuale)',
+'Modello NoSQL: documenti, grafi, chiave-valore (dati non strutturati del web moderno)',
+'SQL (Structured Query Language): linguaggio standard dichiarativo per i database relazionali',
+'DDL (Data Definition Language): crea/modifica/elimina la struttura delle tabelle',
+'DML (Data Manipulation Language): inserisce/modifica/elimina i dati',
+'DCL (Data Control Language): gestisce i permessi e la sicurezza degli accessi',
+],works:''},
+{n:'Sicurezza del Database',cx:'Tre pilastri',id:[
+'1. Privatezza/Riservatezza: solo gli utenti autorizzati possono leggere i dati (RBAC)',
+'2. Integrità fisica: protezione da guasti hardware, disastri, blackout (Disaster Recovery, backup)',
+'3. Integrità logica/consistenza: le operazioni rispettano le regole di business → TRANSAZIONI',
+'Transazione: gruppo di modifiche eseguito come entità indivisibile (tutto o niente)',
+'Se una transazione fallisce → rollback automatico allo stato iniziale intatto',
+],works:''},
+],
+conc:[
+{t:'Architettura ANSI/SPARC (3 livelli)',d:'Fisico: come i dati sono salvati su disco. Logico: struttura globale (tabelle, relazioni) senza preoccuparsi dell\'hardware. Esterno/Vista: porzioni di dati visibili a un determinato utente/ruolo.'},
+{t:'Ridondanza e inconsistenza (file system)',d:'Ridondanza = stesso dato duplicato in più file → spreco di spazio. Inconsistenza = aggiornare un file non aggiornava automaticamente gli altri → dati disallineati.'},
+{t:'Transazione',d:'Gruppo di modifiche eseguito come un\'unica entità indivisibile. Se qualcosa va storto a metà → rollback automatico (tutto annullato). Garantisce l\'integrità logica del database.'},
+{t:'DDL vs DML vs DCL',d:'DDL: Data Definition Language — crea/modifica/elimina strutture (tabelle). DML: Data Manipulation Language — inserisce/modifica/elimina dati. DCL: Data Control Language — gestisce i permessi.'},
+],
+fc:[
+{f:'I tre livelli dell\'architettura ANSI/SPARC',b:'Fisico: come i dati sono salvati su disco (settori, blocchi). Logico: struttura globale — tabelle e relazioni senza curarsi dell\'hardware. Esterno/Vista: porzioni di dati visibili a specifici utenti/ruoli aziendali.'},
+{f:'Tre problemi principali dei vecchi file system',b:'1. Ridondanza: stesso dato in più file separati → spreco. 2. Inconsistenza: aggiornare un file non aggiornava gli altri → disallineamento. 3. Dipendenza dai programmi: ogni software doveva conoscere la struttura fisica del file.'},
+{f:'Cos\'è una transazione e perché è importante?',b:'Gruppo di modifiche eseguito come un\'unica entità indivisibile (tutto o niente). Se fallisce a metà → rollback automatico allo stato iniziale. Garantisce l\'integrità logica del database.'},
+{f:'Tre pilastri della sicurezza del database',b:'1. Privatezza/Riservatezza (RBAC: solo autorizzati leggono). 2. Integrità fisica (Disaster Recovery, backup: protezione da guasti). 3. Integrità logica/consistenza (transazioni: regole di business sempre rispettate).'},
+{f:'Differenza tra modello relazionale e NoSQL',b:'Relazionale: tabelle bidimensionali rigide, linguaggio SQL, ideale per dati strutturati. NoSQL: documenti, grafi, chiave-valore, flessibile, ideale per enormi moli di dati non strutturati del web moderno.'},
+],
+quiz:[
+{q:'Quanti livelli ha l\'architettura ANSI/SPARC del DBMS?',opts:['2','3','4','5'],a:1},
+{q:'Quale livello ANSI/SPARC descrive come i dati sono fisicamente salvati su disco?',opts:['Esterno','Logico','Fisico','Virtuale'],a:2},
+{q:'Qual era il principale problema dei vecchi file system rispetto ai database?',opts:['Erano troppo veloci','Ridondanza dei dati e inconsistenza tra archivi separati','Non supportavano le query SQL','Funzionavano solo su Windows'],a:1},
+{q:'Cosa garantisce una transazione nel database?',opts:['La velocità massima delle query','Un gruppo di modifiche eseguito come entità indivisibile (tutto o rollback)','La cifratura automatica dei dati','L\'eliminazione dei duplicati'],a:1},
+{q:'Quale sotto-linguaggio SQL gestisce i permessi e la sicurezza?',opts:['DDL','DML','DQL','DCL'],a:3},
+{q:'Quale delle seguenti è la definizione corretta di DDL?',opts:['Data Deletion Language: elimina i dati','Data Manipulation Language: modifica i dati','Data Definition Language: crea/modifica/elimina le strutture','Data Display Language: mostra i dati'],a:2},
+]},
+
+{id:'u3',r:'III',tab:'Diagramma E/R',title:'Progettazione Concettuale — Il Diagramma E/R',per:'Entità · Attributi · Relazioni · Cardinalità · Chiavi',c:'#BA7517',
+intro:'La progettazione si articola in 3 fasi: concettuale (E/R) → logica (relazionale) → fisica (DBMS). Il modello E/R mappa visivamente la realtà in entità, attributi e relazioni.',
+secs:[
+{n:'Tre fasi di progettazione',cx:'Concettuale → Logica → Fisica',id:[
+'Progettazione concettuale: analizza i requisiti e descrive la realtà in modo astratto. Strumento: diagramma E/R',
+'Progettazione logica: trasforma lo schema E/R nel modello relazionale (tabelle, campi, tipi di dati)',
+'Applicazione della normalizzazione per eliminare ridondanze e prevenire anomalie',
+'Progettazione fisica: adatta il modello logico al DBMS e all\'hardware specifico (indici, spazi su disco)',
+],works:''},
+{n:'Modello E/R',cx:'Entità · Attributi · Associazioni',id:[
+'Entità: classe di oggetti del mondo reale con esistenza autonoma (es. Impiegato, Prodotto, Fattura)',
+'Attributi: proprietà che descrivono l\'entità (es. per Impiegato: codice fiscale, cognome, nome, data di nascita)',
+'Associazione (Relazione): legame logico tra due o più entità (es. un impiegato LAVORA IN un reparto)',
+'Cardinalità: numero massimo e minimo di legami per ciascun elemento coinvolto',
+'Tipi di cardinalità: 1:1 (uno a uno), 1:N (uno a molti), N:M (molti a molti)',
+],works:'Linguaggio universale comprensibile da programmatori e committenti'},
+{n:'Chiave primaria e chiave esterna',cx:'Identificazione e relazioni tra tabelle',id:[
+'Chiave primaria (PK): attributo (o combinazione minimale) che identifica univocamente ogni riga di una tabella',
+'Requisiti PK: valore UNICO e NON NULLO (vincolo di integrità dell\'entità)',
+'Spesso artificiale: codice numerico auto-incrementato generato dal server (più stabile)',
+'Vantaggio chiave artificiale: un cambio di cognome o codice fiscale non compromette la stabilità del record',
+'Chiave esterna (FK): valore di una PK richiamato in una seconda tabella per creare un collegamento',
+'FK → integrità referenziale: impedisce l\'eliminazione di dati correlati (no record orfani)',
+'La PK genera automaticamente un indice hardware che velocizza le ricerche',
+],works:''},
+],
+conc:[
+{t:'Tre livelli di progettazione',d:'Concettuale: schema E/R (astratto, no tecnicismi). Logico: modello relazionale (tabelle, tipi dati, normalizzazione). Fisico: configurazione DBMS e hardware (indici, spazi disco).'},
+{t:'Entità vs Attributo vs Associazione',d:'Entità: classe di oggetti del mondo reale con esistenza autonoma (es. "Impiegato"). Attributo: proprietà che descrive l\'entità (es. "Cognome"). Associazione: legame logico tra due entità (es. "Lavora in").'},
+{t:'Cardinalità: 1:1, 1:N, N:M',d:'1:1 (uno a uno): ogni elemento di A è legato a uno solo di B. 1:N (uno a molti): un elemento di A è legato a molti di B. N:M (molti a molti): molti elementi di A legati a molti di B.'},
+{t:'Chiave primaria (PK)',d:'Attributo (o combinazione minimale) che identifica univocamente ogni riga. Deve essere UNICA e NON NULLA. Spesso artificiale (auto-incremento) per evitare instabilità da cambio di dati reali.'},
+{t:'Chiave esterna (FK)',d:'Valore di una PK richiamato in un\'altra tabella per creare un collegamento. Garantisce l\'integrità referenziale: il valore FK deve esistere nella tabella di riferimento. Può ripetersi (≠ PK).'},
+],
+fc:[
+{f:'Le tre fasi di progettazione di un database',b:'1. Concettuale: schema E/R astratto (entità, attributi, relazioni). 2. Logica: traduzione in modello relazionale (tabelle, normalizzazione). 3. Fisica: configurazione su DBMS e hardware (indici, spazi disco).'},
+{f:'I tre elementi fondamentali del modello E/R',b:'Entità: oggetto del mondo reale con esistenza autonoma (es. "Impiegato"). Attributo: proprietà che descrive l\'entità (es. "Cognome"). Associazione: legame logico tra entità (es. "Lavora in"). Cardinalità: quantifica i legami (1:1, 1:N, N:M).'},
+{f:'Tipi di cardinalità nelle associazioni E/R',b:'1:1 (uno a uno): es. Persona ↔ Passaporto. 1:N (uno a molti): es. Reparto → Impiegati. N:M (molti a molti): es. Studenti ↔ Corsi. La cardinalità determina la strategia di traduzione nel modello relazionale.'},
+{f:'Chiave primaria vs Chiave esterna',b:'PK (Primary Key): identifica univocamente ogni riga, UNICA e NON NULLA, spesso artificiale (auto-incremento). FK (Foreign Key): valore di una PK richiamato in un\'altra tabella per creare un collegamento → integrità referenziale.'},
+{f:'Perché usare chiavi primarie artificiali?',b:'Le chiavi artificiali (codici numerici auto-incrementati) evitano instabilità: se un dato reale cambia (es. cognome, codice fiscale), la chiave artificiale rimane stabile e tutti i riferimenti restano validi.'},
+],
+quiz:[
+{q:'Quante fasi ha la progettazione di un database?',opts:['2','3','4','5'],a:1},
+{q:'Cos\'è un\'entità nel modello E/R?',opts:['Una singola riga di una tabella','Una classe di oggetti del mondo reale con esistenza autonoma','Un legame logico tra due tabelle','Un attributo con valore unico'],a:1},
+{q:'Cosa definiscono le cardinalità nel modello E/R?',opts:['Il tipo di dato degli attributi','Il numero massimo e minimo di legami per ciascun elemento coinvolto','La dimensione massima delle tabelle','Il nome delle entità coinvolte'],a:1},
+{q:'Quali sono i requisiti formali di una chiave primaria?',opts:['Deve essere un numero intero','Deve essere UNICA e NON NULLA','Deve essere sempre un codice fiscale','Deve essere condivisa tra più tabelle'],a:1},
+{q:'Quando una chiave primaria viene richiamata in un\'altra tabella, si chiama...',opts:['Chiave duplicata','Chiave candidata','Chiave esterna (Foreign Key)','Chiave composta'],a:2},
+{q:'Perché si preferiscono chiavi primarie artificiali rispetto a chiavi naturali?',opts:['Perché occupano meno spazio','Perché un cambio di dati reali (cognome, CF) non compromette la stabilità del record','Perché sono più veloci nelle query','Perché il SQL le richiede obbligatoriamente'],a:1},
+]},
+
+{id:'u4',r:'IV',tab:'DB Relazionale',title:'Basi di Dati Relazionali',per:'Tabelle · Algebra relazionale · Normalizzazione · Vincoli',c:'#534AB7',
+intro:'Il modello relazionale organizza i dati in tabelle bidimensionali. La normalizzazione elimina le ridondanze. L\'algebra relazionale permette di interrogare i dati con selezione, proiezione e join.',
+secs:[
+{n:'Struttura del modello relazionale',cx:'Tabelle · Tuple · Attributi',id:[
+'Tabella: intestazione (schema) + corpo (dati). Standard universale per la gestione strutturata dei dati',
+'Tuple/record: righe della tabella = singole istanze/oggetti archiviati',
+'Attributi/campi: colonne = proprietà che descrivono ogni tupla',
+'Valore ATOMICO: ogni cella contiene un valore indivisibile (regola fondamentale)',
+'Ordine delle righe e delle colonne è matematicamente ininfluente',
+'Vietate righe completamente identiche (no duplicati)',
+],works:''},
+{n:'Traduzione E/R → Modello Relazionale',cx:'Regole di traduzione',id:[
+'Ogni entità forte → tabella indipendente. Gli attributi → colonne. L\'identificatore → chiave primaria',
+'Associazione 1:N → inserire la PK della tabella lato "uno" come FK nella tabella lato "molti"',
+'Associazione N:M → creare una tabella ponte con le PK delle due tabelle originarie come colonne',
+'Se l\'associazione N:M ha attributi propri → diventano colonne aggiuntive della tabella ponte',
+],works:''},
+{n:'Algebra relazionale',cx:'Selezione · Proiezione · Join',id:[
+'Selezione (σ): operazione ORIZZONTALE — estrae le righe che soddisfano una condizione (come WHERE)',
+'Proiezione (π): operazione VERTICALE — crea nuova tabella con solo alcune colonne specifiche',
+'Prodotto cartesiano: combina ogni riga della prima tabella con tutte le righe della seconda (inefficiente)',
+'Join: incrocia i dati di due tabelle sfruttando il legame PK-FK. Restituisce solo le combinazioni logicamente correlate',
+'Combinando selezione + proiezione + join → si estraggono informazioni complesse da archivi vastissimi',
+],works:''},
+{n:'Normalizzazione',cx:'1FN · 2FN · 3FN',id:[
+'Scopo: eliminare ridondanze e prevenire anomalie nei database relazionali',
+'1FN (Prima Forma Normale): ogni campo deve contenere un valore ATOMICO, indivisibile e non ripetuto',
+'Viola 1FN: colonna con lista di telefoni → va divisa',
+'2FN (Seconda Forma Normale): richiede 1FN + tutti gli attributi non chiave dipendono dall\'INTERA chiave primaria (no dipendenze parziali). Si applica quando la PK è composta da più attributi',
+'3FN (Terza Forma Normale): richiede 2FN + tutti i campi non chiave dipendono SOLO dalla PK (no dipendenze transitive)',
+'Viola 3FN: se "provincia" dipende da "CAP" (che dipende dalla PK) → creare anagrafica separata',
+'Standard di settore: portare il DB fino alla 3FN per bilanciare efficienza e velocità',
+],works:''},
+{n:'Vincoli di integrità',cx:'Dominio · Entità · Referenziale · Utente',id:[
+'Vincolo di dominio: tipo, formato e range di valori accettabili per una colonna (es. età positiva)',
+'Integrità di entità: ogni tabella deve avere PK unica e non nulla → no record fantasma',
+'Integrità referenziale: il valore della FK deve esistere nella tabella di riferimento → no record orfani',
+'Vincoli utente: regole di business personalizzate per esigenze commerciali specifiche',
+],works:''},
+],
+conc:[
+{t:'Selezione vs Proiezione',d:'Selezione (σ): operazione ORIZZONTALE — filtra le RIGHE che soddisfano una condizione (equivalente al WHERE). Proiezione (π): operazione VERTICALE — seleziona solo alcune COLONNE scartando le altre.'},
+{t:'Join vs Prodotto cartesiano',d:'Prodotto cartesiano: combina ogni riga della prima tabella con tutte le righe della seconda → spesso inutile e inefficiente. Join: incrocia le tabelle sfruttando il legame PK-FK → solo le combinazioni logicamente correlate.'},
+{t:'Traduzione N:M',d:'Un\'associazione molti-a-molti non può essere rappresentata direttamente. Si crea una TABELLA PONTE che contiene le PK di entrambe le tabelle originarie come colonne. Gli attributi dell\'associazione diventano colonne aggiuntive della tabella ponte.'},
+{t:'1FN · 2FN · 3FN',d:'1FN: valori atomici (no liste in una cella). 2FN: attributi non chiave dipendono dall\'INTERA PK (no dipendenze parziali). 3FN: attributi non chiave dipendono SOLO dalla PK (no dipendenze transitive). Standard di settore: arrivare alla 3FN.'},
+],
+fc:[
+{f:'Come si traduce una associazione 1:N nel modello relazionale?',b:'Si inserisce la chiave primaria (PK) della tabella dal lato "uno" come chiave esterna (FK) nella tabella dal lato "molti". Esempio: Reparto (1) → Impiegati (N): si aggiunge IDReparto come FK nella tabella Impiegati.'},
+{f:'Come si traduce una associazione N:M nel modello relazionale?',b:'Si crea una TABELLA PONTE con le PK di entrambe le tabelle originarie come colonne. Gli attributi propri dell\'associazione diventano colonne aggiuntive della tabella ponte.'},
+{f:'Differenza tra Selezione e Proiezione nell\'algebra relazionale',b:'Selezione (σ): operazione ORIZZONTALE — estrae le righe che soddisfano una condizione (come il WHERE). Proiezione (π): operazione VERTICALE — crea una nuova tabella con solo alcune colonne specifiche, scartando le altre.'},
+{f:'Le tre forme normali: 1FN, 2FN, 3FN',b:'1FN: valori atomici in ogni campo (no liste). 2FN: tutti gli attributi non chiave dipendono dall\'INTERA PK (no dipendenze parziali). 3FN: tutti gli attributi non chiave dipendono SOLO dalla PK (no dipendenze transitive).'},
+{f:'I quattro vincoli di integrità',b:'1. Dominio: tipo, formato, range valori accettabili. 2. Entità: PK unica e non nulla. 3. Referenziale: il valore FK deve esistere nella tabella di riferimento (no record orfani). 4. Utente: regole di business personalizzate.'},
+],
+quiz:[
+{q:'Cos\'è un\'operazione di selezione nell\'algebra relazionale?',opts:['Crea una nuova tabella con solo alcune colonne','Filtra le RIGHE che soddisfano una condizione (operazione orizzontale)','Unisce due tabelle tramite la chiave esterna','Elimina i duplicati da una tabella'],a:1},
+{q:'Come si traduce un\'associazione N:M nel modello relazionale?',opts:['Con una FK nella tabella dal lato "molti"','Non è possibile tradurla','Con una tabella ponte contenente le PK di entrambe le tabelle','Con una FK in entrambe le tabelle'],a:2},
+{q:'Quale forma normale richiede che i valori in ogni campo siano atomici?',opts:['1FN','2FN','3FN','BCNF'],a:0},
+{q:'Cosa vieta il vincolo di integrità referenziale?',opts:['La creazione di PK composite','La presenza di record orfani (FK che non trova corrispondenza nella tabella di riferimento)','L\'uso di valori NULL nelle colonne','La ripetizione di valori nella stessa colonna'],a:1},
+{q:'Qual è la differenza principale tra Join e Prodotto Cartesiano?',opts:['Il Join è più lento','Il Join usa il legame PK-FK restituendo solo combinazioni logicamente correlate; il Prodotto Cartesiano combina tutto con tutto','Il Prodotto Cartesiano è più preciso','Non c\'è nessuna differenza pratica'],a:1},
+{q:'La 3FN elimina principalmente...',opts:['Le dipendenze parziali dalla chiave primaria','Le dipendenze transitive (attributi che dipendono da altri attributi non chiave)','I valori nulli nelle tabelle','Le chiavi primarie composite'],a:1},
+]},
+
+{id:'u5',r:'V',tab:'SQL',title:'Il Linguaggio SQL',per:'DDL · DML · DQL · DCL · Viste',c:'#993C1D',
+intro:'SQL è il linguaggio dichiarativo standard per i database relazionali. Si divide in DDL (strutture), DML (dati), DQL (query), DCL (sicurezza). Standardizzato da ANSI/ISO.',
+secs:[
+{n:'SQL — Caratteristiche generali',cx:'Linguaggio dichiarativo · ANSI/ISO',id:[
+'Nato negli anni \'70 nei laboratori IBM, standardizzato da ANSI e ISO',
+'Linguaggio DICHIARATIVO: specifica "cosa" si vuole, non "come" calcolarlo',
+'Il DBMS ottimizza autonomamente il percorso di esecuzione più efficiente',
+'Completo: gestisce l\'intero ciclo di vita del dato (strutture, dati, query, sicurezza)',
+'Moduli specializzati: DDL, DML, DQL, DCL',
+'Supporta nativamente le transazioni',
+'Ogni DBMS ha un proprio "dialetto" con estensioni proprietarie (Oracle, MySQL, PostgreSQL)',
+],works:''},
+{n:'DDL — Data Definition Language',cx:'CREATE · DROP · ALTER · PRIMARY KEY · FOREIGN KEY · CHECK',id:[
+'CREATE TABLE: crea una nuova tabella con nome, colonne e tipi di dato',
+'DROP TABLE: elimina irreversibilmente una tabella e tutto il suo contenuto',
+'ALTER TABLE: modifica una struttura esistente (es. aggiunge una colonna)',
+'PRIMARY KEY: indica il campo identificatore univoco e non cancellabile',
+'FOREIGN KEY: stabilisce i legami strutturali tra tabelle (integrità referenziale)',
+'CHECK: impone regole di validazione logica sulle celle (es. età > 0)',
+'I comandi DDL NON possono essere generalmente annullati con un rollback',
+],works:''},
+{n:'DML — Data Manipulation Language',cx:'INSERT · UPDATE · DELETE',id:[
+'INSERT INTO: inserisce una o più nuove righe in una tabella',
+'UPDATE: modifica informazioni già archiviate in base a una condizione',
+'DELETE: rimuove tuple in base a una precisa condizione logica',
+'ATTENZIONE: dimenticare la condizione WHERE in UPDATE o DELETE modifica/elimina TUTTI i record',
+'Le modifiche DML possono essere gestite con transazioni e annullate (rollback) in caso di errore',
+],works:''},
+{n:'DQL — Data Query Language',cx:'SELECT · WHERE · JOIN · GROUP BY · HAVING',id:[
+'SELECT: estrae dati senza mai alterarli. Cuore pulsante dell\'SQL',
+'WHERE: filtra orizzontalmente le righe in base a condizioni logiche',
+'ORDER BY: ordina i risultati (alfabetico, cronologico, numerico)',
+'JOIN: unisce tabelle sfruttando il legame PK-FK per incrociare dati da archivi distinti',
+'Funzioni di aggregazione: MIN, MAX, SUM, AVG, COUNT',
+'GROUP BY: applica le funzioni di aggregazione su sottoinsiemi (es. totale vendite per mese)',
+'HAVING: filtra i gruppi dopo GROUP BY (come WHERE ma per i gruppi)',
+'IN: verifica se un valore è in un elenco esplicito tra parentesi',
+'ANY / ALL: confronta un valore con i risultati di una sotto-query (almeno uno / tutti)',
+],works:''},
+{n:'Viste e DCL',cx:'CREATE VIEW · GRANT · REVOKE',id:[
+'Vista (VIEW): tabella virtuale che non memorizza dati reali ma salva una query SQL complessa',
+'CREATE VIEW: crea una vista eseguita dinamicamente ad ogni chiamata',
+'DROP VIEW: elimina la vista senza intaccare i dati reali sottostanti',
+'Uso delle viste: semplificano la vita agli utenti, nascondono JOIN complessi, proteggono dati sensibili',
+'DCL — Data Control Language: regola i permessi di accesso al database',
+'GRANT: assegna permessi specifici (lettura, modifica) a singoli utenti',
+'REVOKE: revoca tempestivamente i privilegi precedentemente concessi',
+'Gestione granulare dei permessi: implementa architetture RBAC (ruoli)',
+],works:''},
+],
+conc:[
+{t:'SQL dichiarativo',d:'SQL è dichiarativo: si specifica COSA si vuole (non COME calcolarlo). Il DBMS sceglie autonomamente il percorso di esecuzione più efficiente. Opposto ai linguaggi imperativi come C o Java.'},
+{t:'DDL vs DML vs DQL',d:'DDL: CREATE/DROP/ALTER TABLE — strutture. Non annullabile. DML: INSERT/UPDATE/DELETE — dati, annullabile con transazioni. DQL: SELECT — solo lettura, non altera mai i dati.'},
+{t:'WHERE vs HAVING',d:'WHERE: filtra le RIGHE prima del raggruppamento (GROUP BY). HAVING: filtra i GRUPPI dopo GROUP BY in base a condizioni sulle funzioni aggregate. Non sono intercambiabili.'},
+{t:'Vista (VIEW)',d:'Tabella virtuale che non memorizza dati fisici. Salva una query SQL che viene eseguita dinamicamente ad ogni chiamata. Semplifica la vita agli utenti, nasconde JOIN complessi e protegge dati sensibili (barriera di sicurezza).'},
+{t:'GRANT vs REVOKE',d:'GRANT: assegna permessi specifici (SELECT, INSERT, UPDATE, DELETE) a un utente. REVOKE: revoca permessi precedentemente concessi. Usati dal DCL per la sicurezza del database.'},
+],
+fc:[
+{f:'Le quattro parti dell\'SQL',b:'DDL (Data Definition Language): CREATE/DROP/ALTER TABLE. DML (Data Manipulation Language): INSERT/UPDATE/DELETE. DQL (Data Query Language): SELECT. DCL (Data Control Language): GRANT/REVOKE.'},
+{f:'Comandi DDL fondamentali',b:'CREATE TABLE: crea tabella con colonne e tipi. DROP TABLE: elimina tabella irreversibilmente. ALTER TABLE: modifica struttura esistente. Vincoli: PRIMARY KEY, FOREIGN KEY, CHECK. I DDL NON sono annullabili con rollback.'},
+{f:'Comandi DML fondamentali + attenzione',b:'INSERT INTO: aggiunge nuove righe. UPDATE SET: modifica righe esistenti. DELETE FROM: elimina righe. ATTENZIONE: senza WHERE, UPDATE e DELETE modificano/eliminano TUTTI i record della tabella!'},
+{f:'Funzioni di aggregazione SQL',b:'COUNT: conta le righe/valori non nulli. MIN/MAX: valore minimo/massimo. SUM: somma totale. AVG: media aritmetica. Si usano con GROUP BY per calcoli su sottoinsiemi. HAVING filtra i risultati dei gruppi.'},
+{f:'Differenza tra WHERE e HAVING',b:'WHERE: filtra le RIGHE prima del raggruppamento (GROUP BY). HAVING: filtra i GRUPPI dopo GROUP BY in base a condizioni sulle funzioni aggregate. Non sono intercambiabili.'},
+{f:'Cos\'è una Vista (VIEW) e a cosa serve?',b:'Tabella virtuale che NON memorizza dati fisici. Salva una query SQL complessa eseguita dinamicamente ad ogni chiamata. Usi: semplifica le query, nasconde JOIN complessi, protegge dati sensibili mostrando solo ciò che l\'utente può vedere.'},
+],
+quiz:[
+{q:'Che tipo di linguaggio è SQL?',opts:['Imperativo','Procedurale','Dichiarativo (specifica cosa, non come)','Orientato agli oggetti'],a:2},
+{q:'Quale comando DDL elimina irreversibilmente una tabella?',opts:['DELETE TABLE','DROP TABLE','REMOVE TABLE','TRUNCATE TABLE'],a:1},
+{q:'Cosa fa il comando HAVING?',opts:['Filtra le righe prima del GROUP BY','Filtra i gruppi dopo il GROUP BY in base a condizioni aggregate','Raggruppa le righe per un campo','È sinonimo di WHERE'],a:1},
+{q:'Qual è la differenza tra una Vista (VIEW) e una tabella normale?',opts:['La vista è più veloce','La vista non memorizza dati fisici ma esegue una query dinamicamente ad ogni chiamata','La vista può contenere solo SELECT','La vista è permanente, la tabella è temporanea'],a:1},
+{q:'Quale comando DCL assegna permessi a un utente?',opts:['GIVE','ALLOW','GRANT','PERMIT'],a:2},
+{q:'Se dimentico la clausola WHERE in un DELETE, cosa succede?',opts:['Il comando fallisce con un errore','Vengono eliminati solo i record duplicati','Vengono eliminati TUTTI i record della tabella','Non succede nulla'],a:2},
+{q:'Quale funzione SQL conta il numero di righe trovate?',opts:['SUM','AVG','COUNT','TOTAL'],a:2},
+]},
+
+{id:'u6',r:'VI',tab:'PHP e MySQL',title:'La Gestione in Rete dei Database',per:'PHP · PDO · Cookie · Sessioni · MySQL',c:'#3B6D11',
+intro:'PHP è il linguaggio lato server per lo sviluppo web dinamico. Si integra con MySQL tramite PDO (con Prepared Statements). Cookie e Sessioni gestiscono lo stato degli utenti.',
+secs:[
+{n:'Linguaggi di scripting e PHP',cx:'PHP — Hypertext Preprocessor',id:[
+'Linguaggi di scripting: interpretati riga per riga (no compilazione preventiva) → ciclo di sviluppo rapido',
+'Tipizzazione DINAMICA: le variabili cambiano tipo durante l\'esecuzione',
+'PHP: lato server, open source, integrabile nativamente nell\'HTML',
+'Variabili PHP: iniziano OBBLIGATORIAMENTE con il simbolo $ (es. $nome)',
+'Concatenazione stringhe: operatore punto . (es. "Ciao" . $nome)',
+'Strutture di controllo: if, elseif, else, switch',
+'Cicli: for, while, do-while, foreach (scorre array estraendo chiavi e valori)',
+],works:'PHP è il linguaggio back-end più diffuso nel web'},
+{n:'MySQL e PhpMyAdmin',cx:'RDBMS open source',id:[
+'MySQL: RDBMS open source basato su SQL (tra i più diffusi al mondo)',
+'PhpMyAdmin: interfaccia web in PHP per amministrare MySQL senza riga di comando',
+'Permette: creare DB, definire tabelle, impostare chiavi primarie e auto-incremento',
+'Popola tabelle con moduli web precompilati o scheda SQL per query manuali',
+'Esporta il DB in file SQL (backup) e importa per ripristino o migrazione',
+],works:''},
+{n:'$_GET e $_POST',cx:'Comunicazione form HTML → PHP',id:[
+'$_GET: dati dell\'utente accodati all\'URL (dopo il ?). Ideale per ricerche e filtri',
+'$_GET NON usare per password o dati sensibili (visibili nell\'URL)',
+'$_GET ha un limite di lunghezza → inadatto per testi lunghi o file multimediali',
+'$_POST: dati inseriti nel corpo invisibile della richiesta HTTP',
+'$_POST: standard per operazioni che alterano dati (login, nuovo utente, pagamenti)',
+'Entrambe sono array associativi: usano il valore dell\'attributo HTML come chiave',
+],works:''},
+{n:'PDO — PHP Data Objects',cx:'Prepared Statements · SQL Injection',id:[
+'PDO: interfaccia moderna OOP per connettere PHP a molteplici tipi di database',
+'query(): esegue query semplici e STATICHE senza parametri utente',
+'prepare(): invia al DB la struttura della query con segnaposto — protegge dall\'SQL Injection',
+'bindParam(): associa le variabili PHP ai segnaposto, specificando il tipo di dato',
+'execute(): lancia l\'esecuzione della query precompilata',
+'fetch(): estrae UNA riga alla volta come array associativo',
+'fetchAll(): estrae TUTTI i risultati in un unico array multidimensionale',
+],works:'I Prepared Statements impediscono l\'SQL Injection'},
+{n:'Cookie e Sessioni',cx:'Gestione dello stato in PHP',id:[
+'HTTP è stateless: il server dimentica l\'utente dopo ogni risposta',
+'Cookie: piccoli file di testo salvati sul disco del CLIENT. setcookie(nome, valore, scadenza)',
+'I cookie vengono reinviati automaticamente dal browser ad ogni richiesta. Si leggono con $_COOKIE',
+'Cookie: facilmente manipolabili/intercettabili → INADATTI per dati sensibili',
+'Sessioni: dati salvati in file temporanei sul SERVER (area inaccessibile all\'utente)',
+'session_start(): genera un Session ID univoco consegnato al client come cookie temporaneo',
+'I dati di sessione si leggono e scrivono tramite $_SESSION. Sicuri per login e dati sensibili',
+],works:''},
+],
+conc:[
+{t:'PHP: tipizzazione dinamica e variabili',d:'Le variabili in PHP iniziano obbligatoriamente con $. La tipizzazione è DINAMICA: non si dichiara il tipo, cambia automaticamente durante l\'esecuzione. Concatenazione stringhe con il punto (.).'},
+{t:'$_GET vs $_POST',d:'$_GET: dati nell\'URL, visibili, per ricerche/filtri, limite di lunghezza. NON usare per dati sensibili. $_POST: dati nel corpo HTTP, non visibili nell\'URL, standard per modifiche ai dati (login, inserimenti, pagamenti).'},
+{t:'PDO Prepared Statements',d:'prepare() invia la struttura della query con segnaposto al DB. Il DB la compila. bindParam() associa i valori ai segnaposto. execute() esegue. I dati non possono alterare la struttura SQL → protezione dall\'SQL Injection.'},
+{t:'Cookie vs Sessioni',d:'Cookie: salvati sul CLIENT, visibili e manipolabili → no dati sensibili. Sessioni: dati sul SERVER, Session ID come cookie temporaneo → sicure per login e dati critici. Entrambi risolvono il problema di HTTP stateless.'},
+],
+fc:[
+{f:'Come iniziano le variabili PHP e come si concatenano le stringhe?',b:'Le variabili PHP iniziano OBBLIGATORIAMENTE con il simbolo $ (es. $nome, $età). Le stringhe si concatenano con l\'operatore punto . (es. "Ciao, " . $nome . "!").'},
+{f:'Differenza tra $_GET e $_POST',b:'$_GET: dati accodati all\'URL (visibili, limite di lunghezza). Ideale per ricerche. NON per dati sensibili. $_POST: dati nel corpo HTTP (non visibili nell\'URL). Standard per login, inserimenti, pagamenti e qualsiasi operazione che alteri i dati.'},
+{f:'I 6 metodi PDO e il loro ordine',b:'1. prepare(): invia la struttura SQL con segnaposto. 2. bindParam(): associa variabili PHP ai segnaposto. 3. execute(): esegue la query. 4. fetch(): una riga alla volta (array associativo). 5. fetchAll(): tutti i risultati in un array. query(): solo per query statiche senza parametri utente.'},
+{f:'Perché i Prepared Statements proteggono dall\'SQL Injection?',b:'prepare() invia al DB solo la struttura della query con segnaposto. Il DB la compila e ottimizza. bindParam() aggiunge i dati utente SEPARATAMENTE. Il DB tratta i dati sempre come dati, non come istruzioni SQL → impossibile iniettare codice malevolo.'},
+{f:'Cookie vs Sessioni PHP',b:'Cookie: setcookie() salva file di testo sul CLIENT. Si leggono con $_COOKIE. Facili da manipolare → no dati sensibili. Sessioni: session_start() salva dati sul SERVER. Session ID consegnato come cookie temporaneo. Si leggono con $_SESSION. Sicure per login e dati critici.'},
+{f:'Ciclo foreach in PHP',b:'Struttura specializzata per scorrere array estraendo chiavi e valori. Sintassi: foreach($array as $chiave => $valore). È la scelta ottimale per processare i risultati delle query PDO (array associativi).'},
+],
+quiz:[
+{q:'Come iniziano le variabili in PHP?',opts:['Con una lettera maiuscola','Con il simbolo @ ','Con il simbolo $ (es. $nome)','Con il prefisso var_'],a:2},
+{q:'Quale superglobale PHP usare per leggere dati inviati con il metodo GET?',opts:['$_REQUEST','$_DATA','$_GET','$_FORM'],a:2},
+{q:'Perché NON si deve usare $_GET per inviare password?',opts:['Perché è più lento','I dati GET appaiono visibili in chiaro nella barra degli indirizzi dell\'URL','Perché il server non può leggerli','Perché non supporta caratteri speciali'],a:1},
+{q:'Quale metodo PDO si usa per proteggere dall\'SQL Injection?',opts:['query()','execute()','prepare() con Prepared Statements','connect()'],a:2},
+{q:'Dove vengono salvati i dati di una sessione PHP?',opts:['Nel browser dell\'utente in un cookie','Nel database MySQL','In file temporanei sul SERVER in area inaccessibile all\'utente','Nell\'URL della pagina'],a:2},
+{q:'Cosa fa il metodo fetchAll() in PDO?',opts:['Esegue la query e torna il numero di righe','Estrae UNA riga alla volta','Estrae TUTTI i risultati in un unico array multidimensionale','Chiude la connessione al database'],a:2},
+{q:'Quale funzione PHP avvia una sessione?',opts:['start_session()','session_begin()','session_start()','init_session()'],a:2},
+]},
+
+{id:'u7',r:'VII',tab:'CLIL',title:'CLIL — Content and Language Integrated Learning',per:'OOP · Operatori relazionali · SQL',c:'#5F5E5A',
+intro:'La UdA CLIL integra i contenuti di Informatica con la lingua inglese. Focus su OOP in PHP, operatori relazionali dell\'algebra e principali istruzioni SQL.',
+secs:[
+{n:'OOP in PHP',cx:'Incapsulamento · Ereditarietà · Polimorfismo',id:[
+'Incapsulamento: raggruppa dati (attributi) e metodi in una classe nascondendo l\'implementazione interna',
+'Visibilità: public (accessibile ovunque), private (solo dentro la classe), protected (classe + sottoclassi)',
+'Ereditarietà: una sottoclasse estende una superclasse ereditandone attributi e metodi',
+'In PHP: class Figlio extends Genitore. Riduce la duplicazione del codice',
+'Polimorfismo: lo stesso metodo si comporta diversamente in classi diverse (override dei metodi)',
+'Classe astratta: non istanziabile direttamente, definisce una struttura comune per le sottoclassi',
+'Interfaccia: definisce i metodi che una classe DEVE implementare (contratto)',
+],works:''},
+{n:'Operatori relazionali (algebra)',cx:'Selezione · Proiezione',id:[
+'Selezione (σ): filtra le RIGHE in base a una condizione — equivalente al WHERE in SQL',
+'Proiezione (π): seleziona solo alcune COLONNE — equivalente al SELECT col1, col2 in SQL',
+'Join: incrocia dati di due tabelle tramite legame PK-FK',
+'Questi operatori sono la base matematica dell\'SQL',
+],works:''},
+{n:'Principali istruzioni SQL (recap)',cx:'DDL · DML · DQL · DCL',id:[
+'DDL: CREATE TABLE, DROP TABLE, ALTER TABLE, PRIMARY KEY, FOREIGN KEY, CHECK',
+'DML: INSERT INTO, UPDATE ... SET ... WHERE, DELETE FROM ... WHERE',
+'DQL: SELECT ... FROM ... WHERE, JOIN, GROUP BY, HAVING, ORDER BY, COUNT/MIN/MAX/SUM/AVG',
+'DCL: GRANT, REVOKE',
+'VIEW: CREATE VIEW, DROP VIEW',
+],works:''},
+],
+conc:[
+{t:'Incapsulamento OOP',d:'Raggruppa dati e metodi in una classe. Nasconde l\'implementazione interna. Visibilità: public (ovunque), private (solo nella classe), protected (classe + sottoclassi).'},
+{t:'Ereditarietà OOP',d:'Una sottoclasse (extends) eredita attributi e metodi dalla superclasse. Riduce la duplicazione del codice. In PHP: class Figlio extends Genitore.'},
+{t:'Polimorfismo OOP',d:'Lo stesso metodo si comporta diversamente in classi diverse (override). Permette di trattare oggetti di classi diverse in modo uniforme tramite l\'interfaccia comune.'},
+],
+fc:[
+{f:'Tre pilastri della OOP',b:'Incapsulamento: raggruppa dati e metodi, nasconde l\'implementazione. Ereditarietà: una sottoclasse estende la superclasse (extends). Polimorfismo: lo stesso metodo si comporta diversamente in classi diverse (override).'},
+{f:'Selezione vs Proiezione nell\'algebra relazionale',b:'Selezione (σ): filtra le RIGHE in base a una condizione → equivalente al WHERE in SQL. Proiezione (π): seleziona solo alcune COLONNE → equivalente al SELECT col1, col2 in SQL.'},
+{f:'Visibilità in OOP: public, private, protected',b:'public: accessibile ovunque (dall\'esterno della classe, dalle sottoclassi). private: accessibile solo dentro la classe stessa. protected: accessibile dalla classe stessa e dalle sue sottoclassi.'},
+],
+quiz:[
+{q:'Quali sono i tre meccanismi principali della OOP in PHP?',opts:['Compilazione, linking, esecuzione','Incapsulamento, Ereditarietà, Polimorfismo','Interfaccia, Astrazione, Ricorsione','DDL, DML, DCL'],a:1},
+{q:'Cosa si intende per polimorfismo nella OOP?',opts:['Un oggetto che non può essere istanziato','Lo stesso metodo si comporta diversamente in classi diverse (override)','Una classe che estende un\'altra classe','I dati nascosti dentro una classe'],a:1},
+{q:'In PHP, come si dichiara che la classe "Cane" estende la classe "Animale"?',opts:['class Cane inherits Animale','class Cane super Animale','class Cane extends Animale','class Cane : Animale'],a:2},
+{q:'L\'operatore di selezione (σ) nell\'algebra relazionale corrisponde a quale clausola SQL?',opts:['SELECT','FROM','WHERE','GROUP BY'],a:2},
+]},
+];
+
+let S={ui:0,mode:'studio',oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false};
+function ss(u){Object.assign(S,u);rr();}
+
+function rr(){
+const u=U[S.ui],c=u.c;
+const R=document.getElementById('root');R.innerHTML='';
+const H=mk('div',{cl:'hdr'});
+H.appendChild(mk('div',{cl:'albl',tx:'Ripasso — Informatica'}));
+const tabs=mk('div',{cl:'tabs'});
+U.forEach((ud,i)=>{
+  const t=mk('button',{cl:'tab'+(S.ui===i?' on':''),tx:ud.r+'. '+ud.tab});
+  if(S.ui===i)t.style.background=ud.c;
+  t.onclick=()=>ss({ui:i,oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false});
+  tabs.appendChild(t);
+});
+H.appendChild(tabs);R.appendChild(H);
+const mb=mk('div',{cl:'mbar'});
+[['studio','Studio'],['flashcard','Flashcard'],['quiz','Quiz']].forEach(([m,l])=>{
+  const b=mk('button',{cl:'mbtn'+(S.mode===m?' on':''),tx:l});
+  b.onclick=()=>ss({mode:m,oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false});
+  mb.appendChild(b);
+});
+R.appendChild(mb);
+const cnt=mk('div',{cl:'cnt'});
+if(S.mode==='studio')doSt(u,cnt,c);
+else if(S.mode==='flashcard')doFc(u,cnt,c);
+else doQz(u,cnt,c);
+R.appendChild(cnt);
+}
+
+function doSt(u,cnt,c){
+const ic=mk('div',{cl:'ic'});
+const pl=mk('div',{cl:'per',tx:u.per});pl.style.color=c;ic.appendChild(pl);
+ic.appendChild(mk('div',{cl:'itl',tx:u.r+'. '+u.title}));
+ic.appendChild(mk('div',{cl:'itx',tx:u.intro}));
+cnt.appendChild(ic);
+if(u.secs.length){
+  cnt.appendChild(mk('div',{cl:'slbl',tx:'Contenuti'}));
+  u.secs.forEach((s,i)=>{
+    const card=mk('div',{cl:'acard'});
+    card.style.borderLeftWidth='3px';card.style.borderLeftColor=c+'80';
+    const hd=mk('div',{cl:'ahdr'});
+    hd.onclick=()=>ss({...S,oa:S.oa===i?null:i});
+    const hl=mk('div',{});
+    hl.appendChild(mk('div',{cl:'an',tx:s.n}));
+    hl.appendChild(mk('div',{cl:'ax',tx:s.cx}));
+    hd.appendChild(hl);
+    hd.appendChild(mk('i',{cl:'ti '+(S.oa===i?'ti-chevron-up':'ti-chevron-down'),ai:'true',st:'color:var(--text-muted)'}));
+    card.appendChild(hd);
+    if(S.oa===i){
+      const bd=mk('div',{cl:'abody'});
+      const ul=mk('ul',{cl:'alist'});
+      s.id.forEach(it=>ul.appendChild(mk('li',{tx:it})));
+      bd.appendChild(ul);
+      if(s.works&&s.works!==''){const wp=mk('div',{cl:'wp'});wp.style.background=c+'18';wp.style.color=c;wp.innerHTML='<strong>Note:</strong> '+s.works;bd.appendChild(wp);}
+      card.appendChild(bd);
+    }
+    cnt.appendChild(card);
+  });
+}
+if(u.conc.length){
+  cnt.appendChild(mk('div',{cl:'slbl',tx:'Concetti chiave'}));
+  u.conc.forEach(cp=>{
+    const cc=mk('div',{cl:'cc'});
+    const t=mk('div',{cl:'ct',tx:cp.t});t.style.color=c;
+    cc.appendChild(t);cc.appendChild(mk('div',{cl:'cd',tx:cp.d}));
+    cnt.appendChild(cc);
+  });
+}
+}
+
+function doFc(u,cnt,c){
+const cards=u.fc;
+if(!cards.length){cnt.appendChild(mk('div',{cl:'itx',tx:'Nessun flashcard per questa UdA.'}));return;}
+const card=cards[S.ci];
+const pct=Math.round((S.ci/cards.length)*100);
+const w=mk('div',{cl:'fw'});
+w.appendChild(mk('div',{cl:'fctr',tx:(S.ci+1)+' / '+cards.length}));
+const pb=mk('div',{cl:'pb',st:'width:100%'});const pf=mk('div',{cl:'pf',st:'width:'+pct+'%;background:'+c});pb.appendChild(pf);w.appendChild(pb);
+const fc=mk('div',{cl:'fc'});
+if(S.fl){fc.style.background='var(--surface-2)';fc.style.borderColor=c;}
+const inner=mk('div',{});
+const hint=mk('div',{cl:'fh',tx:S.fl?'↩ Risposta':'Domanda — clicca per girare'});
+hint.style.color=S.fl?c:'var(--text-muted)';
+inner.appendChild(hint);inner.appendChild(mk('div',{cl:'ft',tx:S.fl?card.b:card.f}));
+fc.appendChild(inner);fc.onclick=()=>ss({...S,fl:!S.fl});
+w.appendChild(fc);
+const nav=mk('div',{cl:'fnv'});
+const pv=mk('button',{tx:'← Prec'});pv.onclick=()=>{if(S.ci>0)ss({...S,ci:S.ci-1,fl:false});};pv.disabled=S.ci===0;
+const nx=mk('button',{tx:'Succ →'});nx.onclick=()=>{if(S.ci<cards.length-1)ss({...S,ci:S.ci+1,fl:false});};nx.disabled=S.ci===cards.length-1;
+nav.appendChild(pv);nav.appendChild(nx);w.appendChild(nav);
+if(S.fl){
+  const ax=mk('div',{cl:'fax'});
+  const adv=()=>{if(S.ci<cards.length-1)ss({...S,ci:S.ci+1,fl:false});else ss({...S,fl:false});};
+  const k=mk('button',{cl:'bk',tx:'✓ Lo sapevo'});k.onclick=adv;
+  const r=mk('button',{cl:'br',tx:'✗ Da rivedere'});r.onclick=adv;
+  ax.appendChild(k);ax.appendChild(r);w.appendChild(ax);
+}
+cnt.appendChild(w);
+}
+
+function doQz(u,cnt,c){
+const qs=u.quiz;
+if(!qs.length){cnt.appendChild(mk('div',{cl:'itx',tx:'Nessuna domanda per questa UdA.'}));return;}
+if(S.dn){
+  const pct=Math.round((S.sc/qs.length)*100);
+  const dc=mk('div',{cl:'dn'});
+  const ds=mk('div',{cl:'ds',tx:pct+'%'});ds.style.color=c;dc.appendChild(ds);
+  dc.appendChild(mk('div',{cl:'dl',tx:S.sc+' / '+qs.length+' risposte corrette'}));
+  const msg=pct>=80?'Ottimo! Sei pronto/a per la maturità.':pct>=60?'Bene! Ripassare i punti deboli.':'Rileggi la UdA e riprova.';
+  dc.appendChild(mk('div',{cl:'dm',tx:msg}));
+  const rb=mk('button',{cl:'rb',tx:'Riprova'});rb.onclick=()=>ss({...S,qi:0,sel:null,ans:false,sc:0,dn:false});
+  dc.appendChild(rb);cnt.appendChild(dc);return;
+}
+const q=qs[S.qi];
+const pct=Math.round((S.qi/qs.length)*100);
+const pb=mk('div',{cl:'pb'});const pf=mk('div',{cl:'pf',st:'width:'+pct+'%;background:'+c});pb.appendChild(pf);cnt.appendChild(pb);
+const meta=mk('div',{cl:'qm'});
+meta.appendChild(mk('span',{tx:'Domanda '+(S.qi+1)+' / '+qs.length}));
+const se=mk('span',{tx:'Punteggio: '+S.sc});se.style.color=c;meta.appendChild(se);cnt.appendChild(meta);
+cnt.appendChild(mk('div',{cl:'qq',tx:q.q}));
+q.opts.forEach((opt,i)=>{
+  const d=mk('div',{cl:'opt'});
+  if(S.ans){if(i===q.a)d.classList.add('ok');else if(i===S.sel&&i!==q.a)d.classList.add('ko');}
+  const l=mk('span',{cl:'ol',tx:String.fromCharCode(65+i)+'.'});
+  if(!S.ans)l.style.color=c;
+  d.appendChild(l);d.appendChild(mk('span',{tx:opt}));
+  if(S.ans&&i===q.a)d.appendChild(mk('span',{tx:' ✓'}));
+  if(S.ans&&i===S.sel&&i!==q.a)d.appendChild(mk('span',{tx:' ✗'}));
+  if(!S.ans)d.onclick=()=>{const ok=i===q.a;ss({...S,sel:i,ans:true,sc:S.sc+(ok?1:0)});};
+  cnt.appendChild(d);
+});
+if(S.ans){
+  const nb=mk('button',{cl:'nb',tx:S.qi<qs.length-1?'Prossima →':'Vedi risultato →'});
+  nb.onclick=()=>{if(S.qi<qs.length-1)ss({...S,qi:S.qi+1,sel:null,ans:false});else ss({...S,dn:true});};
+  cnt.appendChild(nb);
+}
+}
+
+function mk(tag,p={}){
+const e=document.createElement(tag);
+if(p.cl)e.className=p.cl;
+if(p.tx)e.textContent=p.tx;
+if(p.st)e.setAttribute('style',p.st);
+if(p.ai)e.setAttribute('aria-hidden',p.ai);
+if(p.disabled)e.disabled=true;
+return e;
+}
+rr();
+</script>
