@@ -1,0 +1,640 @@
+
+<style>
+h2.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui);color:var(--text-primary);background:transparent}
+.app{min-height:500px}
+.hdr{background:var(--surface-1);border-bottom:0.5px solid var(--border);padding:10px 14px}
+.app-lbl{font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:8px;letter-spacing:.03em}
+.tabs{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:4px 9px;border-radius:var(--radius);border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:10.5px;cursor:pointer;white-space:nowrap;font-weight:400;transition:all .15s}
+.tab.active{color:#fff;border-color:transparent;font-weight:500}
+.mbar{display:flex;gap:8px;padding:8px 14px;background:var(--surface-1);border-bottom:0.5px solid var(--border)}
+.mbtn{padding:5px 14px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:12px;cursor:pointer;transition:all .15s}
+.mbtn.on{border-color:var(--border-accent);background:var(--bg-accent);color:var(--text-accent)}
+.cnt{padding:14px;max-width:660px;margin:0 auto;width:100%}
+.intro{padding:12px 14px;border-radius:12px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:14px}
+.per{font-size:11px;font-weight:500;margin-bottom:4px}
+.ititle{font-size:15px;font-weight:500;margin-bottom:6px}
+.itxt{font-size:13px;line-height:1.65;color:var(--text-secondary)}
+.slbl{font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin:16px 0 8px}
+.acard{border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px;overflow:hidden}
+.ahdr{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 12px;cursor:pointer;gap:8px}
+.aname{font-size:13.5px;font-weight:500}
+.actx{font-size:11px;color:var(--text-muted);margin-top:2px}
+.abody{padding:0 12px 12px;border-top:0.5px solid var(--border)}
+.alist{padding-left:16px;margin-top:8px}
+.alist li{font-size:12px;line-height:1.65;color:var(--text-secondary);margin-bottom:3px}
+.wpill{margin-top:8px;padding:6px 10px;border-radius:6px;font-size:11px;line-height:1.5}
+.ccard{padding:10px 12px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px}
+.cterm{font-size:13px;font-weight:500;margin-bottom:4px}
+.cdef{font-size:12px;line-height:1.6;color:var(--text-secondary)}
+.fwrap{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:4px}
+.fctr{font-size:12px;color:var(--text-muted)}
+.fcard{width:100%;min-height:160px;border-radius:12px;border:0.5px solid var(--border);background:var(--surface-1);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;cursor:pointer;transition:background .2s,border-color .2s}
+.fhint{font-size:11px;margin-bottom:10px}
+.ftext{font-size:14px;line-height:1.7}
+.fnav{display:flex;gap:10px}
+.fnav button{padding:7px 18px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:12px;cursor:pointer}
+.facts{display:flex;gap:10px}
+.facts button{padding:7px 18px;border-radius:20px;border:0.5px solid;font-size:12px;cursor:pointer;background:transparent}
+.bk{border-color:var(--border-success);color:var(--text-success)}
+.br{border-color:var(--border-danger);color:var(--text-danger)}
+.qmeta{display:flex;justify-content:space-between;margin-bottom:12px}
+.qmeta span{font-size:12px;color:var(--text-muted)}
+.qq{padding:14px;border-radius:12px;background:var(--surface-1);border:0.5px solid var(--border);font-size:14px;line-height:1.65;margin-bottom:12px}
+.opt{padding:10px 13px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px;cursor:pointer;font-size:13px;transition:all .15s;display:flex;gap:8px;align-items:flex-start}
+.optl{font-weight:500;flex-shrink:0}
+.opt:hover{border-color:var(--border-strong)}
+.opt.ok{background:var(--bg-success);border-color:var(--border-success);color:var(--text-success)}
+.opt.ko{background:var(--bg-danger);border-color:var(--border-danger);color:var(--text-danger)}
+.nxtb{width:100%;padding:10px;border-radius:8px;border:0.5px solid var(--border-accent);background:var(--bg-accent);color:var(--text-accent);font-size:13px;cursor:pointer;margin-top:4px}
+.done{text-align:center;padding:28px 20px;border-radius:12px;background:var(--surface-1);border:0.5px solid var(--border)}
+.dscore{font-size:42px;font-weight:500;margin-bottom:6px}
+.dlbl{font-size:14px;color:var(--text-secondary);margin-bottom:6px}
+.dmsg{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.retrb{padding:9px 24px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:13px;cursor:pointer}
+.pbar{height:3px;border-radius:2px;background:var(--border);margin-bottom:12px;overflow:hidden}
+.pfill{height:100%;border-radius:2px;transition:width .3s}
+.port-badge{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10.5px;font-weight:500;margin-left:6px;background:var(--border);color:var(--text-muted)}
+</style>
+
+<h2 class="sr-only">App di ripasso: Sistemi e Reti, 8 UdA, modalità studio, flashcard e quiz.</h2>
+<div class="app" id="root"></div>
+
+<script>
+const U=[
+{id:'u1',r:'I',tab:'Livello Trasporto',title:'Consolidamento — Livello di Trasporto',per:'TCP · UDP · DHCP · NAT · DNS',c:'#185FA5',
+intro:'Il livello di trasporto gestisce la comunicazione end-to-end tra applicazioni tramite porte (1–65535). Porta + IP = socket, che identifica univocamente una connessione.',
+secs:[
+{n:'TCP — Transmission Control Protocol',ctx:'Orientato alla connessione · porta variabile',id:[
+'3-way handshake (apertura): SYN → SYN+ACK → ACK',
+'4-way disconnection: FIN → ACK — poi → FIN → ACK',
+'Stop and Wait: 1 pacchetto alla volta, attende ACK prima del prossimo',
+'Go Back N: rimanda TUTTI i pacchetti dal punto di perdita in poi (semplice, spreca banda)',
+'Selective Repeat: buffer sul ricevitore, rimanda SOLO il pacchetto mancante (ottimizza banda)',
+'Sliding Window: N pacchetti in volo contemporaneamente; Window Size nell\'ACK = spazio libero ricevitore',
+'Slow Start: 1 pkt → raddoppia ad ogni ACK → alla perdita: dimezza, poi scala +1 lineare',
+],works:'HTTP, HTTPS, SSH, FTP, SMTP, IMAP4...'},
+{n:'UDP — User Datagram Protocol',ctx:'Senza connessione · veloce',id:[
+'Header minimo: 8 byte (vs 20+ del TCP). Nessuna gestione dell\'invio',
+'Supporta multicast e broadcast (TCP no)',
+'QUIC (HTTP/3): flussi UDP multipli, errore su un flusso non blocca gli altri',
+'UDP Lite: checksum parziale (es. VoIP: solo header + primi byte payload)',
+'RTSP: streaming real-time',
+],works:'VoIP, IPTV, streaming, DNS query'},
+{n:'DHCP',ctx:'Assegnazione automatica IP · UDP 67 (server) / 68 (client)',id:[
+'DORA: Discover → Offer → Request → Acknowledge',
+'Decline: IP già in uso → server segna l\'IP come "bad address"',
+'NAK: server rifiuta richiesta di IP già assegnato → client riparte da Discover',
+'DHCP Relay: il router inoltra le richieste broadcast al server DHCP remoto (modifica header)',
+'Dinamico (lease time), Statico (IP fisso per MAC), Manuale',
+'APIPA: 169.254.0.0/16 → auto-assegnazione link-local in assenza di server DHCP',
+],works:'Livello applicazione, basato su UDP'},
+{n:'NAT e PAT',ctx:'Network / Port Address Translation',id:[
+'NAT: sostituisce IP locale con IP pubblico in uscita (pool di IP assegnati dall\'ISP)',
+'PAT (NAT Overload): 1 solo IP pubblico, usa porte univoche del router per ogni host locale',
+'Il router memorizza tabella porta↔host per tradurre le risposte in arrivo',
+],works:'Necessario per l\'esaurimento degli IPv4'},
+{n:'DNS',ctx:'Domain Name System · UDP 53 / TCP 53 (Zone Transfer)',id:[
+'Risoluzione: cache locale → DNS server configurato → Root server → TLD server (.com) → Authoritative NS',
+'Record A: IPv4. Record AAAA: IPv6. Record CNAME: alias. Record MX: mail.',
+'Record SRV: tipo servizio, protocollo, priorità, peso, porta, target.',
+'Record TXT: testo liberamente queryabile',
+'Zone Transfer: AXFR (copia completa DB) o IXFR (solo modifiche incrementali) via TCP 53',
+'SOA (Start Of Authority): numero seriale incrementato ad ogni modifica → scatena lo Zone Transfer',
+],works:'Risoluzione di nomi di dominio in IP'},
+],
+conc:[
+{t:'Socket',d:'IP + porta = socket. Identifica univocamente una connessione tra applicazioni. Le porte vanno da 1 a 65535.'},
+{t:'3-way handshake vs 4-way disconnection',d:'Apertura: SYN → SYN+ACK → ACK (3 step). Chiusura: FIN → ACK — poi, quando pronto — FIN → ACK (4 step).'},
+{t:'Go Back N vs Selective Repeat',d:'Go Back N: rimanda tutti i pacchetti dal punto di perdita in poi (semplice per il ricevitore, spreca banda). Selective Repeat: buffer sul ricevitore, rimanda solo il pacchetto mancante (ottimizza la banda, richiede più memoria).'},
+{t:'Sliding Window',d:'Il mittente invia N pacchetti in parallelo. La dimensione della finestra è comunicata dinamicamente dal ricevitore nel campo Window Size dell\'header ACK (spazio libero in memoria).'},
+{t:'Slow Start',d:'Inizia con 1 pacchetto. Raddoppia ad ogni ACK (esponenziale). Alla perdita: dimezza e poi scala linearmente (+1 alla volta). Evita di ingolfare i router intermedi.'},
+{t:'DORA (DHCP)',d:'Discover (client broadcast, senza IP) → Offer (server propone IP, lo riserva) → Request (client accetta, broadcast) → Acknowledge (server assegna IP).'},
+{t:'APIPA',d:'169.254.0.0/16: auto-assegnazione link-local quando il server DHCP non è raggiungibile. Permette solo la comunicazione locale, NON l\'accesso a Internet.'},
+{t:'PAT vs NAT',d:'NAT: un IP pubblico per ogni host locale (pool). PAT (NAT Overload): un solo IP pubblico per tutta la rete, porte univoche del router per distinguere gli host. Soluzione pratica all\'esaurimento degli IPv4.'},
+],
+fc:[
+{f:'Passi del 3-way handshake TCP',b:'Client → SYN. Server → SYN+ACK. Client → ACK. Connessione aperta. Disconnessione in 4 step: FIN → ACK (poi quando server pronto) → FIN → ACK.'},
+{f:'Differenza Go Back N vs Selective Repeat',b:'Go Back N: rimanda TUTTI i pacchetti dal punto di perdita → semplice ma spreca banda. Selective Repeat: buffer sul ricevitore, rimanda SOLO il pacchetto mancante → ottimizza banda, più memoria.'},
+{f:'Come funziona la Slow Start?',b:'1 pacchetto → raddoppia ad ogni ACK (esponenziale). Alla prima perdita: dimezza il numero, poi scala linearmente +1 alla volta. Evita di saturare i router intermedi.'},
+{f:'Processo DORA del DHCP',b:'Discover (broadcast, senza IP) → Offer (server riserva IP) → Request (client accetta, broadcast) → Acknowledge (server assegna IP). Il client verifica che l\'IP non sia già in uso (DHCP Decline se sì).'},
+{f:'NAT vs PAT',b:'NAT: sostituisce IP locale con un IP pubblico del pool ISP (uno-a-uno o uno-a-molti). PAT (NAT Overload): un solo IP pubblico, usa porte univoche del router per ogni host locale (tabella porta↔host per le risposte).'},
+{f:'Risoluzione DNS di www.google.com',b:'1. Cache locale. 2. DNS server configurato (es. 8.8.8.8). 3. Root server (chi gestisce .com?). 4. TLD server → IP Authoritative NS per google.com. 5. Authoritative NS → IP di www.google.com. 6. Risposta al client (salvata in cache).'},
+{f:'Zone Transfer: AXFR vs IXFR',b:'AXFR: il server secondario cancella il suo DB e copia quello completo del master. IXFR: il secondario chiede solo i record aggiunti dall\'ultima sincronizzazione (più veloce). Entrambi via TCP 53. Scatenati dal cambio del numero seriale SOA.'},
+],
+quiz:[
+{q:'Quanti step ha il 3-way handshake TCP per aprire una connessione?',opts:['2','3','4','5'],a:1},
+{q:'Quale tecnica TCP usa un buffer lato ricevitore e rimanda solo il pacchetto mancante?',opts:['Stop and Wait','Go Back N','Selective Repeat','Sliding Window'],a:2},
+{q:'Su quale porta UDP ascolta il server DHCP?',opts:['53','67','68','69'],a:1},
+{q:'Cosa fa il DHCP Relay?',opts:['Assegna IP statici per MAC','Forwardia le richieste DHCP broadcast al server remoto (modifica l\'header)','Rinnova automaticamente i lease scaduti','Sostituisce il server DHCP in caso di guasto'],a:1},
+{q:'In quale range opera l\'APIPA quando il server DHCP non è disponibile?',opts:['192.168.0.0/16','10.0.0.0/8','172.16.0.0/12','169.254.0.0/16'],a:3},
+{q:'Differenza principale tra NAT e PAT:',opts:['NAT usa IPv6, PAT usa IPv4','PAT usa 1 solo IP pubblico con porte univoche; NAT usa un pool di IP pubblici','NAT è più veloce di PAT','PAT è solo per UDP'],a:1},
+{q:'Quale tipo di Zone Transfer copia solo i record modificati dall\'ultima sincronizzazione?',opts:['AXFR','IXFR','SOA','TLD'],a:1},
+]},
+
+{id:'u2',r:'II',tab:'Servizi di Rete',title:'Principali Servizi di Rete',per:'SSH · FTP · HTTP · Email · VoIP · MQTT',c:'#0F6E56',
+intro:'Il livello di applicazione interfaccia gli utenti con la rete. Protocolli: SSH, FTP, HTTP, SMTP, POP3, IMAP4, VoIP, MQTT e protocolli per lo streaming.',
+secs:[
+{n:'SSH e Telnet',ctx:'Accesso remoto',id:[
+'Telnet: TCP 23, plaintext — obsoleto e insicuro',
+'SSH: TCP 22, cifratura Diffie-Hellman, autenticazione con password o chiavi pub/priv',
+'TOFU (Trust On First Use): alla 1ª connessione si salva il fingerprint (hash chiave pubblica)',
+'MitM: il fingerprint cambierebbe → connessione annullata automaticamente',
+],works:'SSH: gold standard per accesso remoto sicuro'},
+{n:'FTP e varianti',ctx:'File Transfer Protocol',id:[
+'Active Mode: TCP 21 (comandi) + TCP 20 (dati) — server tenta connessione al client → spesso bloccato dal firewall',
+'Passive Mode (PASV): server apre porta 50000+ → client si connette. Standard moderno',
+'TFTP: UDP 69, nessuna autenticazione, usato per net boot. Implementa propri ACK',
+'FTPS Implicit: TCP 990, TLS obbligatorio dall\'inizio (no handshake in chiaro)',
+'FTPS Explicit: TCP 21, handshake in chiaro → AUTH TLS / AUTH SSL per promuovere la connessione',
+'SFTP (SSH FTP): TCP 22, protocollo creato da zero su SSH. Gold standard per trasferimento sicuro',
+],works:'SFTP: sicuro, unica porta, stessi utenti SSH'},
+{n:'HTTP e HTTPS',ctx:'Web · TCP 80 / TCP 443',id:[
+'HTTP: stateless, porta TCP 80. Header + body. URL (Unique Resource Locator)',
+'GET (no body), POST (crea/invia), PUT (sostituisce completamente), PATCH (modifica parziale)',
+'DELETE, HEAD (no body in risposta), OPTIONS (CORS), TRACE (riflette richiesta), CONNECT (tunnel proxy)',
+'1xx: informazionale. 2xx: successo (200 OK, 201 creato, 204 vuoto)',
+'3xx: redirect (301 permanente, 302 temporaneo, 304 usa cache). 4xx: errore client (400, 401, 403, 404)',
+'5xx: errore server (500, 502 bad gateway, 503 non disponibile, 504 timeout)',
+'Cookie: file di testo nel browser, inviati ad ogni richiesta → rendono HTTP stateful',
+'HTTPS: TCP 443, Diffie-Hellman + Certificate Authorities (no TOFU)',
+],works:'HTTP/HTTPS: base del web'},
+{n:'Email: SMTP · POP3 · IMAP4',ctx:'Protocolli email',id:[
+'SMTP (invio): TCP 465 implicit, TCP 587 explicit (STARTTLS), TCP 25 obsoleto',
+'SMTP: MUA → MTA. Comandi: EHLO, MAIL FROM, RCPT TO, DATA, QUIT',
+'POP3 (ricezione, scarica+elimina): TCP 110 plain/explicit (STLS), TCP 995 implicit',
+'POP3: +OK / -ERR. Comandi: STAT, LIST, RETR, DELE, QUIT',
+'IMAP4 (sincronizzazione multi-device): TCP 143 plain/explicit (STARTTLS), TCP 993 implicit',
+'IMAP4: tag alfanumerici, SELECT, FETCH BODY[TEXT], STORE +FLAGS (\\Seen), EXPUNGE, LOGOUT',
+],works:'SMTP=invio · POP3=scarica+elimina · IMAP4=sincronizza'},
+{n:'VoIP e Streaming',ctx:'Real-Time, Live, On-Demand',id:[
+'VoIP — SIP: TCP/UDP 5060 (sicuro: TCP 5061). Dati via RTP (UDP) + RTCP (monitoraggio QoS)',
+'RTCP: monitora latenza, jitter, perdita pacchetti. PLC: usa l\'ultimo pkt per mascherare la perdita',
+'DASH: video in più qualità + chunk 2–10s. Client richiede la qualità ottimale per la propria banda',
+'CDN (Content Delivery Node): server distribuiti negli ISP per ridurre latenza e fluttuazione banda',
+'Live streaming: RTMP / SRT / WebRTC → server prepara in DASH → CDN distribuisce',
+'Real-Time: buffer piccolissimo per assorbire jitter. SIP o WebRTC per negoziare codec, poi RTP',
+],works:'Netflix, YouTube, Zoom, Teams, WhatsApp'},
+{n:'MQTT',ctx:'IoT · TCP 1883 / MQTTS 8883',id:[
+'Architettura Publisher/Subscriber con Broker centrale',
+'Topic: stringhe con / (casa/cucina/temperatura). + = jolly singolo livello',
+'QoS 0: at most once (può andare perso). QoS 1: at least once. QoS 2: exactly once (4-way HS)',
+'LWT (Last Will and Testament): notifica gli altri in caso di disconnessione anomala',
+'Retain message: un nuovo iscritto riceve l\'ultimo messaggio pubblicato sul topic',
+],works:'IoT, sensori, domotica. Bassa potenza + banda limitata'},
+],
+conc:[
+{t:'SSH vs Telnet',d:'Telnet: TCP 23, tutto in plaintext — obsoleto. SSH: TCP 22, cifratura Diffie-Hellman, TOFU per il fingerprint. Un attacco MitM cambia il fingerprint → connessione annullata.'},
+{t:'FTP Active vs Passive',d:'Active: server tenta di aprire TCP 20 sul client → firewall client lo blocca. Passive (PASV): server apre porta 50000+, client si connette → funziona con i firewall.'},
+{t:'FTPS vs SFTP',d:'FTPS: FTP + TLS (Implicit TCP 990, Explicit TCP 21 + AUTH TLS). SFTP: protocollo completamente nuovo su SSH, TCP 22, tutto in un tunnel sicuro. SFTP è il gold standard.'},
+{t:'POP3 vs IMAP4',d:'POP3: scarica le email e le elimina dal server (un solo dispositivo). IMAP4: sincronizza su più dispositivi tramite flags (\\Seen, \\Deleted), cartelle e tag alfanumerici.'},
+{t:'Codici HTTP per categoria',d:'1xx: informazionale. 2xx: successo (200 OK, 201 creato, 204 vuoto). 3xx: redirect (301 perm, 302 temp, 304 cache). 4xx: errore client (400, 401, 403, 404). 5xx: errore server (500, 502, 503, 504).'},
+{t:'MQTT QoS',d:'QoS 0: at most once (può andare perso). QoS 1: at least once (garantito, possibili duplicati). QoS 2: exactly once (4-way handshake, massima affidabilità, più banda).'},
+],
+fc:[
+{f:'FTP Active vs Passive Mode',b:'Active: TCP 21 (comandi) + TCP 20 (dati) — server apre connessione verso client → bloccato dal firewall. Passive (PASV): server apre porta 50000+, client si connette → standard moderno.'},
+{f:'SFTP vs FTPS — qual è il gold standard?',b:'SFTP (SSH FTP): protocollo nuovo su TCP 22, un unico tunnel SSH sicuro, usa stessi utenti SSH. Gold standard. FTPS: FTP + TLS (Implicit TCP 990 / Explicit TCP 21 + AUTH TLS).'},
+{f:'Porte dei protocolli email',b:'SMTP: 465 implicit / 587 explicit / 25 obsoleto. POP3: 110 plain+explicit / 995 implicit. IMAP4: 143 plain+explicit / 993 implicit. Comandi per modalità sicura Explicit: STARTTLS (SMTP/IMAP4), STLS (POP3).'},
+{f:'Metodi HTTP principali',b:'GET (no body, recupera), POST (invia/crea), PUT (sostituisce completamente), PATCH (modifica parziale), DELETE (elimina), OPTIONS (CORS), CONNECT (tunnel proxy).'},
+{f:'Codici di stato HTTP',b:'1xx: informazionale. 2xx: successo (200 OK, 201 creato, 204 vuoto). 3xx: redirect (301 perm, 302 temp, 304 usa cache). 4xx: errore client (400, 401, 403, 404). 5xx: errore server (500, 502, 503, 504).'},
+{f:'MQTT: architettura e QoS',b:'Publisher/Subscriber tramite Broker centrale. Topics con / (+ = jolly). QoS 0: può andare perso. QoS 1: almeno una volta. QoS 2: esattamente una volta (4-way handshake). LWT: notifica disconnessioni anomale.'},
+{f:'Come funziona il DASH?',b:'Il video viene compresso in più qualità (4K, 1080p, 720p) e tagliato in chunk da 2–10s. Il client richiede i chunk nella qualità ottimale per la propria banda. Distribuito via CDN per ridurre latenza.'},
+],
+quiz:[
+{q:'Su quale porta lavora SSH?',opts:['TCP 21','TCP 22','TCP 23','TCP 443'],a:1},
+{q:'Cosa fa il comando PASV nell\'FTP?',opts:['Apre TLS sulla connessione','Chiude la connessione','Segnala al server di aprire una porta per il client (Passive Mode)','Autentica l\'utente'],a:2},
+{q:'Differenza principale tra POP3 e IMAP4:',opts:['POP3 è più sicuro','POP3 scarica e cancella dal server; IMAP4 sincronizza su più dispositivi','IMAP4 non supporta cartelle','POP3 usa UDP, IMAP4 usa TCP'],a:1},
+{q:'Quale metodo HTTP modifica parzialmente una risorsa?',opts:['PUT','POST','PATCH','DELETE'],a:2},
+{q:'Cosa significa HTTP 403?',opts:['Not Found','Bad Request','Forbidden (accesso vietato)','Internal Server Error'],a:2},
+{q:'Quale protocollo è il gold standard per il trasferimento sicuro di file?',opts:['FTPS Implicit','FTPS Explicit','TFTP','SFTP (SSH FTP)'],a:3},
+{q:'MQTT QoS 2 garantisce...',opts:['At most once','At least once','Exactly once (4-way handshake)','Nessuna garanzia'],a:2},
+{q:'Cosa fa il LWT in MQTT?',opts:['Misura la latenza dei sensori','Notifica gli altri dispositivi in caso di disconnessione anomala','Autentica i dispositivi','Ritarda i messaggi nei picchi di traffico'],a:1},
+]},
+
+{id:'u3',r:'III',tab:'VLAN',title:'Virtual LAN',per:'IEEE 802.1q · Trunking · Layer 3 switch',c:'#BA7517',
+intro:'Le VLAN segmentano i domini di broadcast di una rete tramite switch managed, simulando più switch virtuali su un unico dispositivo fisico.',
+secs:[
+{n:'VLAN e IEEE 802.1q',ctx:'Segmentazione dei broadcast',id:[
+'Aggiungono 4 byte nell\'header Ethernet con il VLAN ID',
+'Ogni switch managed ha una VLAN di default (ID 1) non eliminabile',
+'Port-based: VLAN assegnata a una porta fisica (qualunque host connesso entra nella VLAN)',
+'MAC-based: VLAN assegnata in base all\'indirizzo MAC del dispositivo',
+'Trunking: più VLAN sullo stesso collegamento (es. switch↔switch, switch↔router)',
+'Il traffico della VLAN di default può viaggiare senza tag in un trunk',
+],works:'Switch managed (managed switch)'},
+{n:'Switch di Livello 3',ctx:'Routing inter-VLAN',id:[
+'Effettuano il routing tra VLAN senza passare dal router → libera la banda upstream',
+'Usati in grandi aziende e campus per efficienza',
+'Permettono di ristrutturare la rete via software senza spostare cavi fisici',
+],works:'Core delle reti aziendali complesse'},
+],
+conc:[
+{t:'IEEE 802.1q',d:'Standard che definisce il tagging VLAN. Aggiunge 4 byte all\'header Ethernet con il VLAN ID per identificare la VLAN di provenienza del frame.'},
+{t:'Port-based vs MAC-based',d:'Port-based: la VLAN dipende dalla porta fisica dello switch. MAC-based: la VLAN dipende dall\'indirizzo MAC del dispositivo, indipendentemente dalla porta.'},
+{t:'Trunking',d:'Collegamento che trasporta il traffico di più VLAN contemporaneamente. Usato tra switch managed o tra switch e router. La VLAN di default può passare senza tag.'},
+],
+fc:[
+{f:'IEEE 802.1q: quanti byte aggiunge e cosa contiene?',b:'Aggiunge 4 byte all\'header Ethernet contenenti il VLAN ID, che identifica la VLAN di provenienza del frame.'},
+{f:'Differenza tra Port-based e MAC-based VLAN',b:'Port-based: la VLAN è assegnata alla porta fisica (qualunque host connesso entra in quella VLAN). MAC-based: la VLAN è assegnata al MAC specifico, indipendente dalla porta.'},
+{f:'Cos\'è il trunking e quando si usa?',b:'Collegamento che trasporta il traffico di più VLAN sullo stesso link fisico. Usato tra switch managed o tra switch e router. La VLAN di default può passare anche senza tag.'},
+],
+quiz:[
+{q:'Su quale standard IEEE si basano le VLAN?',opts:['IEEE 802.11','IEEE 802.1q','IEEE 802.3','IEEE 802.1x'],a:1},
+{q:'Quanti byte aggiunge il tag VLAN all\'header Ethernet?',opts:['2','4','8','16'],a:1},
+{q:'Cosa fa il trunking?',opts:['Autentica i dispositivi sulla rete','Trasporta il traffico di più VLAN sullo stesso collegamento','Assegna un IP a ogni VLAN','Blocca il traffico tra VLAN'],a:1},
+{q:'Qual è l\'ID della VLAN di default?',opts:['0','1','100','4095'],a:1},
+]},
+
+{id:'u4',r:'IV',tab:'Crittografia',title:'Tecniche Crittografiche — Sistemi e Reti',per:'CIA · Certificati · TLS · VPN',c:'#534AB7',
+intro:'La sicurezza si fonda sulla triade CIA. La crittografia protegge comunicazioni e dati tramite algoritmi simmetrici e asimmetrici, certificati e protocolli TLS.',
+secs:[
+{n:'Fondamenti: CIA e Certificati',ctx:'Triade CIA · X.509 · Chain of Trust',id:[
+'CIA: Confidenzialità (solo autorizzati leggono), Integrità (dati non alterati), Disponibilità (servizi sempre accessibili)',
+'+ Autenticazione (verifica identità) + Non ripudio (impedisce di negare invio/ricezione)',
+'Principio di Kerckhoffs: la sicurezza dipende dalla segretezza della chiave, non dell\'algoritmo',
+'Certificati X.509: Subject (proprietario), Issuer (CA), scadenza, chiave pubblica, firma CA',
+'Chain of Trust: Leaf certificate → Intermediate CA → Root CA nel Root store del browser',
+],works:'HTTPS, TLS, S/MIME'},
+{n:'Algoritmi simmetrici',ctx:'Stessa chiave per cifrare e decifrare',id:[
+'DES: blocchi 64 bit, chiave 56 bit — deprecato, vulnerabile al Brute-Force',
+'AES: blocchi 128 bit, chiave 128/256 bit — standard attuale',
+'Quantum threat — Algoritmo di Grover "dimezza" la chiave AES → soluzione: usare AES-256',
+'Algoritmi a flusso: cifrano byte per byte (es. ChaCha 20 usato in TLS 1.3)',
+'ChaCha 20: veloce senza accelerazione hardware → ideale per IoT',
+],works:'AES: standard mondiale · ChaCha 20: TLS 1.3 e IoT'},
+{n:'Algoritmi asimmetrici e post-quantum',ctx:'Coppia chiave pubblica + privata',id:[
+'RSA: basato sulla fattorizzazione in numeri primi. Vulnerabile all\'Algoritmo di Shor (quantum)',
+'ML-KEM (CRYSTALS-Kyber): basato su reticoli multidimensionali (LWE). Resistente ai quantum',
+'ML-DSA (CRYSTALS-Dilithium): firme digitali resistenti ai quantum',
+'ECDH (Elliptic Curve Diffie-Hellman): TLS 1.3 usa ECDHe (Ephemeral) → nuove chiavi ad ogni sessione',
+],works:'RSA ancora usato oggi · ML-KEM/ML-DSA per il futuro post-quantum'},
+{n:'TLS e Diffie-Hellman',ctx:'Transport Layer Security · solo TCP',id:[
+'TLS: versione aggiornata di SSL. Usabile solo con TCP (richiede handshake)',
+'Handshake: identificazione host → scelta Cipher Suite → scambio chiave via ECDH',
+'Diffie-Hellman: accordo su chiave di sessione senza mai inviarla in rete (matematica modulare)',
+'Esempio: modulo 23, base 12. A sceglie 3: 12³%23=3. B sceglie 7: 12⁷%23=16. Si scambiano → A: 16³%23=2, B: 3⁷%23=2',
+'La chiave di sessione è usata per AES → Confidenzialità + Integrità',
+],works:'HTTPS, FTPS, SMTPS, IMAPS, SSH (analogo)'},
+{n:'Hash, PGP e VPN',ctx:'Integrità e comunicazione sicura',id:[
+'Hash: funzione unidirezionale → digest di lunghezza fissa. Effetto valanga: minima modifica → hash completamente diverso',
+'Collisione: due input diversi → stesso hash. MD5/SHA-1 deprecati, SHA-256 standard',
+'PGP: cifratura ibrida per email. Corpo cifrato con chiave sessione temporanea → chiave cifrata con chiave pubblica destinatario',
+'PGP: Web of Trust decentralizzato (vs CA centralizzate del TLS)',
+'VPN Host-to-Host (P2P), Host-to-Network (accesso rete remota), Site-to-Site (due reti remote)',
+'IPSec Transport: cifra solo il corpo, header in chiaro. IPSec Tunnel: cifra tutto (header+corpo), incapsula in nuovo pacchetto',
+'Full Tunnelling: tutto il traffico via VPN. Split Tunnelling: solo il traffico designato',
+'WireGuard: leggero, ChaCha 20 + Poly1305 + Curve25519. OpenVPN: X.509 + TLS',
+],works:'VPN: accesso remoto sicuro e connessione reti remote'},
+],
+conc:[
+{t:'Triade CIA',d:'Confidenzialità (solo autorizzati leggono), Integrità (dati non alterati), Disponibilità (servizi sempre accessibili). + Autenticazione e Non ripudio.'},
+{t:'Principio di Kerckhoffs',d:'La sicurezza di un algoritmo di cifratura non dipende dalla conoscenza del suo funzionamento, ma dalla segretezza della chiave.'},
+{t:'DES vs AES',d:'DES: blocchi 64 bit, chiave 56 bit — deprecato, vulnerabile al Brute-Force. AES: blocchi 128 bit, chiave 128/256 bit. AES-256 resiste all\'algoritmo quantistico di Grover.'},
+{t:'RSA e minaccia quantum',d:'RSA si basa sulla fattorizzazione. L\'algoritmo di Shor su computer quantistici la risolve in tempo polinomiale → RSA vulnerabile. Soluzione: ML-KEM (CRYSTALS-Kyber) su reticoli (LWE).'},
+{t:'Diffie-Hellman',d:'Permette di accordarsi su una chiave simmetrica condivisa senza inviarla in rete. Basato sulla matematica modulare. TLS 1.3 usa ECDHe (curve ellittiche + ephemeral).'},
+{t:'IPSec Transport vs Tunnel',d:'Transport: cifra solo il corpo, header in chiaro (VPN classiche). Tunnel: cifra tutto, incapsula in nuovo pacchetto con solo IP VPN visibili. Full vs Split Tunnelling: tutto il traffico vs solo quello designato.'},
+],
+fc:[
+{f:'Triade CIA + elementi aggiuntivi',b:'Confidenzialità (solo autorizzati leggono), Integrità (dati non alterati), Disponibilità (servizi sempre accessibili) + Autenticazione (verifica identità) + Non ripudio (non puoi negare invio/ricezione).'},
+{f:'DES vs AES — differenze',b:'DES: blocchi 64 bit, chiave 56 bit — deprecato, facilmente attaccabile con Brute-Force. AES: blocchi 128 bit, chiave 128/256 bit. Minaccia quantum: algoritmo di Grover "dimezza" la chiave → AES-256 è la soluzione.'},
+{f:'RSA e la minaccia quantistica',b:'RSA si basa sulla fattorizzazione in numeri primi. L\'algoritmo di Shor la risolve in tempo polinomiale su computer quantistici → RSA sarà vulnerabile. Soluzione: ML-KEM (CRYSTALS-Kyber) basato su reticoli multidimensionali (LWE).'},
+{f:'Come funziona Diffie-Hellman?',b:'I due host si accordano su modulo e generatore. Ognuno sceglie un segreto, calcola chiave pubblica (base^segreto % modulo), la scambia, poi calcola la chiave di sessione (ricevuto^segreto % modulo). La chiave NON passa mai in rete.'},
+{f:'IPSec Transport vs Tunnel',b:'Transport: cifra solo il corpo del pacchetto, header in chiaro. Tunnel: cifra tutto (header + corpo), incapsula in nuovo pacchetto con solo IP mittente/destinatario visibili. Full Tunnelling: tutto il traffico via VPN. Split: solo il traffico designato.'},
+{f:'PGP vs TLS — differenza nel modello di fiducia',b:'TLS: Certificate Authorities centralizzate (CA riconosciute globalmente). PGP: Web of Trust decentralizzato (gli utenti firmano le chiavi altrui → se ti fidi di B e B si fida di A, ti fidi anche di A).'},
+{f:'Cos\'è un hash e cosa lo rende vulnerabile?',b:'Funzione unidirezionale → digest di lunghezza fissa. Effetto valanga: minima modifica → hash completamente diverso. Vulnerabilità: collisione (due input diversi → stesso hash). MD5/SHA-1 deprecati. SHA-256 è lo standard.'},
+],
+quiz:[
+{q:'Cosa afferma il principio di Kerckhoffs?',opts:['L\'algoritmo deve essere segreto','La sicurezza dipende dalla segretezza della chiave, non dell\'algoritmo','Solo gli asimmetrici sono sicuri','Le chiavi devono essere sempre 256 bit'],a:1},
+{q:'Quale algoritmo quantistico minaccia RSA?',opts:['Algoritmo di Grover','Algoritmo di Shor','Algoritmo di Euclide','Algoritmo di Dijkstra'],a:1},
+{q:'Cosa fa l\'algoritmo di Grover ai computer quantistici?',opts:['Fattorizza numeri primi','Dimezza la sicurezza degli algoritmi a blocchi come AES','Risolve i reticoli multidimensionali','Effettua attacchi DDoS'],a:1},
+{q:'Differenza tra IPSec Transport e Tunnel:',opts:['Transport è più sicuro','Tunnel cifra tutto (header+corpo); Transport cifra solo il corpo','Transport usa IPv6, Tunnel usa IPv4','Nessuna differenza pratica'],a:1},
+{q:'ML-KEM (CRYSTALS-Kyber) su cosa si basa?',opts:['Fattorizzazione in numeri primi','Logaritmo discreto su curve ellittiche','Reticoli multidimensionali (Learning With Errors)','Numeri casuali XOR'],a:2},
+{q:'Cosa distingue PGP dalle CA del TLS?',opts:['PGP usa crittografia più forte','PGP usa un Web of Trust decentralizzato (nessuna CA centrale)','PGP è standard ISO','PGP funziona solo con email'],a:1},
+{q:'Cos\'è una collisione in un algoritmo hash?',opts:['Una chiave pubblica e privata identiche','Due input diversi che producono lo stesso digest','Un errore nella cifratura AES','Un attacco Man-in-the-Middle sul digest'],a:1},
+]},
+
+{id:'u5',r:'V',tab:'Alta Affidabilità',title:'Tecniche di Filtraggio del Traffico di Rete',per:'STP · Firewall · Disaster Recovery',c:'#993C1D',
+intro:'L\'Alta Affidabilità elimina i Single Point of Failure con ridondanza hardware, STP, gateway ridondanti, UPS e firewall a strati.',
+secs:[
+{n:'Ridondanza e STP',ctx:'Spanning Tree Protocol · BPDU',id:[
+'SPoF (Single Point of Failure): apparato il cui guasto blocca l\'intera rete',
+'Ridondanza hardware: più switch che si spartiscono il traffico',
+'STP: previene loop di broadcast scambiando frame BPDU tra switch',
+'BPDU identifica il root switch (bridge ID più basso = MAC o configurato dall\'admin)',
+'Root port: porta più veloce verso il root switch, calcolata con sistema a punti (banda + distanza)',
+'RSTP (Rapid STP): tempi di convergenza più veloci. MSTP: gestisce loop tra VLAN',
+'VRRP (standard IEEE) / HSRP (proprietario Cisco): gateway ridondanti (master + backup router)',
+],works:'Reti locali ridondanti'},
+{n:'UPS e Continuità Fisica',ctx:'Uninterruptible Power Supply',id:[
+'UPS Standby: economico, ~10ms di ritardo prima di attivarsi',
+'UPS Line Interactive: ripulisce la sinusoide dalla tensione',
+'UPS Online: pulizia completa del fattore di potenza, protezione totale',
+'Replicazione dei dati su datacenter in città diverse (Disaster Recovery)',
+'Sicurezza fisica: accesso ristretto, guardie, sorveglianza',
+],works:'Continuità operativa in caso di guasto fisico'},
+{n:'Business Impact Analysis',ctx:'Classificazione sistemi per priorità',id:[
+'Mission Critical: guasto paralizza l\'azienda → da risolvere in ore',
+'Business Critical: impatta i clienti direttamente → entro un giorno lavorativo',
+'Business Operational: sistemi interni → da risolvere entro pochi giorni',
+'Non Critical: sistemi di supporto → da risolvere entro mesi',
+'RTO (Recovery Time Objective): tempo massimo tollerato per la risoluzione prima di altri danni',
+],works:''},
+{n:'Firewall',ctx:'Filtraggio del traffico di rete',id:[
+'ACL (Access Control List): specifica quali IP/porte lasciare passare. Default: blocca tutto',
+'Stateless: filtra per IP/porta, non tiene traccia delle connessioni (vulnerabile a Slow Loris)',
+'Stateful: tiene traccia delle connessioni attive, blocca pacchetti che fingono di essere risposte',
+'Proxy firewall: effettua richieste per conto dei client, analizza i contenuti; maschera la rete interna',
+'NGFW (Next Generation Firewall): Deep Packet Inspection + IPS (blocca exploit in real-time)',
+'WAF (Web Application Firewall): analizza HTTP/HTTPS per XSS e SQL Injection',
+],works:''},
+],
+conc:[
+{t:'SPoF e STP',d:'SPoF: un singolo apparato il cui guasto blocca la rete. STP risolve i loop di broadcast scambiando frame BPDU per identificare il root switch e bloccare le porte che causerebbero broadcast storm.'},
+{t:'VRRP vs HSRP',d:'Entrambi gestiscono gateway ridondanti (router master + backup). VRRP: standard IEEE. HSRP: proprietario Cisco. Il backup prende in carico automaticamente quando il master cade.'},
+{t:'Business Impact Analysis',d:'Mission Critical (ore) → Business Critical (1 giorno) → Business Operational (giorni) → Non Critical (mesi). RTO = tempo massimo tollerato per la risoluzione.'},
+{t:'Evoluzione dei firewall',d:'Stateless: filtra IP/porte. Stateful: traccia connessioni attive. Proxy: analizza contenuti, maschera la rete. NGFW: Deep Packet Inspection + IPS. WAF: HTTP/HTTPS per XSS e SQL Injection.'},
+],
+fc:[
+{f:'Come funziona lo Spanning Tree Protocol (STP)?',b:'Scambia frame BPDU per identificare il root switch (bridge ID più basso). Ogni switch calcola la root port (percorso più veloce). Blocca le porte che causerebbero loop di broadcast (broadcast storm).'},
+{f:'VRRP vs HSRP',b:'VRRP: standard IEEE, gestisce router ridondanti (master + backup). HSRP: analogo ma proprietario Cisco. In caso di guasto del master, il backup entra in azione automaticamente.'},
+{f:'Tipi di UPS',b:'Standby: economico, ~10ms di ritardo. Line interactive: ripulisce la sinusoide. Online: protezione totale (pulizia completa del fattore di potenza). Scegliere in base alla criticità del dispositivo alimentato.'},
+{f:'Business Impact Analysis — 4 livelli + RTO',b:'Mission Critical: ore per risolvere (guasto paralizza l\'azienda). Business Critical: entro un giorno (impatta i clienti). Business Operational: pochi giorni (sistemi interni). Non Critical: mesi (sistemi di supporto). RTO = tempo massimo tollerato.'},
+{f:'Stateless vs Stateful vs NGFW',b:'Stateless: filtra IP/porta, semplice ma vulnerabile (es. Slow Loris). Stateful: traccia connessioni attive, blocca risposte false. NGFW: Deep Packet Inspection + IPS in real-time. WAF: aggiuntivo per HTTP/HTTPS (XSS, SQL Injection).'},
+],
+quiz:[
+{q:'Cosa fa lo Spanning Tree Protocol (STP)?',opts:['Instrada i pacchetti tra VLAN','Previene loop di broadcast tramite frame BPDU','Gestisce l\'assegnazione IP nelle VLAN','Comprime il traffico di rete'],a:1},
+{q:'Quale tipo di frame usa STP per identificare il root switch?',opts:['ARP','ICMP','BPDU','SYN'],a:2},
+{q:'VRRP è standard IEEE; HSRP è...',opts:['Standard IETF','Standard IEEE analogo','Proprietario di Cisco','Proprietario di Juniper'],a:2},
+{q:'Quale livello BIA va risolto entro un giorno lavorativo?',opts:['Mission Critical','Business Critical','Business Operational','Non Critical'],a:1},
+{q:'Differenza tra Stateless e Stateful firewall:',opts:['Il Stateless è più sicuro','Il Stateful tiene traccia delle connessioni; il Stateless no','Il Stateless fa Deep Packet Inspection','Nessuna differenza pratica'],a:1},
+{q:'Cosa fa un WAF?',opts:['Gestisce i certificati TLS','Analizza HTTP/HTTPS per XSS e SQL Injection','Sostituisce il firewall aziendale','Filtra solo UDP'],a:1},
+]},
+
+{id:'u6',r:'VI',tab:'Wireless',title:'Reti Wireless e Reti Cellulari',per:'IEEE 802.11 · WPA3 · SAE',c:'#3B6D11',
+intro:'Le reti wireless si classificano per estensione geografica. La sicurezza Wi-Fi si è evoluta da WEP a WPA3 con SAE per eliminare gli attacchi a dizionario offline.',
+secs:[
+{n:'Classificazione e Architettura Wi-Fi',ctx:'IEEE 802.11',id:[
+'WPAN: brevissime distanze (es. Bluetooth)',
+'WLAN: reti locali — Wi-Fi IEEE 802.11',
+'WMAN: copertura cittadina (es. WiMAX)',
+'WWAN: reti cellulari globali (4G, 5G)',
+'Ad-hoc (IBSS): i dispositivi comunicano direttamente tra loro senza AP',
+'Infrastruttura (BSS): Access Point centrale gestisce il traffico verso la rete cablata',
+'ESS (Extended Service Set): più AP collegati via cavo → roaming senza interruzione tra stanze/aree',
+],works:'IEEE 802.11 = standard Wi-Fi'},
+{n:'Sicurezza Wi-Fi: WEP → WPA → WPA2 → WPA3',ctx:'Evoluzione della sicurezza wireless',id:[
+'WEP: chiavi statiche → decifrabile in minuti catturando pacchetti. Obsoleto',
+'WPA: TKIP → chiavi dinamiche che cambiano durante la sessione',
+'WPA2: AES → standard per oltre un decennio',
+'WPA3: SAE (Simultaneous Authentication of Equals) sostituisce PSK',
+'SAE Dragonfly Key Exchange: ogni tentativo di password richiede interazione attiva con l\'AP → no attacchi offline',
+'Zero-Knowledge Proof: dispositivo e AP si dimostrano di conoscere la password senza trasmetterla',
+'Forward Secrecy: chiavi di sessione uniche per ogni connessione → traffico passato non decifrabile',
+],works:'WPA3 + SAE = standard attuale'},
+],
+conc:[
+{t:'BSS vs ESS',d:'BSS (Basic Service Set): un singolo AP + dispositivi connessi. ESS (Extended Service Set): più AP collegati via cavo, permette il roaming senza interruzione.'},
+{t:'WEP → WPA → WPA2 → WPA3',d:'WEP: chiavi statiche, decifrabile in minuti. WPA: TKIP (chiavi dinamiche). WPA2: AES. WPA3: SAE + Forward Secrecy + Zero-Knowledge Proof. Ogni generazione risolve i problemi della precedente.'},
+{t:'SAE (Simultaneous Authentication of Equals)',d:'Sostituisce PSK in WPA3. Dragonfly Key Exchange: ogni tentativo di password richiede interazione con l\'AP (no attacchi a dizionario offline). Zero-Knowledge Proof: si dimostra di conoscere la password senza trasmetterla. Forward Secrecy: chiavi uniche per sessione.'},
+],
+fc:[
+{f:'Classificazione delle reti wireless',b:'WPAN: brevissime distanze (Bluetooth). WLAN: rete locale (Wi-Fi IEEE 802.11). WMAN: copertura cittadina (WiMAX). WWAN: reti cellulari globali (4G/5G).'},
+{f:'Evoluzione sicurezza Wi-Fi',b:'WEP: chiavi statiche, decifrabile in minuti — obsoleto. WPA: TKIP (chiavi dinamiche). WPA2: AES. WPA3: SAE + Dragonfly Key Exchange + Forward Secrecy + Zero-Knowledge Proof.'},
+{f:'Cos\'è il SAE in WPA3?',b:'Simultaneous Authentication of Equals. Dragonfly Key Exchange: ogni tentativo di password richiede interazione attiva con l\'AP (no attacchi offline a dizionario). Zero-Knowledge Proof: ci si dimostra di conoscere la password senza trasmetterla. Forward Secrecy: chiavi uniche per ogni sessione.'},
+{f:'Differenza tra BSS e ESS',b:'BSS: un solo Access Point con i dispositivi connessi. ESS: più AP collegati via cavo (sistema di distribuzione), permette il roaming senza interruzione di connessione tra aree diverse.'},
+],
+quiz:[
+{q:'Quale standard IEEE definisce il Wi-Fi?',opts:['IEEE 802.3','IEEE 802.1q','IEEE 802.11','IEEE 802.1x'],a:2},
+{q:'Cosa introduce WPA3 rispetto a WPA2?',opts:['TKIP invece di AES','SAE con Dragonfly Key Exchange e Forward Secrecy al posto di PSK','Supporto IPv6','Velocità raddoppiata'],a:1},
+{q:'Cosa garantisce la Forward Secrecy nel SAE?',opts:['Password non rubabili','Anche conoscendo la password attuale, il traffico passato non è decifrabile (chiavi uniche per sessione)','Connessione più veloce','Password non necessaria'],a:1},
+{q:'Cosa permette l\'ESS rispetto al BSS?',opts:['Connessioni più veloci','Roaming tra più AP senza interruzione di connessione','L\'uso di WPA3','Comunicazione diretta tra dispositivi senza AP'],a:1},
+{q:'Perché WEP è considerato obsoleto?',opts:['Non supporta 5GHz','Usa chiavi statiche, decifrabile in pochi minuti catturando i pacchetti','Non supporta WPA2','Richiede hardware speciale'],a:1},
+]},
+
+{id:'u7',r:'VII',tab:'Cloud',title:'Virtualizzazione e Servizi Cloud',per:'VM · Container · IaaS · PaaS · SaaS',c:'#3C3489',
+intro:'La virtualizzazione permette di eseguire più SO su una macchina fisica. Il cloud offre risorse hardware on-demand, scalabili e gestite da provider remoti.',
+secs:[
+{n:'Virtualizzazione',ctx:'Macchine virtuali e sandboxing',id:[
+'Dedica risorse fisiche a macchine emulate con SO anche diverso dall\'host',
+'Sandboxing: isolamento dei processi della VM dal sistema fisico',
+'Overhead: risorse consumate per gestire la virtualizzazione',
+'Linux: basso overhead → ideale per datacenter con molte VM',
+],works:'VMware, VirtualBox, Hyper-V, KVM'},
+{n:'Containerizzazione',ctx:'Docker · Kubernetes',id:[
+'Usa i driver del SO host → meno overhead rispetto alle VM complete',
+'Non emula un intero SO: esegue solo il programma di interesse',
+'Sandboxing: i container interagiscono con l\'host solo se configurati esplicitamente',
+'Orchestrazione: replica automatica dei container in base al carico (es. Kubernetes)',
+],works:'Docker (container) · Kubernetes (orchestrazione)'},
+{n:'Cloud Computing e modelli di servizio',ctx:'IaaS · PaaS · SaaS · FaaS',id:[
+'IaaS: nodo logico bare metal, qualsiasi SO, massima flessibilità (es. AWS EC2)',
+'PaaS: SO preconfigurato, installi solo le tue applicazioni',
+'SaaS: suite di servizi pronti all\'uso (es. Gmail, Office 365)',
+'FaaS (Function as a Service): esegue codice on-demand su trigger per millisecondi, poi si distrugge',
+'Cloud pubblico: provider commerciale (AWS, Azure, GCP). Cloud privato: on-premise, conformità normative',
+'Cloud ibrido: cloud pubblico per dati non critici + server privato per dati critici → conformità + flessibilità',
+],works:'AWS, Azure, GCP (pubblici) · OpenStack (privato)'},
+],
+conc:[
+{t:'VM vs Container',d:'VM: emula un intero SO (overhead maggiore), isolamento completo. Container: condivide i driver del SO host (overhead minore), esegue solo il programma, scalabile tramite orchestrazione.'},
+{t:'IaaS vs PaaS vs SaaS vs FaaS',d:'IaaS: risorse hardware grezze (massima flessibilità). PaaS: SO + runtime preconfigurato. SaaS: servizi pronti all\'uso. FaaS: codice eseguito per millisecondi su trigger (paga per utilizzo istantaneo).'},
+{t:'Cloud pubblico vs privato vs ibrido',d:'Pubblico: provider gestisce tutto, flessibile. Privato: on-premise, conformità normative, costoso. Ibrido: cloud pubblico per dati non critici + server privato per dati critici.'},
+],
+fc:[
+{f:'VM vs Containerizzazione',b:'VM: emula intero SO, overhead maggiore, isolamento completo. Container: condivide driver SO host, overhead minore, esegue solo il programma, facilmente scalabile via orchestrazione.'},
+{f:'IaaS, PaaS, SaaS, FaaS',b:'IaaS: risorse bare metal (qualsiasi SO). PaaS: SO preconfigurato + runtime. SaaS: servizi pronti all\'uso (Gmail, Office 365). FaaS: codice on-demand su trigger per millisecondi, poi la VM si distrugge.'},
+{f:'Cloud pubblico, privato e ibrido',b:'Pubblico: provider gestisce tutto (AWS, Azure, GCP), flessibile, costi variabili. Privato: on-premise, conformità normative, costoso. Ibrido: cloud pubblico per dati non critici + server privato per dati critici.'},
+],
+quiz:[
+{q:'Vantaggio principale dei container rispetto alle VM:',opts:['Maggiore sicurezza','Meno overhead e scalabilità via orchestrazione (condividono i driver del SO host)','Supportano qualsiasi SO','Funzionano senza sistema operativo'],a:1},
+{q:'Cos\'è la FaaS?',opts:['Un sistema di file condivisi','Esecuzione di codice on-demand su trigger per millisecondi (poi la VM si distrugge)','Un SO virtualizzato','Un tipo di container Docker'],a:1},
+{q:'Quale modello cloud offre la massima flessibilità hardware?',opts:['SaaS','PaaS','IaaS','FaaS'],a:2},
+{q:'Perché un\'azienda sceglie il cloud ibrido?',opts:['Per risparmiare su tutto','Per usare cloud pubblico per dati non critici e mantenere on-premise i dati critici (conformità)','Per evitare il cloud pubblico','Perché costa meno del cloud privato'],a:1},
+]},
+
+{id:'u8',r:'VIII',tab:'Esame',title:'Preparazione all\'Esame di Maturità',per:'Seconda prova · Colloquio',c:'#5F5E5A',
+intro:'La seconda prova di Sistemi e Reti richiede analisi di casi reali, progettazione di infrastrutture di rete e motivazione delle scelte tecniche.',
+secs:[
+{n:'Struttura della seconda prova',ctx:'Analisi e progettazione',id:[
+'Analisi di un caso reale con progettazione della soluzione di rete',
+'Tipiche sezioni: infrastruttura di rete → protocolli → sicurezza → alta affidabilità → servizi applicativi',
+'Motivare sempre le scelte tecniche (protocollo X perché..., firewall Y perché...)',
+'Studiare prove degli anni precedenti e simulazioni ministeriali',
+],works:''},
+],
+conc:[
+{t:'Seconda prova',d:'Analisi di caso reale e progettazione della soluzione. Motivare ogni scelta tecnica.'},
+{t:'Aree tematiche principali',d:'Livello di trasporto (TCP/UDP) → Servizi di rete (HTTP, FTP, Email) → VLAN → Crittografia e VPN → Alta Affidabilità e Firewall → Wireless → Cloud.'},
+],
+fc:[
+{f:'Come prepararsi alla seconda prova?',b:'Studiare casi reali. Risolvere prove degli anni precedenti e simulazioni. Saper motivare ogni scelta tecnica (protocollo X perché..., firewall Y perché..., VPN Site-to-Site perché...).'},
+],
+quiz:[
+{q:'La seconda prova richiede principalmente:',opts:['Solo teoria','Analisi di casi reali e progettazione con motivazione delle scelte tecniche','Solo codice PHP','Traduzione di specifiche'],a:1},
+]},
+];
+
+let S={ui:0,mode:'studio',oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false};
+function ss(u){Object.assign(S,u);rr();}
+
+function rr(){
+const u=U[S.ui],c=u.c;
+const R=document.getElementById('root');R.innerHTML='';
+const H=mk('div',{class:'hdr'});
+H.appendChild(mk('div',{class:'app-lbl',text:'Ripasso — Sistemi e Reti'}));
+const tabs=mk('div',{class:'tabs'});
+U.forEach((ud,i)=>{
+  const t=mk('button',{class:'tab'+(S.ui===i?' active':''),text:ud.r+'. '+ud.tab});
+  if(S.ui===i)t.style.background=ud.c;
+  t.onclick=()=>ss({ui:i,oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false});
+  tabs.appendChild(t);
+});
+H.appendChild(tabs);R.appendChild(H);
+
+const mb=mk('div',{class:'mbar'});
+[['studio','Studio'],['flashcard','Flashcard'],['quiz','Quiz']].forEach(([m,l])=>{
+  const b=mk('button',{class:'mbtn'+(S.mode===m?' on':''),text:l});
+  b.onclick=()=>ss({mode:m,oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false});
+  mb.appendChild(b);
+});
+R.appendChild(mb);
+
+const cnt=mk('div',{class:'cnt'});
+if(S.mode==='studio') doStudio(u,cnt,c);
+else if(S.mode==='flashcard') doFC(u,cnt,c);
+else doQuiz(u,cnt,c);
+R.appendChild(cnt);
+}
+
+function doStudio(u,cnt,c){
+const ic=mk('div',{class:'intro'});
+const pl=mk('div',{class:'per',text:u.per});pl.style.color=c;ic.appendChild(pl);
+ic.appendChild(mk('div',{class:'ititle',text:u.r+'. '+u.title}));
+ic.appendChild(mk('div',{class:'itxt',text:u.intro}));
+cnt.appendChild(ic);
+if(u.secs.length){
+  cnt.appendChild(mk('div',{class:'slbl',text:'Contenuti'}));
+  u.secs.forEach((s,i)=>{
+    const card=mk('div',{class:'acard'});
+    card.style.borderLeftWidth='3px';card.style.borderLeftColor=c+'80';
+    const hd=mk('div',{class:'ahdr'});
+    hd.onclick=()=>ss({...S,oa:S.oa===i?null:i});
+    const hl=mk('div',{});
+    hl.appendChild(mk('div',{class:'aname',text:s.n}));
+    hl.appendChild(mk('div',{class:'actx',text:s.ctx}));
+    hd.appendChild(hl);
+    hd.appendChild(mk('i',{class:'ti '+(S.oa===i?'ti-chevron-up':'ti-chevron-down'),'aria-hidden':'true',style:'color:var(--text-muted)'}));
+    card.appendChild(hd);
+    if(S.oa===i){
+      const bd=mk('div',{class:'abody'});
+      const ul=mk('ul',{class:'alist'});
+      s.id.forEach(it=>ul.appendChild(mk('li',{text:it})));
+      bd.appendChild(ul);
+      if(s.works&&s.works!==''){
+        const wp=mk('div',{class:'wpill'});
+        wp.style.background=c+'18';wp.style.color=c;
+        wp.innerHTML='<strong>Note:</strong> '+s.works;bd.appendChild(wp);
+      }
+      card.appendChild(bd);
+    }
+    cnt.appendChild(card);
+  });
+}
+if(u.conc.length){
+  cnt.appendChild(mk('div',{class:'slbl',text:'Concetti chiave'}));
+  u.conc.forEach(cp=>{
+    const cc=mk('div',{class:'ccard'});
+    const t=mk('div',{class:'cterm',text:cp.t});t.style.color=c;
+    cc.appendChild(t);cc.appendChild(mk('div',{class:'cdef',text:cp.d}));
+    cnt.appendChild(cc);
+  });
+}
+}
+
+function doFC(u,cnt,c){
+const cards=u.fc;
+if(!cards.length){cnt.appendChild(mk('div',{class:'itxt',text:'Nessun flashcard per questa UdA.'}));return;}
+const card=cards[S.ci];
+const pct=Math.round((S.ci/cards.length)*100);
+const w=mk('div',{class:'fwrap'});
+w.appendChild(mk('div',{class:'fctr',text:(S.ci+1)+' / '+cards.length}));
+const pb=mk('div',{class:'pbar',style:'width:100%'});
+const pf=mk('div',{class:'pfill',style:'width:'+pct+'%;background:'+c});
+pb.appendChild(pf);w.appendChild(pb);
+const fc=mk('div',{class:'fcard'});
+if(S.fl){fc.style.background='var(--surface-2)';fc.style.borderColor=c;}
+const inner=mk('div',{});
+const hint=mk('div',{class:'fhint',text:S.fl?'↩ Risposta':'Domanda — clicca per girare'});
+hint.style.color=S.fl?c:'var(--text-muted)';
+inner.appendChild(hint);
+inner.appendChild(mk('div',{class:'ftext',text:S.fl?card.b:card.f}));
+fc.appendChild(inner);fc.onclick=()=>ss({...S,fl:!S.fl});
+w.appendChild(fc);
+const nav=mk('div',{class:'fnav'});
+const pv=mk('button',{text:'← Prec'});pv.onclick=()=>{if(S.ci>0)ss({...S,ci:S.ci-1,fl:false});};pv.disabled=S.ci===0;
+const nx=mk('button',{text:'Succ →'});nx.onclick=()=>{if(S.ci<cards.length-1)ss({...S,ci:S.ci+1,fl:false});};nx.disabled=S.ci===cards.length-1;
+nav.appendChild(pv);nav.appendChild(nx);w.appendChild(nav);
+if(S.fl){
+  const acts=mk('div',{class:'facts'});
+  const adv=()=>{if(S.ci<cards.length-1)ss({...S,ci:S.ci+1,fl:false});else ss({...S,fl:false});};
+  const k=mk('button',{class:'bk',text:'✓ Lo sapevo'});k.onclick=adv;
+  const r=mk('button',{class:'br',text:'✗ Da rivedere'});r.onclick=adv;
+  acts.appendChild(k);acts.appendChild(r);w.appendChild(acts);
+}
+cnt.appendChild(w);
+}
+
+function doQuiz(u,cnt,c){
+const qs=u.quiz;
+if(!qs.length){cnt.appendChild(mk('div',{class:'itxt',text:'Nessuna domanda per questa UdA.'}));return;}
+if(S.dn){
+  const pct=Math.round((S.sc/qs.length)*100);
+  const dc=mk('div',{class:'done'});
+  const ds=mk('div',{class:'dscore',text:pct+'%'});ds.style.color=c;
+  dc.appendChild(ds);
+  dc.appendChild(mk('div',{class:'dlbl',text:S.sc+' / '+qs.length+' risposte corrette'}));
+  const msg=pct>=80?'Ottimo! Pronto/a per la maturità.':pct>=60?'Bene! Ripassare i punti deboli.':'Rileggi la UdA e riprova.';
+  dc.appendChild(mk('div',{class:'dmsg',text:msg}));
+  const rb=mk('button',{class:'retrb',text:'Riprova'});
+  rb.onclick=()=>ss({...S,qi:0,sel:null,ans:false,sc:0,dn:false});
+  dc.appendChild(rb);cnt.appendChild(dc);return;
+}
+const q=qs[S.qi];
+const pct=Math.round((S.qi/qs.length)*100);
+const pb=mk('div',{class:'pbar'});const pf=mk('div',{class:'pfill',style:'width:'+pct+'%;background:'+c});pb.appendChild(pf);cnt.appendChild(pb);
+const meta=mk('div',{class:'qmeta'});
+meta.appendChild(mk('span',{text:'Domanda '+(S.qi+1)+' / '+qs.length}));
+const se=mk('span',{text:'Punteggio: '+S.sc});se.style.color=c;meta.appendChild(se);cnt.appendChild(meta);
+cnt.appendChild(mk('div',{class:'qq',text:q.q}));
+q.opts.forEach((opt,i)=>{
+  const d=mk('div',{class:'opt'});
+  if(S.ans){if(i===q.a)d.classList.add('ok');else if(i===S.sel&&i!==q.a)d.classList.add('ko');}
+  const l=mk('span',{class:'optl',text:String.fromCharCode(65+i)+'.'});
+  if(!S.ans)l.style.color=c;
+  d.appendChild(l);d.appendChild(mk('span',{text:opt}));
+  if(S.ans&&i===q.a)d.appendChild(mk('span',{text:' ✓'}));
+  if(S.ans&&i===S.sel&&i!==q.a)d.appendChild(mk('span',{text:' ✗'}));
+  if(!S.ans)d.onclick=()=>{const ok=i===q.a;ss({...S,sel:i,ans:true,sc:S.sc+(ok?1:0)});};
+  cnt.appendChild(d);
+});
+if(S.ans){
+  const nb=mk('button',{class:'nxtb',text:S.qi<qs.length-1?'Prossima →':'Vedi risultato →'});
+  nb.onclick=()=>{if(S.qi<qs.length-1)ss({...S,qi:S.qi+1,sel:null,ans:false});else ss({...S,dn:true});};
+  cnt.appendChild(nb);
+}
+}
+
+function mk(tag,p={}){
+const e=document.createElement(tag);
+if(p.class)e.className=p.class;
+if(p.text)e.textContent=p.text;
+if(p.style)e.setAttribute('style',p.style);
+if(p['aria-hidden'])e.setAttribute('aria-hidden',p['aria-hidden']);
+if(p.disabled)e.disabled=true;
+return e;
+}
+rr();
+</script>
