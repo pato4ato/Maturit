@@ -1,0 +1,541 @@
+
+<style>
+h2.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui);color:var(--text-primary);background:transparent}
+.app{min-height:500px}
+.hdr{background:var(--surface-1);border-bottom:0.5px solid var(--border);padding:10px 14px}
+.albl{font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:8px;letter-spacing:.03em}
+.tabs{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:4px 10px;border-radius:var(--radius);border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:10.5px;cursor:pointer;white-space:nowrap;font-weight:400;transition:all .15s}
+.tab.on{color:#fff;border-color:transparent;font-weight:500}
+.mbar{display:flex;gap:8px;padding:8px 14px;background:var(--surface-1);border-bottom:0.5px solid var(--border)}
+.mbtn{padding:5px 14px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:12px;cursor:pointer;transition:all .15s}
+.mbtn.on{border-color:var(--border-accent);background:var(--bg-accent);color:var(--text-accent)}
+.cnt{padding:14px;max-width:660px;margin:0 auto;width:100%}
+.ic{padding:12px 14px;border-radius:12px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:14px}
+.per{font-size:11px;font-weight:500;margin-bottom:4px}
+.itl{font-size:15px;font-weight:500;margin-bottom:6px}
+.itx{font-size:13px;line-height:1.65;color:var(--text-secondary)}
+.slbl{font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;margin:16px 0 8px}
+.acard{border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px;overflow:hidden}
+.ahdr{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 12px;cursor:pointer;gap:8px}
+.an{font-size:13.5px;font-weight:500}
+.ax{font-size:11px;color:var(--text-muted);margin-top:2px}
+.abody{padding:0 12px 12px;border-top:0.5px solid var(--border)}
+.alist{padding-left:16px;margin-top:8px}
+.alist li{font-size:12px;line-height:1.7;color:var(--text-secondary);margin-bottom:4px}
+.wp{margin-top:8px;padding:7px 11px;border-radius:6px;font-size:12px;line-height:1.6;font-style:italic}
+.en-box{margin-top:8px;padding:8px 11px;border-radius:6px;border-left:3px solid;font-size:12.5px;line-height:1.6}
+.cc{padding:10px 12px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px}
+.ct{font-size:13px;font-weight:500;margin-bottom:4px}
+.cd{font-size:12px;line-height:1.6;color:var(--text-secondary)}
+.qa-card{border-radius:10px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:10px;overflow:hidden}
+.qa-q{padding:10px 12px;font-size:13px;font-weight:500;border-bottom:0.5px solid var(--border)}
+.qa-a{padding:10px 12px;font-size:13px;line-height:1.65;color:var(--text-secondary)}
+.fw{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:4px}
+.fctr{font-size:12px;color:var(--text-muted)}
+.fc{width:100%;min-height:170px;border-radius:12px;border:0.5px solid var(--border);background:var(--surface-1);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;cursor:pointer;transition:background .2s,border-color .2s}
+.fh{font-size:11px;margin-bottom:10px}
+.ft{font-size:14px;line-height:1.7}
+.fnv{display:flex;gap:10px}
+.fnv button{padding:7px 18px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:12px;cursor:pointer}
+.fax{display:flex;gap:10px}
+.fax button{padding:7px 18px;border-radius:20px;border:0.5px solid;font-size:12px;cursor:pointer;background:transparent}
+.bk{border-color:var(--border-success);color:var(--text-success)}
+.br{border-color:var(--border-danger);color:var(--text-danger)}
+.qm{display:flex;justify-content:space-between;margin-bottom:12px}
+.qm span{font-size:12px;color:var(--text-muted)}
+.qq{padding:14px;border-radius:12px;background:var(--surface-1);border:0.5px solid var(--border);font-size:14px;line-height:1.65;margin-bottom:12px}
+.opt{padding:10px 13px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface-1);margin-bottom:7px;cursor:pointer;font-size:13px;transition:all .15s;display:flex;gap:8px;align-items:flex-start}
+.ol{font-weight:500;flex-shrink:0}
+.opt:hover{border-color:var(--border-strong)}
+.opt.ok{background:var(--bg-success);border-color:var(--border-success);color:var(--text-success)}
+.opt.ko{background:var(--bg-danger);border-color:var(--border-danger);color:var(--text-danger)}
+.nb{width:100%;padding:10px;border-radius:8px;border:0.5px solid var(--border-accent);background:var(--bg-accent);color:var(--text-accent);font-size:13px;cursor:pointer;margin-top:4px}
+.dn{text-align:center;padding:28px 20px;border-radius:12px;background:var(--surface-1);border:0.5px solid var(--border)}
+.ds{font-size:42px;font-weight:500;margin-bottom:6px}
+.dl{font-size:14px;color:var(--text-secondary);margin-bottom:6px}
+.dm{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.rb{padding:9px 24px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);font-size:13px;cursor:pointer}
+.pb{height:3px;border-radius:2px;background:var(--border);margin-bottom:12px;overflow:hidden}
+.pf{height:100%;border-radius:2px;transition:width .3s}
+.formula-box{padding:12px 14px;border-radius:10px;border:0.5px solid;margin-bottom:12px}
+.formula-box .step{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;font-size:13px}
+.formula-box .num{font-weight:700;font-size:14px;flex-shrink:0}
+.phrase-row{display:flex;gap:10px;align-items:center;padding:7px 12px;border-radius:6px;background:var(--surface-2);margin-bottom:5px}
+.phrase-en{font-size:13px;font-weight:500;flex:1}
+.phrase-it{font-size:12px;color:var(--text-muted);flex:1;text-align:right}
+</style>
+
+<h2 class="sr-only">App di ripasso: Inglese per la maturità, 5 sezioni, modalità studio, flashcard e quiz.</h2>
+<div class="app" id="root"></div>
+<script>
+const U=[
+{id:'u1',r:'1',tab:'Application',title:'Unit 1 — Application for a Job',per:'Internship · CV · Cover Letter · Job Interview',c:'#185FA5',
+intro:'This unit is about the world of work: how to present yourself, write a CV and cover letter, and face a job interview. Key idea: show who you are, what you can do, and why you are useful.',
+secs:[
+{n:'The Internship Experience (PCTO)',cx:'Tirocinio · Soft skills · Practical experience',id:[
+'L\'internship è un tirocinio: un periodo in un contesto lavorativo reale per imparare competenze pratiche',
+'In Italia = PCTO. Il valore vero non è solo "fare ore" ma capire come funziona il lavoro reale',
+'Insegna: responsabilità, collaborazione, puntualità, autonomia',
+'Esempio IT: configurare PC, gestire account, manutenzione di base, assistenza utenti',
+'Trasforma la teoria in pratica e aiuta a capire i propri punti di forza',
+'Soft skills = competenze trasversali: teamwork, communication, problem solving, adaptability, responsibility',
+],en:'"An internship allows students to gain practical experience and develop soft skills."'},
+{n:'The Curriculum Vitae (CV)',cx:'Documento di presentazione professionale',id:[
+'Il CV è il tuo biglietto da visita: deve essere chiaro, breve, ordinato e onesto',
+'Sezioni fondamentali: Personal details, Profile, Education, Work Experience, Skills, Languages, Interests',
+'Profile: breve presentazione iniziale — es. "Motivated IT student with an interest in networking and programming"',
+'Errori da evitare: email poco seria, competenze inventate, troppi dettagli, grafica confusa',
+'Un CV troppo lungo o disordinato comunica confusione',
+'Per un lavoro IT: evidenziare programming, networking, teamwork e troubleshooting',
+],en:'"Motivated IT student with an interest in networking, programming and problem solving."'},
+{n:'The Letter of Application (Cover Letter)',cx:'Accompagna il CV, aggiunge motivazione',id:[
+'Struttura: Introduzione (chi sei e perché scrivi) → Parte centrale (competenze, motivazione, esperienza) → Conclusione (ringraziamento e disponibilità)',
+'NON deve copiare il CV: aggiunge motivazione e personalità',
+'Apertura: "I am writing to apply for the position of IT technician advertised on your website."',
+'Parte centrale: "During my school experience I developed skills in programming, networking and problem solving."',
+],en:'"I am writing to apply for the position of IT technician advertised on your website."'},
+{n:'The Job Interview',cx:'Colloquio di lavoro',id:[
+'Serve a capire se sei competente, affidabile e adatto al gruppo',
+'Contano sia le parole sia il comportamento: postura, sguardo, tono di voce, sicurezza',
+'Domande frequenti: Can you tell me about yourself? / Why do you want this job? / What are your strengths? / What are your weaknesses?',
+'Risposta sui punti di forza: "One of my strengths is that I am reliable and I learn quickly."',
+'Risposta sui punti deboli: "One of my weaknesses is that I can be too perfectionist, but I am learning to manage my time better."',
+'Mini-formula: Idea + example + positive ending',
+],en:'"One of my strengths is that I am reliable and I learn quickly."'},
+],
+conc:[
+{t:'Soft skills',d:'Competenze trasversali (non tecniche): teamwork, communication, problem solving, adaptability, responsibility. Si sviluppano durante tirocini, stage e attività di gruppo.'},
+{t:'Struttura del CV',d:'Personal details → Profile → Education → Work Experience → Skills → Languages → Interests. Deve essere chiaro, breve, ordinato e onesto.'},
+{t:'Cover letter vs CV',d:'Il CV elenca le tue esperienze. La cover letter SPIEGA perché ti interessa quel posto e perché sei adatto. Aggiunge motivazione e personalità — non deve copiare il CV.'},
+{t:'Formula risposta colloquio',d:'Idea + example + positive ending. Esempio debolezza: "I can be too perfectionist, but I am learning to manage my time better." — non limitarti a dire il difetto, mostra che stai migliorando.'},
+],
+fc:[
+{f:'Q: What is an internship? (Risposta da orale)',b:'An internship is a period of practical training in a company. It helps students gain real work experience and develop soft skills such as teamwork, communication and problem solving.'},
+{f:'Q: What should a CV contain?',b:'A CV should contain personal details, a profile summary, education history, work experience, technical and personal skills, languages and interests. It must be clear, honest and well organized.'},
+{f:'Q: What is the difference between a CV and a cover letter?',b:'A CV lists your experience and qualifications. A cover letter explains WHY you want the job and why you are a good fit. It adds motivation and personality — it should not copy the CV.'},
+{f:'Q: How would you answer "What are your weaknesses?" at a job interview?',b:'"One of my weaknesses is that I can be too perfectionist, but I am learning to manage my time better." Formula: name the weakness + show you are improving (positive ending).'},
+{f:'Cosa sono le soft skills? Fai 5 esempi.',b:'Le soft skills sono competenze trasversali non tecniche. Esempi: teamwork (lavorare in gruppo), communication (comunicare efficacemente), problem solving (risolvere problemi), adaptability (adattarsi ai cambiamenti), responsibility (essere affidabile).'},
+{f:'Come si apre una cover letter in inglese?',b:'"I am writing to apply for the position of [ruolo] advertised on your website." Poi segue la parte centrale con competenze e motivazione, e la conclusione con ringraziamento e disponibilità.'},
+],
+quiz:[
+{q:'Cosa sono le "soft skills"?',opts:['Competenze tecniche come la programmazione','Competenze trasversali: teamwork, communication, problem solving, adaptability','Le sezioni del CV','I requisiti di una password sicura'],a:1},
+{q:'Quale sezione del CV contiene la breve presentazione iniziale del candidato?',opts:['Personal details','Education','Profile','Work experience'],a:2},
+{q:'Qual è la funzione principale di una cover letter?',opts:['Copiare e riassumere il CV','Elencare le competenze tecniche','Spiegare perché si è interessati al posto e perché si è adatti — aggiunge motivazione','Fornire le referenze'],a:2},
+{q:'Come si apre correttamente una lettera di candidatura in inglese?',opts:['"Hello, my name is..."','"I am writing to apply for the position of IT technician advertised on your website."','"I want the job because I need money."','"Please find my CV attached."'],a:1},
+{q:'Qual è la "mini-formula" per rispondere bene a una domanda del colloquio?',opts:['Definizione + traduzione + esempio','Idea + example + positive ending','Forza + debolezza + soluzione','Chi sei + dove hai studiato + cosa vuoi'],a:1},
+{q:'Quale errore è da EVITARE nel CV?',opts:['Includere le lingue parlate','Usare un\'email professionale','Inserire competenze inventate o esagerate','Specificare il percorso scolastico'],a:2},
+]},
+
+{id:'u2',r:'2',tab:'Online Dangers',title:'Unit 2 — Online Dangers',per:'Phishing · Scamming · Cyberbullying · Password sicura',c:'#993C1D',
+intro:'This unit is about the risks of using the internet. Phishing, scamming and cyberbullying are everyday threats. Knowing how to defend yourself is essential.',
+secs:[
+{n:'Phishing',cx:'Truffa via email o messaggi — ruba dati sensibili',id:[
+'Phishing = truffa in cui un criminale FINGE di essere un\'azienda o persona affidabile per rubare dati',
+'Il nome richiama la pesca: il truffatore lancia l\'esca e aspetta che la vittima abbocchi',
+'Obiettivi: password, dati bancari, codici di accesso',
+'Strumenti: email false, SMS, siti falsi, messaggi social',
+'Esempio: email dalla "banca" che dice che il conto è bloccato → link a pagina falsa → inserisci dati → rubati',
+'Difesa: controllare il mittente e l\'URL, non cliccare link sospetti',
+'L\'urgenza ("agisci subito!") è sempre un campanello d\'allarme',
+],en:'"Phishing is one of the most common online scams because it exploits trust and fear."'},
+{n:'Scamming',cx:'Truffe online in senso generale',id:[
+'Scamming = truffa online più generale (marketplace, annunci, finti concorsi, investimenti fasulli)',
+'Esempio: telefono nuovo a prezzo ridicolo → paghi in anticipo → il venditore sparisce',
+'Regola d\'oro: se l\'offerta è troppo bella per essere vera, probabilmente è una fregatura',
+'"If the offer is too good to be true, it probably is."',
+],en:'"If an offer seems too good to be true, it probably is a scam."'},
+{n:'Cyberbullying',cx:'Bullismo online',id:[
+'Cyberbullying = bullismo online: insulti, minacce, esclusione dai gruppi, diffusione di foto/video senza permesso',
+'Il problema è che online l\'aggressione può essere CONTINUA, PUBBLICA e difficile da fermare',
+'Esempio: gruppo WhatsApp di classe in cui qualcuno prende di mira un compagno con commenti offensivi',
+'Anche se definito "scherzo", l\'effetto può essere serio e duraturo',
+],en:'"Cyberbullying can be continuous, public and very difficult to stop."'},
+{n:'How to Defend Ourselves',cx:'Abitudini sane online',id:[
+'Non aprire allegati sospetti',
+'Verificare sempre il mittente (l\'indirizzo email reale, non solo il nome visualizzato)',
+'Usare HTTPS e siti affidabili',
+'Aggiornare software e antivirus',
+'Usare l\'autenticazione a due fattori (two-factor authentication)',
+'L\'urgenza nei messaggi è quasi sempre un segnale di truffa',
+],en:'"Two-factor authentication adds an extra layer of security to your accounts."'},
+{n:'How to Create a Safe Password',cx:'Almeno 12 caratteri · Unica · Complessa',id:[
+'Almeno 12 caratteri',
+'Lettere maiuscole + minuscole',
+'Numeri e simboli speciali',
+'Una password DIVERSA per ogni account',
+'Esempio debole: 123456 oppure "password"',
+'Esempio forte: Gatto!2026_Luna#',
+'Ancora meglio: passphrase — frase lunga facile da ricordare per te, difficile per gli altri',
+'Esempio passphrase: "MioCaneCorreNelParco!2026" — molto più forte di una parola corta',
+'Regola chiave: A safe password is not just complex — it must also be UNIQUE',
+],en:'"A safe password should be long, unique and made of letters, numbers and symbols."'},
+],
+conc:[
+{t:'Phishing vs Scamming',d:'Phishing: truffa specifica tramite email/messaggi che finge di essere un\'azienda affidabile per rubare dati sensibili (password, dati bancari). Scamming: truffa online più generale (falsi venditori, finti concorsi, investimenti fasulli).'},
+{t:'Campanelli d\'allarme online',d:'1. Urgenza artificiale ("agisci subito o perdi l\'accesso"). 2. Offerta troppo bella per essere vera. 3. Mittente con indirizzo strano. 4. Link che non corrisponde al sito reale. 5. Richiesta di dati sensibili via email.'},
+{t:'Regole per una password sicura',d:'Almeno 12 caratteri. Lettere maiuscole + minuscole + numeri + simboli. Una password diversa per ogni account. Oppure usa una passphrase. Attiva l\'autenticazione a due fattori.'},
+{t:'Two-factor authentication (2FA)',d:'Autenticazione a due fattori: aggiunge un secondo livello di sicurezza oltre alla password. Anche se qualcuno ruba la tua password, non può accedere all\'account senza il secondo fattore (es. SMS, app di autenticazione).'},
+],
+fc:[
+{f:'Q: What is phishing?',b:'Phishing is an online scam used to steal personal data by pretending to be a trusted company or person. Criminals send fake emails or messages with links to fake websites. The goal is to steal passwords, banking details or access codes.'},
+{f:'Q: How can we create a safe password?',b:'A safe password should be at least 12 characters long, with uppercase and lowercase letters, numbers and symbols. It must be unique — a different password for each account. A passphrase (a long memorable sentence) is even better. Two-factor authentication adds extra security.'},
+{f:'Q: What is cyberbullying?',b:'Cyberbullying is online bullying. It can include insults, threats, sharing photos or videos without permission, and excluding people from groups. The problem is that online harassment can be continuous, public and very hard to stop.'},
+{f:'Qual è la differenza tra phishing e scamming?',b:'Phishing: truffa specifica via email/messaggio che finge di essere un\'azienda affidabile (es. banca) per rubare dati sensibili. Scamming: truffa online più generale — falsi venditori, finti concorsi, offerte fasulle. In entrambi i casi: se è troppo bello per essere vero, probabilmente è una truffa.'},
+{f:'Elenca 5 abitudini per difendersi online.',b:'1. Non aprire allegati sospetti. 2. Verificare il mittente (indirizzo email reale). 3. Usare HTTPS e siti affidabili. 4. Aggiornare software e antivirus. 5. Attivare l\'autenticazione a due fattori (2FA).'},
+{f:'Cos\'è una passphrase e perché è sicura?',b:'Una passphrase è una frase lunga facile da ricordare per te ma difficile da indovinare per gli altri. Esempio: "MioCaneCorreNelParco!2026". È più sicura di una parola corta perché è più lunga e complessa, ma rimane memorabile.'},
+],
+quiz:[
+{q:'Cos\'è il phishing?',opts:['Un tipo di antivirus','Una truffa che finge di essere un\'azienda affidabile per rubare dati sensibili','Un software per creare password sicure','Una forma di cyberbullismo'],a:1},
+{q:'Qual è la lunghezza minima consigliata per una password sicura?',opts:['6 caratteri','8 caratteri','12 caratteri','20 caratteri'],a:2},
+{q:'Quale dei seguenti è un campanello d\'allarme tipico del phishing?',opts:['Un\'email con HTTPS','Un messaggio con urgenza artificiale ("agisci subito o perdi l\'account")','Un sito con certificato SSL','Un mittente con nome completo visibile'],a:1},
+{q:'Cosa differenzia il cyberbullismo dal bullismo tradizionale?',opts:['Il cyberbullismo è meno grave','Online l\'aggressione può essere continua, pubblica e difficile da fermare','Il cyberbullismo riguarda solo adulti','Il cyberbullismo non lascia tracce'],a:1},
+{q:'Cosa significa "two-factor authentication"?',opts:['Una password con due simboli','Un secondo livello di sicurezza oltre alla password (es. SMS o app)','Due password diverse per lo stesso account','Un antivirus con doppio controllo'],a:1},
+{q:'Qual è la regola d\'oro contro lo scamming?',opts:['Comprare sempre online è sicuro','Verificare sempre il mittente','Se l\'offerta è troppo bella per essere vera, probabilmente è una fregatura','Usare solo HTTPS'],a:2},
+]},
+
+{id:'u3',r:'3',tab:'Industry 4.0',title:'Unit 3 — Industry 4.0 and the Future',per:'4 Rivoluzioni · AI · IoT · AR vs VR',c:'#3B6D11',
+intro:'Industry 4.0 is the fourth industrial revolution based on AI, IoT, cloud and data. The key idea: intelligent, connected production. Technology will not replace humans — it will create new jobs.',
+secs:[
+{n:'The Four Industrial Revolutions',cx:'Da vapore all\'AI',id:[
+'1ª Rivoluzione: macchine a vapore e meccanizzazione',
+'2ª Rivoluzione: elettricità e produzione di massa',
+'3ª Rivoluzione: elettronica e computer',
+'4ª Rivoluzione (Industry 4.0): AI, robotica, dati, cloud e sistemi connessi',
+'Industry 4.0 non è solo "più tecnologia" — è produzione INTELLIGENTE, connessa e basata sui dati',
+'Esempio: una macchina industriale manda dati sulla temperatura, prevede un guasto e chiede manutenzione PRIMA di fermarsi',
+],en:'"Industry 4.0 is not just about more technology. It is about intelligent, connected and data-driven production."'},
+{n:'Foundations of Industry 4.0',cx:'AI · IoT · Cloud · Big Data · Automation',id:[
+'Artificial Intelligence (AI): sistemi che analizzano dati e aiutano a prendere decisioni',
+'Internet of Things (IoT): oggetti connessi che scambiano informazioni — es. smartwatch, sensori industriali',
+'Cloud Computing: dati e servizi archiviati e usati online',
+'Big Data: grandi quantità di dati da analizzare per trovare pattern e previsioni',
+'Automation and Robotics: automazione di processi ripetitivi o complessi',
+'Esempio IoT: smartwatch che misura il battito cardiaco e manda i dati al telefono',
+],en:'"The Internet of Things connects everyday objects to the internet so they can share data."'},
+{n:'Artificial Intelligence — Milestones',cx:'Machine Learning · Deep Learning · AI generativa',id:[
+'Milestone = tappa fondamentale nello sviluppo dell\'AI',
+'Tappe importanti: machine learning, deep learning, assistenti vocali, sistemi generativi (es. ChatGPT)',
+'Usi attuali: riconoscere immagini, tradurre testi, filtrare spam, consigliare contenuti, supportare decisioni',
+'Esempio: quando una piattaforma ti suggerisce un video, usa dati e algoritmi per prevedere cosa potrebbe piacerti',
+],en:'"Artificial Intelligence can analyse data, recognise images and support human decisions."'},
+{n:'Will Technology Make Humans Redundant?',cx:'Collaborazione uomo-macchina',id:[
+'Redundant = superfluo o sostituibile',
+'Risposta equilibrata: la tecnologia sostituirà alcuni lavori RIPETITIVI, ma creerà anche nuove professioni',
+'Esempio: un robot può fare saldature in fabbrica, ma servono persone che progettano il sistema, lo controllano e lo mantengono',
+'La vera idea = COLLABORAZIONE tra uomo e macchina, non scontro totale',
+'Nuovi lavori creati: programming, maintenance, cybersecurity, data analysis',
+],en:'"Technology will replace some repetitive tasks, but it will also create new jobs in programming, maintenance and cybersecurity."'},
+{n:'Augmented Reality vs Virtual Reality',cx:'AR aggiunge al reale · VR sostituisce il reale',id:[
+'Virtual Reality (VR): mondo COMPLETAMENTE virtuale — ti immerge in un ambiente artificiale',
+'Augmented Reality (AR): mondo reale + oggetti digitali AGGIUNTI sopra',
+'Esempio AR: vedere un mobile in casa tua prima di comprarlo tramite il telefono',
+'AR si usa in: medicina, turismo, formazione, manutenzione industriale',
+'AR aiuta a scegliere meglio e capire prima l\'effetto finale',
+],en:'"Augmented reality adds digital elements to the real world, while virtual reality creates a completely virtual environment."'},
+],
+conc:[
+{t:'Le 4 rivoluzioni industriali',d:'1ª: vapore e meccanizzazione. 2ª: elettricità e produzione di massa. 3ª: elettronica e computer. 4ª (Industry 4.0): AI, IoT, cloud, big data, automazione. Produzione intelligente, connessa e basata sui dati.'},
+{t:'I 5 pilastri dell\'Industry 4.0',d:'Artificial Intelligence, Internet of Things (IoT), Cloud Computing, Big Data, Automation and Robotics. Insieme rendono la produzione più efficiente, predicibile e connessa.'},
+{t:'AR vs VR',d:'VR (Virtual Reality): mondo completamente virtuale, sostituisce la realtà. AR (Augmented Reality): mondo reale + elementi digitali aggiunti sopra. Esempio AR: vedere un mobile in casa tua prima di comprarlo tramite smartphone.'},
+{t:'Technology and jobs',d:'La tecnologia sostituirà lavori RIPETITIVI, ma creerà nuove professioni: programming, maintenance, cybersecurity, data analysis. La risposta corretta è COLLABORAZIONE uomo-macchina, non sostituzione totale.'},
+],
+fc:[
+{f:'Q: What is Industry 4.0?',b:'Industry 4.0 is the fourth industrial revolution. It is based on automation, artificial intelligence, the Internet of Things, cloud computing and big data. The key idea is intelligent, connected and data-driven production.'},
+{f:'Q: What is augmented reality?',b:'Augmented reality adds digital elements to the real world. For example, you can use your phone to see a piece of furniture in your house before buying it. It is different from virtual reality, which creates a completely virtual environment.'},
+{f:'Q: Will technology make humans redundant?',b:'Technology will replace some repetitive tasks, but it will also create new jobs in programming, maintenance and cybersecurity. The real idea is collaboration between humans and machines, not total replacement.'},
+{f:'Elenca i 5 fondamenti dell\'Industry 4.0.',b:'1. Artificial Intelligence: analizza dati per supportare decisioni. 2. Internet of Things: oggetti connessi che scambiano dati. 3. Cloud Computing: dati e servizi online. 4. Big Data: enormi quantità di dati da analizzare. 5. Automation and Robotics: automazione di processi ripetitivi.'},
+{f:'Differenza tra AR e VR — con esempio.',b:'VR (Virtual Reality): sostituisce la realtà con un mondo completamente virtuale (es. visore che ti immerge in un ambiente 3D). AR (Augmented Reality): aggiunge elementi digitali al mondo reale (es. vedere un mobile in casa tua tramite telefono prima di comprarlo).'},
+{f:'Cosa significa "milestone" nell\'AI?',b:'"Milestone" significa tappa fondamentale. Nell\'AI le principali milestone sono: machine learning, deep learning, assistenti vocali, sistemi generativi (es. ChatGPT). Oggi l\'AI riconosce immagini, traduce testi, filtra spam e consiglia contenuti.'},
+],
+quiz:[
+{q:'Quale tecnologia caratterizza la 4ª Rivoluzione Industriale (Industry 4.0)?',opts:['Macchine a vapore e meccanizzazione','Elettricità e produzione di massa','AI, IoT, cloud computing e big data','Solo la robotica industriale'],a:2},
+{q:'Cosa significa IoT (Internet of Things)?',opts:['Un tipo di cloud storage','Oggetti connessi a Internet che scambiano informazioni tra loro','Un linguaggio di programmazione per l\'AI','Un protocollo di sicurezza per le reti'],a:1},
+{q:'Qual è la differenza fondamentale tra AR e VR?',opts:['AR è più costosa di VR','VR crea un mondo completamente virtuale; AR aggiunge elementi digitali al mondo reale','AR funziona solo su smartphone; VR richiede un PC','Non c\'è nessuna differenza pratica'],a:1},
+{q:'Qual è la risposta corretta alla domanda "Will technology make humans redundant?"',opts:['Sì, i robot sostituiranno tutti i lavori','No, la tecnologia non cambierà nulla','La tecnologia sostituirà lavori ripetitivi ma creerà nuove professioni — collaborazione uomo-macchina','Solo i lavori tecnici saranno sostituiti'],a:2},
+{q:'Cos\'è una "milestone" nell\'AI?',opts:['Un tipo di database','Una tappa fondamentale nello sviluppo dell\'intelligenza artificiale','Un algoritmo specifico per il machine learning','Un protocollo di rete per IoT'],a:1},
+{q:'Un esempio pratico di IoT è...',opts:['Un software antivirus','Uno smartwatch che misura il battito cardiaco e manda dati al telefono','Un database relazionale','Un firewall aziendale'],a:1},
+]},
+
+{id:'u4',r:'4',tab:'Database',title:'Unit 4 — The Database (in English)',per:'DBA · DBMS · Data Integrity · Redundancy',c:'#534AB7',
+intro:'This unit connects English and IT. You need to explain technical concepts in simple English. Key topics: DBA, DBMS, data integrity, redundancy and inconsistency.',
+secs:[
+{n:'DBA — Database Administrator',cx:'Chi gestisce il database',id:[
+'DBA stands for Database Administrator',
+'È la persona che gestisce il database: accessi, sicurezza, backup, prestazioni e aggiornamenti',
+'Esempio: in una scuola il database contiene voti, studenti, classi e assenze — il DBA assicura che i dati siano protetti e corretti',
+],en:'"A Database Administrator manages the database, controls access, ensures security and performs backups."'},
+{n:'DBMS — Database Management System',cx:'Il software che organizza il database',id:[
+'DBMS = software che permette di creare, gestire e interrogare un database',
+'Analogia: il database è come una biblioteca, il DBMS è il bibliotecario che ti fa trovare il libro giusto',
+'Funzioni: organizza i dati, permette ricerche rapide, controlla permessi e sicurezza, riduce errori e duplicazioni',
+'Esempi di DBMS: MySQL, PostgreSQL, Oracle Database',
+],en:'"A DBMS organises data, allows fast searches and controls security and access permissions."'},
+{n:'Data Integrity',cx:'I dati devono essere corretti, affidabili e coerenti',id:[
+'Data integrity = integrità dei dati: i dati devono essere CORRETTI, AFFIDABILI e COERENTI',
+'Se i dati sono sbagliati, il database perde valore completamente',
+'Esempio: se una persona ha due date di nascita diverse in tabelle diverse, il sistema non sa quale usare',
+'Si protegge con: controlli, vincoli, chiavi primarie e chiavi esterne',
+],en:'"Data integrity means that data must be correct, reliable and consistent."'},
+{n:'Security Restrictions',cx:'Non tutti possono vedere o modificare tutto',id:[
+'Security restrictions = limiti di accesso ai dati',
+'Non tutti devono poter vedere o modificare tutto',
+'Esempio: uno studente può leggere i propri voti, un docente può inserirli, un amministratore può gestire le autorizzazioni',
+'Principio del minimo privilegio: ogni utente vede e modifica solo ciò che gli serve',
+],en:'"Security restrictions ensure that only authorised users can access or modify specific data."'},
+{n:'Data Redundancy and Data Inconsistency',cx:'Redundancy = duplicati · Inconsistency = conflitti',id:[
+'Data redundancy = ripetizione inutile degli stessi dati',
+'Esempio: lo stesso indirizzo salvato in più tabelle → spreca spazio e rende difficile aggiornare',
+'Data inconsistency = i dati non coincidono tra loro',
+'Esempio: in una tabella un cliente vive a Roma, in un\'altra a Milano — i dati sono in conflitto',
+'La ridondanza mal gestita spesso porta all\'inconsistenza',
+'Da ricordare: Redundancy = duplicated data. Inconsistency = conflicting data',
+],en:'"Redundancy means duplicated data. Inconsistency means conflicting data. Poor redundancy management often leads to inconsistency."'},
+],
+conc:[
+{t:'DBA vs DBMS',d:'DBA (Database Administrator): la PERSONA che gestisce il database (accessi, sicurezza, backup). DBMS (Database Management System): il SOFTWARE che permette di creare, gestire e interrogare il database (es. MySQL, PostgreSQL).'},
+{t:'Data Integrity',d:'I dati devono essere corretti (accuracy), affidabili (reliability) e coerenti (consistency). Si garantisce con vincoli, chiavi primarie, chiavi esterne e transazioni. Senza integrità, il database perde valore.'},
+{t:'Redundancy vs Inconsistency',d:'Data Redundancy: stesso dato duplicato in più punti → spreca spazio e complica gli aggiornamenti. Data Inconsistency: dati in conflitto tra tabelle diverse (es. stessa persona con due indirizzi diversi). La ridondanza mal gestita causa inconsistenza.'},
+{t:'Security Restrictions (RBAC)',d:'Non tutti gli utenti possono accedere a tutti i dati. Principio del minimo privilegio: ogni utente vede e modifica solo ciò di cui ha bisogno. Esempio: studente legge i propri voti, docente li inserisce, DBA gestisce i permessi.'},
+],
+fc:[
+{f:'Q: What does DBA stand for?',b:'DBA stands for Database Administrator. This is the person who manages the database, controls user access, ensures data security, performs backups and monitors performance.'},
+{f:'Q: What is a DBMS?',b:'A DBMS is a Database Management System. It is the software that allows users to create, manage and query a database. Think of the database as a library and the DBMS as the librarian who helps you find the right book. Examples: MySQL, PostgreSQL, Oracle.'},
+{f:'Q: What is data integrity?',b:'Data integrity means that data must be correct, reliable and consistent. For example, if a person has two different birth dates in different tables, the system does not know which one to use. Integrity is protected with constraints, primary keys and foreign keys.'},
+{f:'Q: What is data redundancy?',b:'Data redundancy means the same data is stored in more than one place without a good reason. For example, the same address saved in multiple tables. This wastes storage space and makes updates difficult. Poor redundancy management often leads to data inconsistency.'},
+{f:'Differenza tra Data Redundancy e Data Inconsistency',b:'Redundancy = dati DUPLICATI inutilmente in più punti (spreco di spazio, aggiornamenti difficili). Inconsistency = dati in CONFLITTO tra tabelle diverse (es. cliente con indirizzo Roma in una tabella, Milano in un\'altra). La ridondanza mal gestita causa inconsistenza.'},
+{f:'Analogia: database come biblioteca',b:'Il database è come una biblioteca (contiene le informazioni). Il DBMS è il bibliotecario (organizza, ti fa trovare il libro giusto, controlla chi può accedere a cosa). Senza il bibliotecario (DBMS), la biblioteca (database) sarebbe inutile.'},
+],
+quiz:[
+{q:'Cosa significa DBA?',opts:['Data Base Application','Database Administrator','Dynamic Backup Algorithm','Database Analysis'],a:1},
+{q:'Qual è la differenza tra un database e un DBMS?',opts:['Non c\'è differenza, sono la stessa cosa','Il database è il software; il DBMS è l\'archivio fisico','Il database contiene i dati; il DBMS è il software che lo gestisce e organizza','Il DBMS è il database principale; il database è quello di backup'],a:2},
+{q:'Cosa significa "data integrity"?',opts:['I dati sono criptati e nascosti','I dati sono corretti, affidabili e coerenti','Il database è accessibile a tutti gli utenti','I dati sono salvati su più server'],a:1},
+{q:'Esempio di data inconsistency:',opts:['Lo stesso dato salvato in due tabelle diverse','Una persona con due indirizzi diversi in tabelle diverse (dati in conflitto)','Un database senza chiave primaria','Un backup non aggiornato'],a:1},
+{q:'Le security restrictions servono a...',opts:['Velocizzare le query SQL','Garantire che solo gli utenti autorizzati possano accedere o modificare dati specifici','Eliminare la ridondanza dai dati','Creare automaticamente i backup'],a:1},
+{q:'La ridondanza mal gestita porta spesso a...',opts:['Data integrity','Data inconsistency','Data security','Data efficiency'],a:1},
+]},
+
+{id:'u5',r:'★',tab:'Orale Tips',title:'Come rispondere all\'orale in inglese',per:'Schema · Frasi · Q&A modello · Vocabolario chiave',c:'#BA7517',
+intro:'Non serve parlare in inglese perfetto. Serve parlare in modo ORDINATO. Schema sempre valido: Definizione → Spiegazione/importanza → Esempio concreto → Conclusione breve.',
+secs:[
+{n:'Schema per rispondere all\'orale',cx:'Definizione → Spiegazione → Esempio → Conclusione',id:[
+'1. DEFINIZIONE SEMPLICE: spiega cos\'è in una frase chiara',
+'2. SPIEGAZIONE: come funziona o perché è importante',
+'3. ESEMPIO CONCRETO: rendi concreta l\'idea (questo fa la differenza)',
+'4. CONCLUSIONE BREVE: una frase finale che chiude il ragionamento',
+'Regola d\'oro: "If you can explain it with an example, you really understand it."',
+'Se perdi il filo → riprendi con "In other words..." oppure "To summarize..."',
+],en:'"The best oral answers follow a simple structure: definition, explanation, example, conclusion."'},
+{n:'Frasi utili per l\'orale',cx:'Connettivi e formule',id:[
+'"First of all..." — Prima di tutto (apre il ragionamento)',
+'"In addition..." — Inoltre (aggiunge informazioni)',
+'"For example..." — Per esempio (introduce l\'esempio)',
+'"As a result..." — Di conseguenza (mostra l\'effetto)',
+'"On the one hand... On the other hand..." — Da un lato... Dall\'altro (contrappone idee)',
+'"In my opinion..." — Secondo me (esprime un giudizio personale)',
+'"In conclusion..." — In conclusione (chiude la risposta)',
+'"In other words..." — In altre parole (riformula)',
+],en:'"Using connectors makes your answer sound more organized and professional."'},
+{n:'Vocabolario chiave per unità',cx:'Termini da sapere in inglese',id:[
+'Unit 1 — Internship, soft skills, CV, cover letter, job interview, reliability, teamwork',
+'Unit 2 — Phishing, scamming, cyberbullying, password, two-factor authentication, passphrase',
+'Unit 3 — Industry 4.0, AI, IoT, Cloud Computing, Big Data, augmented reality, virtual reality, milestone, redundant',
+'Unit 4 — DBA, DBMS, data integrity, data redundancy, data inconsistency, security restrictions',
+],en:''},
+{n:'Domande possibili con risposte modello',cx:'Q&A per l\'orale',id:[
+'Q: What is an internship? → An internship is a period of practical training in a company that helps students gain experience and develop soft skills.',
+'Q: What is phishing? → Phishing is an online scam used to steal personal data by pretending to be a trusted company.',
+'Q: What is Industry 4.0? → Industry 4.0 is the fourth industrial revolution based on automation, AI, IoT, cloud and data.',
+'Q: What is augmented reality? → Augmented reality adds digital elements to the real world.',
+'Q: What does DBA stand for? → DBA stands for Database Administrator — the person who manages database access, security and backups.',
+'Q: What is data integrity? → Data integrity means that data must be correct, reliable and consistent.',
+],en:''},
+],
+conc:[
+{t:'Formula risposta orale',d:'1. Definizione semplice. 2. Spiegazione/importanza. 3. Esempio concreto. 4. Conclusione breve. "If you can explain it with an example, you really understand it."'},
+{t:'Connettivi indispensabili',d:'First of all → In addition → For example → As a result → On the other hand → In my opinion → In conclusion. Usarli fa sembrare la risposta più organizzata e professionale.'},
+{t:'Parole da sapere — Unit 1',d:'Internship, soft skills, CV (curriculum vitae), cover letter, job interview, reliability, teamwork, adaptability, strengths, weaknesses.'},
+{t:'Parole da sapere — Unit 2–4',d:'Unit 2: phishing, scamming, cyberbullying, passphrase, two-factor authentication. Unit 3: AI, IoT, Cloud Computing, Big Data, augmented/virtual reality, milestone. Unit 4: DBA, DBMS, data integrity, redundancy, inconsistency.'},
+],
+fc:[
+{f:'Schema risposta orale (4 passi)',b:'1. DEFINIZIONE: cos\'è in una frase semplice.\n2. SPIEGAZIONE: come funziona o perché è importante.\n3. ESEMPIO CONCRETO: la parte che fa la differenza.\n4. CONCLUSIONE BREVE: chiudi il ragionamento.\nRegola: "If you can explain it with an example, you really understand it."'},
+{f:'Q: What is an internship? (risposta completa)',b:'"An internship is a period of practical training in a company. It helps students gain real work experience and develop soft skills such as teamwork, communication and problem solving. For example, in an IT company you might help configure computers or assist users. In conclusion, an internship transforms theory into practice."'},
+{f:'Q: What is phishing? (risposta completa)',b:'"Phishing is an online scam used to steal personal data by pretending to be a trusted company. For example, you might receive a fake email from your bank asking you to click a link and enter your password. As a result, criminals can steal your data. In conclusion, always check the sender and never click suspicious links."'},
+{f:'Q: What is Industry 4.0? (risposta completa)',b:'"Industry 4.0 is the fourth industrial revolution. It is based on automation, artificial intelligence, the Internet of Things and cloud computing. For example, a machine can send temperature data, predict a failure and request maintenance before breaking down. In conclusion, Industry 4.0 makes production smarter and more efficient."'},
+{f:'Frasi utili da usare all\'orale — le 7 più importanti',b:'"First of all..." (apre). "In addition..." (aggiunge). "For example..." (esempio). "As a result..." (effetto). "On the other hand..." (contrappone). "In my opinion..." (giudizio). "In conclusion..." (chiude).'},
+{f:'Q: Will technology make humans redundant? (risposta completa)',b:'"Technology will replace some repetitive tasks, but it will also create new jobs in programming, maintenance and cybersecurity. For example, a robot can do welding in a factory, but humans are still needed to design, control and maintain the system. In my opinion, the key idea is collaboration between humans and machines, not total replacement."'},
+{f:'Q: What is data redundancy and how does it cause inconsistency?',b:'"Data redundancy means the same data is stored in more than one place. For example, the same address saved in multiple tables. If the address changes, it must be updated everywhere — if not, the data becomes inconsistent (conflicting). In conclusion, poor redundancy management leads to data inconsistency."'},
+],
+quiz:[
+{q:'Qual è il PRIMO passo dello schema per rispondere bene all\'orale?',opts:['Dare un esempio pratico','Esprimere un\'opinione personale','Dare una definizione semplice','Fare la conclusione'],a:2},
+{q:'Quale connettivo si usa per introdurre un esempio?',opts:['In conclusion','As a result','For example','On the other hand'],a:2},
+{q:'Quale connettivo si usa per mostrare un effetto o una conseguenza?',opts:['First of all','For example','In my opinion','As a result'],a:3},
+{q:'Cosa significa "In my opinion" in italiano?',opts:['In conclusione','Per esempio','Secondo me / A mio parere','Di conseguenza'],a:2},
+{q:'Qual è la "regola d\'oro" di questa guida per capire davvero un argomento?',opts:['"Study every day for two hours"','"If you can explain it with an example, you really understand it."','"Read the book three times before the exam."','"Always answer in Italian first, then translate."'],a:1},
+{q:'Quale delle seguenti è una risposta BEN strutturata per l\'orale?',opts:['Phishing è una truffa.','Phishing is a scam. It steals data. Bye.','Phishing is an online scam that steals personal data by pretending to be a trusted company. For example, a fake bank email asks you to click a link. In conclusion, always check the sender before clicking.','I don\'t know what phishing is.'],a:2},
+]},
+];
+
+let S={ui:0,mode:'studio',oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false};
+function ss(u){Object.assign(S,u);rr();}
+
+function rr(){
+const u=U[S.ui],c=u.c;
+const R=document.getElementById('root');R.innerHTML='';
+const H=mk('div',{cl:'hdr'});
+H.appendChild(mk('div',{cl:'albl',tx:'Ripasso — Inglese per la Maturità'}));
+const tabs=mk('div',{cl:'tabs'});
+U.forEach((ud,i)=>{
+  const t=mk('button',{cl:'tab'+(S.ui===i?' on':''),tx:ud.r+' '+ud.tab});
+  if(S.ui===i)t.style.background=ud.c;
+  t.onclick=()=>ss({ui:i,oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false});
+  tabs.appendChild(t);
+});
+H.appendChild(tabs);R.appendChild(H);
+const mb=mk('div',{cl:'mbar'});
+[['studio','Studio'],['flashcard','Flashcard'],['quiz','Quiz']].forEach(([m,l])=>{
+  const b=mk('button',{cl:'mbtn'+(S.mode===m?' on':''),tx:l});
+  b.onclick=()=>ss({mode:m,oa:null,ci:0,fl:false,qi:0,sel:null,ans:false,sc:0,dn:false});
+  mb.appendChild(b);
+});
+R.appendChild(mb);
+const cnt=mk('div',{cl:'cnt'});
+if(S.mode==='studio')doSt(u,cnt,c);
+else if(S.mode==='flashcard')doFc(u,cnt,c);
+else doQz(u,cnt,c);
+R.appendChild(cnt);
+}
+
+function doSt(u,cnt,c){
+const ic=mk('div',{cl:'ic'});
+const pl=mk('div',{cl:'per',tx:u.per});pl.style.color=c;ic.appendChild(pl);
+ic.appendChild(mk('div',{cl:'itl',tx:u.r+' — '+u.title}));
+ic.appendChild(mk('div',{cl:'itx',tx:u.intro}));
+cnt.appendChild(ic);
+if(u.secs.length){
+  cnt.appendChild(mk('div',{cl:'slbl',tx:'Contenuti'}));
+  u.secs.forEach((s,i)=>{
+    const card=mk('div',{cl:'acard'});
+    card.style.borderLeftWidth='3px';card.style.borderLeftColor=c+'80';
+    const hd=mk('div',{cl:'ahdr'});
+    hd.onclick=()=>ss({...S,oa:S.oa===i?null:i});
+    const hl=mk('div',{});
+    hl.appendChild(mk('div',{cl:'an',tx:s.n}));
+    hl.appendChild(mk('div',{cl:'ax',tx:s.cx}));
+    hd.appendChild(hl);
+    hd.appendChild(mk('i',{cl:'ti '+(S.oa===i?'ti-chevron-up':'ti-chevron-down'),ai:'true',st:'color:var(--text-muted)'}));
+    card.appendChild(hd);
+    if(S.oa===i){
+      const bd=mk('div',{cl:'abody'});
+      const ul=mk('ul',{cl:'alist'});
+      s.id.forEach(it=>ul.appendChild(mk('li',{tx:it})));
+      bd.appendChild(ul);
+      if(s.en&&s.en!==''){
+        const eb=mk('div',{cl:'en-box'});
+        eb.style.borderColor=c;eb.style.background=c+'12';eb.style.color=c;
+        eb.innerHTML='<strong>Frase da orale:</strong> <em>'+s.en+'</em>';
+        bd.appendChild(eb);
+      }
+      card.appendChild(bd);
+    }
+    cnt.appendChild(card);
+  });
+}
+if(u.conc.length){
+  cnt.appendChild(mk('div',{cl:'slbl',tx:'Concetti chiave'}));
+  u.conc.forEach(cp=>{
+    const cc=mk('div',{cl:'cc'});
+    const t=mk('div',{cl:'ct',tx:cp.t});t.style.color=c;
+    cc.appendChild(t);cc.appendChild(mk('div',{cl:'cd',tx:cp.d}));
+    cnt.appendChild(cc);
+  });
+}
+}
+
+function doFc(u,cnt,c){
+const cards=u.fc;
+if(!cards.length){cnt.appendChild(mk('div',{cl:'itx',tx:'Nessun flashcard disponibile.'}));return;}
+const card=cards[S.ci];
+const pct=Math.round((S.ci/cards.length)*100);
+const w=mk('div',{cl:'fw'});
+w.appendChild(mk('div',{cl:'fctr',tx:(S.ci+1)+' / '+cards.length}));
+const pb=mk('div',{cl:'pb',st:'width:100%'});
+const pf=mk('div',{cl:'pf',st:'width:'+pct+'%;background:'+c});
+pb.appendChild(pf);w.appendChild(pb);
+const fc=mk('div',{cl:'fc'});
+if(S.fl){fc.style.background='var(--surface-2)';fc.style.borderColor=c;}
+const inner=mk('div',{});
+const hint=mk('div',{cl:'fh',tx:S.fl?'↩ Risposta modello':'Domanda — clicca per girare'});
+hint.style.color=S.fl?c:'var(--text-muted)';
+inner.appendChild(hint);
+const ft=mk('div',{cl:'ft'});
+ft.style.whiteSpace='pre-line';
+ft.textContent=S.fl?card.b:card.f;
+inner.appendChild(ft);
+fc.appendChild(inner);fc.onclick=()=>ss({...S,fl:!S.fl});
+w.appendChild(fc);
+const nav=mk('div',{cl:'fnv'});
+const pv=mk('button',{tx:'← Prec'});pv.onclick=()=>{if(S.ci>0)ss({...S,ci:S.ci-1,fl:false});};pv.disabled=S.ci===0;
+const nx=mk('button',{tx:'Succ →'});nx.onclick=()=>{if(S.ci<cards.length-1)ss({...S,ci:S.ci+1,fl:false});};nx.disabled=S.ci===cards.length-1;
+nav.appendChild(pv);nav.appendChild(nx);w.appendChild(nav);
+if(S.fl){
+  const ax=mk('div',{cl:'fax'});
+  const adv=()=>{if(S.ci<cards.length-1)ss({...S,ci:S.ci+1,fl:false});else ss({...S,fl:false});};
+  const k=mk('button',{cl:'bk',tx:'✓ Lo sapevo'});k.onclick=adv;
+  const r=mk('button',{cl:'br',tx:'✗ Da rivedere'});r.onclick=adv;
+  ax.appendChild(k);ax.appendChild(r);w.appendChild(ax);
+}
+cnt.appendChild(w);
+}
+
+function doQz(u,cnt,c){
+const qs=u.quiz;
+if(!qs.length){cnt.appendChild(mk('div',{cl:'itx',tx:'Nessuna domanda disponibile.'}));return;}
+if(S.dn){
+  const pct=Math.round((S.sc/qs.length)*100);
+  const dc=mk('div',{cl:'dn'});
+  const ds=mk('div',{cl:'ds',tx:pct+'%'});ds.style.color=c;dc.appendChild(ds);
+  dc.appendChild(mk('div',{cl:'dl',tx:S.sc+' / '+qs.length+' risposte corrette'}));
+  const msg=pct>=80?'Ottimo! Pronto/a per la maturità.':pct>=60?'Bene! Ripassare i punti deboli.':'Rileggi la Unit e riprova.';
+  dc.appendChild(mk('div',{cl:'dm',tx:msg}));
+  const rb=mk('button',{cl:'rb',tx:'Riprova'});rb.onclick=()=>ss({...S,qi:0,sel:null,ans:false,sc:0,dn:false});
+  dc.appendChild(rb);cnt.appendChild(dc);return;
+}
+const q=qs[S.qi];
+const pct=Math.round((S.qi/qs.length)*100);
+const pb=mk('div',{cl:'pb'});const pf=mk('div',{cl:'pf',st:'width:'+pct+'%;background:'+c});pb.appendChild(pf);cnt.appendChild(pb);
+const meta=mk('div',{cl:'qm'});
+meta.appendChild(mk('span',{tx:'Domanda '+(S.qi+1)+' / '+qs.length}));
+const se=mk('span',{tx:'Score: '+S.sc});se.style.color=c;meta.appendChild(se);cnt.appendChild(meta);
+cnt.appendChild(mk('div',{cl:'qq',tx:q.q}));
+q.opts.forEach((opt,i)=>{
+  const d=mk('div',{cl:'opt'});
+  if(S.ans){if(i===q.a)d.classList.add('ok');else if(i===S.sel&&i!==q.a)d.classList.add('ko');}
+  const l=mk('span',{cl:'ol',tx:String.fromCharCode(65+i)+'.'});if(!S.ans)l.style.color=c;
+  d.appendChild(l);d.appendChild(mk('span',{tx:opt}));
+  if(S.ans&&i===q.a)d.appendChild(mk('span',{tx:' ✓'}));
+  if(S.ans&&i===S.sel&&i!==q.a)d.appendChild(mk('span',{tx:' ✗'}));
+  if(!S.ans)d.onclick=()=>{const ok=i===q.a;ss({...S,sel:i,ans:true,sc:S.sc+(ok?1:0)});};
+  cnt.appendChild(d);
+});
+if(S.ans){
+  const nb=mk('button',{cl:'nb',tx:S.qi<qs.length-1?'Prossima →':'Vedi risultato →'});
+  nb.onclick=()=>{if(S.qi<qs.length-1)ss({...S,qi:S.qi+1,sel:null,ans:false});else ss({...S,dn:true});};
+  cnt.appendChild(nb);
+}
+}
+
+function mk(tag,p={}){
+const e=document.createElement(tag);
+if(p.cl)e.className=p.cl;
+if(p.tx)e.textContent=p.tx;
+if(p.st)e.setAttribute('style',p.st);
+if(p.ai)e.setAttribute('aria-hidden',p.ai);
+if(p.disabled)e.disabled=true;
+return e;
+}
+rr();
+</script>
